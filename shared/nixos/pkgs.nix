@@ -4,5 +4,6 @@
     neovim
     git
     curl
+    zsh
   ];
 }

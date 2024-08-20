@@ -3,6 +3,7 @@
   imports = [
     ./git.nix
     ./neovim.nix
+    ./sh.nix
   ];
 
   home.packages = with pkgs; [
@@ -10,5 +11,6 @@
     nil
     nixfmt-rfc-style
     rustup
+    go
   ];
 }
