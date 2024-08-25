@@ -20,13 +20,16 @@
         "colored-man-pages"
         "docker"
         "docker-compose"
-        "zsh-vi-mode"
+        # "zsh-vi-mode"
         "sudo"
-
       ];
       theme = "afowler";
       extraConfig = # zsh
-        '''';
+        ''
+          typeset -A ZSH_HIGHLIGHT_STYLES
+          ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#6d6d6d'
+          ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#6d6d6d'
+        '';
     };
   };
 }
