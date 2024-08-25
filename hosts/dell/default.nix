@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ./../../shared/nixos
     ./xdg.nix
+    ./services.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -14,9 +15,6 @@
   time.timeZone = "Africa/Casablanca";
 
   i18n.defaultLocale = "en_US.UTF-8";
-
-  services.printing.enable = true;
-  services.libinput.enable = true;
 
   users.users.pride = {
     isNormalUser = true;
@@ -30,8 +28,6 @@
     enable = true;
     enableSSHSupport = true;
   };
-
-  services.openssh.enable = true;
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }
