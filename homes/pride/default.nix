@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ ... }:
 {
 
   imports = [
@@ -12,6 +7,7 @@
     ./../../shared/desktop/hypr
     ./fonts.nix
     ./pkgs.nix
+    ./vscode.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

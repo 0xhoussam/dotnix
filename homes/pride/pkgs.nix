@@ -1,10 +1,11 @@
-{ pkgs, ... }@args:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     qbittorrent
     mpv
     zathura
     pavucontrol
+    brave
 
     devenv
     tokei
