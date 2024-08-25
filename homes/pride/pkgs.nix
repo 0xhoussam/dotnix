@@ -35,6 +35,8 @@
     nftables
     sof-firmware
     bind
+
+    gnome.nautilus
   ];
 
   programs = {
