@@ -32,8 +32,7 @@
           border-radius: 5px;
           background-color: #242424;
           font-family:
-            Segoe UI Variable,
-            SF Pro Display,
+            "sans-serif",
             "Font Awesome 5 free";
           font-size: 16px;
           color: #fafafa;
