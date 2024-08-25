@@ -6,6 +6,13 @@
       ll = "ls -l";
       update = "sudo nixos-rebuild switch";
     };
+    zplug = {
+      enable = true;
+      plugins = [
+        { name = "zsh-users/zsh-syntax-highlighting"; }
+        { name = "jeffreytse/zsh-vi-mode"; }
+      ];
+    };
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -15,12 +22,11 @@
         "docker-compose"
         "zsh-vi-mode"
         "sudo"
+
       ];
       theme = "afowler";
       extraConfig = # zsh
-        ''
-          ZSH_HIGHLIGHT_STYLES[flag]='fg=gray'
-        '';
+        '''';
     };
   };
 }
