@@ -20,7 +20,6 @@
         "colored-man-pages"
         "docker"
         "docker-compose"
-        # "zsh-vi-mode"
         "sudo"
       ];
       theme = "afowler";

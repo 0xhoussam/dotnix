@@ -21,5 +21,6 @@
 
   programs.home-manager.enable = true;
 
+  environment.variables.EDITOR = "nvim";
   home.stateVersion = "24.11";
 }
