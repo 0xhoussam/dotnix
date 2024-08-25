@@ -1,6 +1,6 @@
 { ... }:
 {
-  services.make = {
+  services.mako = {
     enable = true;
     layer = "top";
     anchor = "bottom-right";
@@ -8,7 +8,7 @@
     backgroundColor = "#242424";
     textColor = "#fafafa";
 
-    width = "350";
+    width = 350;
     margin = "10,30,30";
     padding = "10";
     borderSize = 2;
@@ -17,7 +17,7 @@
     borderRadius = 5;
     defaultTimeout = 5000;
     groupBy = "summary";
-    icons = 1;
+    icons = true;
     format = "<b>%s</b>\n%b";
 
     extraConfig = ''
