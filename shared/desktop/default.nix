@@ -1,4 +1,7 @@
 { ... }:
 {
-  imports = [ ./mako.nix ];
+  imports = [
+    ./mako.nix
+    ./waybar.nix
+  ];
 }
