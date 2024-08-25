@@ -8,8 +8,19 @@
     };
     oh-my-zsh = {
       enable = true;
-      plugins = [ ];
+      plugins = [
+        "git"
+        "colored-man-pages"
+        "docker"
+        "docker-compose"
+        "zsh-vi-mode"
+        "sudo"
+      ];
       theme = "afowler";
+      extraConfig = # zsh
+        ''
+          ZSH_HIGHLIGHT_STYLES[flag]='fg=gray'
+        '';
     };
   };
 }
