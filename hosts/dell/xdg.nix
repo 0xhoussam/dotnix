@@ -13,7 +13,7 @@
 
     config = {
       common = {
-        default = [ "gtk" ];
+        default = [ "gnome" ];
       };
       hyprland = {
         default = [
