@@ -36,7 +36,7 @@
     sof-firmware
     bind
 
-    gnome.nautilus
+    nautilus
   ];
 
   programs = {
