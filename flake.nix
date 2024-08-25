@@ -7,12 +7,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
+      nix-flatpak,
       ...
     }@inputs:
     let
@@ -34,7 +36,10 @@
       homeConfigurations = {
         pride = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [ ./homes/pride ];
+          modules = [
+            nix-flatpak.homeManagerModules.nix-flatpak
+            ./homes/pride
+          ];
         };
       };
     };
