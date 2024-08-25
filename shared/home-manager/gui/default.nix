@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  imports = [ ./alacritty.nix ];
+  imports = [
+    ./alacritty.nix
+    ./flatpak.nix
+  ];
 
   home.packages = with pkgs; [ neovide ];
 }

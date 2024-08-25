@@ -22,6 +22,4 @@
   programs.home-manager.enable = true;
 
   home.stateVersion = "24.11";
-
-  services.flatpak.packages = [ "org.gnome.Calculator" ];
 }
