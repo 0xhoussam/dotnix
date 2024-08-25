@@ -9,6 +9,7 @@
   imports = [
     ./../../shared/home-manager/gui
     ./../../shared/home-manager/tui
+    ./../../shared/home-manager/desktop
     ./fonts.nix
     ./pkgs.nix
   ];
