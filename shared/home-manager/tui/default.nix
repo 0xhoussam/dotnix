@@ -7,13 +7,7 @@
     ./zellij.nix
   ];
 
-  home.packages = with pkgs; [
-    gcc
-    nil
-    nixfmt-rfc-style
-    rustup
-    go
-  ];
+  home.packages = with pkgs; [ nixfmt-rfc-style ];
 
   programs = {
     # batter shell history
