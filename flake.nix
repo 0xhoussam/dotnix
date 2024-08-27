@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
-    inputs.walker.url = "github:abenz1267/walker";
+    walker.url = "github:abenz1267/walker";
   };
   outputs =
     {
@@ -16,6 +16,7 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
+      walker,
       ...
     }@inputs:
     let
@@ -39,6 +40,7 @@
           inherit pkgs;
           modules = [
             nix-flatpak.homeManagerModules.nix-flatpak
+            walker.homeManagerModules.default
             ./homes/pride
           ];
         };
