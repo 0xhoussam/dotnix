@@ -6,8 +6,8 @@
       source = pkgs.fetchFromGitHub {
         owner = "0xhoussam";
         repo = "neovim";
-        rev = "6a9992fe00057a595e0a4ec0cd0a0faf9f31ca52";
-        sha256 = "sha256-siMky/WFvhjnS1+t0zEx++omWv/QM3kbA431uTltJ8s=";
+        rev = "18a0add7cefdc47b47c88bb2230f0c32c44af1db";
+        sha256 = "sha256-gqAi4Lq58//sYQl6p7ReGVicF46o12NO9IL80m9zacM=";
       };
     };
   };
