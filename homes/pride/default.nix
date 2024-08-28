@@ -8,6 +8,7 @@
     ./fonts.nix
     ./pkgs.nix
     ./vscode.nix
+    ./xdg.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
