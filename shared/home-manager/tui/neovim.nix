@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   programs.neovim.enable = true;
+  programs.neovim.defaultEditor = true;
   home.file = {
     ".config/nvim" = {
       source = pkgs.fetchFromGitHub {
