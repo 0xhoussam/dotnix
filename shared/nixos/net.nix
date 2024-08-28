@@ -24,9 +24,4 @@
       "8.4.4.8#dns.google"
     ];
   };
-
-  programs.nm-applet = {
-    enable = true;
-    indicator = true;
-  };
 }

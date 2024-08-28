@@ -21,6 +21,9 @@ in
   ];
 
   services.swayosd.enable = true;
+  services.poweralertd.enable = true;
+  services.gnome-keyring.enable = true;
+  services.network-manager-applet.enable = true;
 
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.settings = {
@@ -63,7 +66,7 @@ in
       "$mod, W, killactive,"
       "$mod, M, exit,"
       "$mod, V, togglefloating,"
-      "$mod, R, exec, ${walker} --theme libadwaita --modules applications"
+      "$mod, R, exec, ${walker} --theme home-manager --modules applications"
 
       "$mod, h, movefocus, l"
       "$mod, l, movefocus, r"
