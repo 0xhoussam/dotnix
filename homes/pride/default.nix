@@ -16,6 +16,10 @@
   home.username = "pride";
   home.homeDirectory = "/home/pride";
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
   programs.home-manager.enable = true;
 
   # environment.variables.EDITOR = "nvim";
