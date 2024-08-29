@@ -28,7 +28,7 @@
                 command nohup zellij action rename-tab $title >/dev/null 2>&1
             end
           '';
-        event = "fish_preexec";
+        onEvent = "fish_preexec";
       };
 
       zellij_tab_name_update_post = {
@@ -37,7 +37,7 @@
               command nohup zellij action rename-tab (basename $SHELL) >/dev/null 2>&1
           end
         '';
-        event = "fish_postexec";
+        onEvent = "fish_postexec";
       };
     };
   };
