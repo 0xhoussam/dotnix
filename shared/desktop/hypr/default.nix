@@ -6,5 +6,6 @@
     ./waybar.nix
     ./wofi.nix
     ./walker.nix
+    ./swww.nix
   ];
 }

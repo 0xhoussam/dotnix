@@ -9,7 +9,6 @@
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     walker.url = "github:abenz1267/walker";
-    swww.url = "github:LGFae/swww";
   };
   outputs =
     {
@@ -18,7 +17,6 @@
       home-manager,
       nix-flatpak,
       walker,
-      swww,
       ...
     }@inputs:
     let
@@ -46,9 +44,9 @@
             ./homes/pride
           ];
 
-          extraSpecialArgs = {
-            inherit inputs system;
-          };
+          # extraSpecialArgs = {
+          #   inherit inputs system;
+          # };
         };
       };
     };

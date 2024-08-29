@@ -6,6 +6,7 @@
     zathura
     pavucontrol
     brave
+    firefox
 
     devenv
     tokei
