@@ -3,8 +3,9 @@
   imports = [
     ./git.nix
     ./neovim.nix
-    ./sh.nix
+    ./zsh.nix
     ./zellij.nix
+    ./fish.nix
   ];
 
   home.packages = with pkgs; [ nixfmt-rfc-style ];
