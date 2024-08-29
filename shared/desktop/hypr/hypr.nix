@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 let
   alacritty = "${pkgs.alacritty}/bin/alacritty";
   brave = "${pkgs.brave}/bin/brave";
@@ -8,6 +8,8 @@ let
   hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
+  swww = "${inputs.swww.packages.${pkgs.system}.swww}/bin/swww";
+  background = ./../../../assets/wallpapers/tanjiro.jpg;
 in
 {
   imports = [
@@ -18,6 +20,7 @@ in
     pkgs.playerctl
     pkgs.hyprshot
     pkgs.brightnessctl
+    inputs.swww.packages.${pkgs.system}.swww
   ];
 
   services.swayosd.enable = true;
@@ -142,5 +145,9 @@ in
     general = {
       allow_tearing = true;
     };
+
+    exec-once = [
+      "${swww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
+    ];
   };
 }
