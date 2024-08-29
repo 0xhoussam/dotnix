@@ -44,9 +44,9 @@
             ./homes/pride
           ];
 
-          # extraSpecialArgs = {
-          #   inherit inputs system;
-          # };
+          extraSpecialArgs = {
+            inherit inputs;
+          };
         };
       };
     };
