@@ -1,10 +1,15 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
+let
+  disko = import ./disk-config.nix { device = "/dev/sda"; };
+in
 {
   imports = [
     ./hardware-configuration.nix
     ./../../shared/nixos
     ./xdg.nix
     ./services.nix
+    inputs.disko.nixosModules.disko
+    disko
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -29,5 +34,5 @@
     enableSSHSupport = true;
   };
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.05";
 }
