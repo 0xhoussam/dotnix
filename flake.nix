@@ -9,10 +9,6 @@
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     walker.url = "github:abenz1267/walker";
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs =
     {

@@ -1,15 +1,10 @@
-{ pkgs, inputs, ... }:
-let
-  disko = import ./disk-config.nix { device = "/dev/sda"; };
-in
+{ pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
     ./../../shared/nixos
     ./xdg.nix
     ./services.nix
-    inputs.disko.nixosModules.disko
-    disko
   ];
 
   boot.loader.systemd-boot.enable = true;
