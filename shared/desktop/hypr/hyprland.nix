@@ -28,6 +28,7 @@ in
   services.poweralertd.enable = true;
   services.gnome-keyring.enable = true;
   services.network-manager-applet.enable = true;
+  services.blueman-applet.enable = true;
 
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.extraConfig = ''
