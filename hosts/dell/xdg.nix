@@ -10,16 +10,18 @@
       xdg-desktop-portal-hyprland
       xdg-desktop-portal-gnome
     ];
-
+    xdgOpenUsePortal = true;
     config = {
       common = {
-        default = [ "gnome" ];
+        default = [
+          "hyprland"
+          "gnome"
+        ];
       };
       hyprland = {
         default = [
           "hyprland"
           "gnome"
-          "gtk"
         ];
       };
     };
