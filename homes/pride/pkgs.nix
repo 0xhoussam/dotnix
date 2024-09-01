@@ -37,6 +37,7 @@
     nftables
     sof-firmware
     bind
+    wl-clipboard
 
     nautilus
   ];

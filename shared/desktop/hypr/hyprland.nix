@@ -15,6 +15,7 @@ in
   imports = [
     ./hyprlock.nix
     ./hypridle.nix
+    ./env.nix
   ];
   home.packages = [
     pkgs.playerctl
@@ -108,8 +109,8 @@ in
       "$mod CTRL, L, exec, ${hyprlock}"
       "$mod SHIFT CTRL, L, exec, ${hyprlock} && ${hyprctl} dispatch dpms off"
 
-      # "$mod CTRL, P, exec, ${hyprshot} -m window"
-      # "$mod SHIFT, P, exec, ${hyprshot} -m region"
+      "$mod CTRL, P, exec, ${hyprshot} -m window"
+      "$mod SHIFT, P, exec, ${hyprshot} -m region"
     ];
 
     bindm = [
