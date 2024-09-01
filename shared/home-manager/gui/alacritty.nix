@@ -33,9 +33,9 @@ in
           background = "#767676";
         };
       };
-      cursor = {
-        shape = "Beam";
-      };
+      # cursor = {
+      #   shape = "Beam";
+      # };
       env = {
         TERM = "xterm-256color";
       };

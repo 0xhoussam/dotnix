@@ -29,5 +29,19 @@
     enableSSHSupport = true;
   };
 
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
+  programs.nm-applet = {
+    enable = true;
+    indicator = true;
+  };
+
+  programs.hyprland.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   system.stateVersion = "24.05";
 }

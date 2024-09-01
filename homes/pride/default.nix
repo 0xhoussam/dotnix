@@ -9,6 +9,8 @@
     ./pkgs.nix
     ./vscode.nix
     ./xdg.nix
+    ./theme.nix
+    ./env.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

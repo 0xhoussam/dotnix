@@ -29,6 +29,9 @@ in
   services.network-manager-applet.enable = true;
 
   wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland.extraConfig = ''
+    monitor=,1920x1080@60,0x0,1
+  '';
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
@@ -46,20 +49,20 @@ in
       enabled = false;
     };
 
-    decoration = {
-      rounding = 0;
-      blur = {
-        enabled = true;
-        size = 3;
-        passes = 1;
-        new_optimizations = "on";
-      };
-
-      drop_shadow = "yes";
-      shadow_range = 4;
-      shadow_render_power = 3;
-      col.shadow = "rgba(1a1a1aee)";
-    };
+    # decoration = {
+    #   rounding = 0;
+    #   blur = {
+    #     enabled = true;
+    #     size = 3;
+    #     passes = 1;
+    #     new_optimizations = "on";
+    #   };
+    #
+    #   drop_shadow = "yes";
+    #   shadow_range = 4;
+    #   shadow_render_power = 3;
+    #   col.shadow = "rgba(1a1a1aee)";
+    # };
 
     master.new_status = true;
     gestures.workspace_swipe = "on";
@@ -105,8 +108,8 @@ in
       "$mod CTRL, L, exec, ${hyprlock}"
       "$mod SHIFT CTRL, L, exec, ${hyprlock} && ${hyprctl} dispatch dpms off"
 
-      "bind = $mainMod CTRL, P, exec, ${hyprshot} -m window"
-      "bind = $mainMod SHIFT, P, exec, ${hyprshot} -m region"
+      # "$mod CTRL, P, exec, ${hyprshot} -m window"
+      # "$mod SHIFT, P, exec, ${hyprshot} -m region"
     ];
 
     bindm = [

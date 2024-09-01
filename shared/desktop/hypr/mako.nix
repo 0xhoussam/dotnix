@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   services.mako = {
     enable = true;
@@ -18,11 +18,23 @@
     defaultTimeout = 5000;
     groupBy = "summary";
     icons = true;
-    format = "<b>%s</b>\n%b";
+    format = "<b>%s</b>\\n%b";
 
     extraConfig = ''
       [mode=do-not-disturb]
       invisible=0
     '';
+  };
+
+  systemd.user.services.mako = {
+    Unit = {
+      Description = "Notification daemon";
+    };
+    Install = {
+      WantedBy = [ "hyprland-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.mako}/bin/mako";
+    };
   };
 }
