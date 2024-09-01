@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
   home.packages = with pkgs; [
     qbittorrent
@@ -6,7 +6,6 @@
     zathura
     pavucontrol
     brave
-    firefox
 
     devenv
     tokei
@@ -48,5 +47,9 @@
 
   programs = {
     direnv.enable = true;
+    firefox = {
+      enable = true;
+      package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+    };
   };
 }

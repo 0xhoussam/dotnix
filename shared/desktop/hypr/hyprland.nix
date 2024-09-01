@@ -31,6 +31,7 @@ in
   services.blueman-applet.enable = true;
 
   wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
   wayland.windowManager.hyprland.extraConfig = ''
     monitor=,1920x1080@60,0x0,1
   '';

@@ -9,6 +9,10 @@
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     walker.url = "github:abenz1267/walker";
+    firefox = {
+      url = "github:nix-community/flake-firefox-nightly";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {
@@ -18,6 +22,7 @@
       nix-flatpak,
       walker,
       disko,
+      firefox,
       ...
     }@inputs:
     let
