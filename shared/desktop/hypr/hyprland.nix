@@ -51,20 +51,20 @@ in
       enabled = false;
     };
 
-    # decoration = {
-    #   rounding = 0;
-    #   blur = {
-    #     enabled = true;
-    #     size = 3;
-    #     passes = 1;
-    #     new_optimizations = "on";
-    #   };
-    #
-    #   drop_shadow = "yes";
-    #   shadow_range = 4;
-    #   shadow_render_power = 3;
-    #   col.shadow = "rgba(1a1a1aee)";
-    # };
+    decoration = {
+      rounding = 0;
+      blur = {
+        enabled = true;
+        size = 3;
+        passes = 1;
+        new_optimizations = "on";
+      };
+
+      drop_shadow = "yes";
+      shadow_range = 4;
+      shadow_render_power = 3;
+      "col.shadow" = "rgba(1a1a1aee)";
+    };
 
     master.new_status = true;
     gestures.workspace_swipe = "on";
@@ -149,6 +149,13 @@ in
 
     general = {
       allow_tearing = true;
+      gaps_in = 2;
+      gaps_out = 3;
+      border_size = 2;
+      "col.active_border" = "0xff1c71d8";
+      "col.inactive_border" = "0";
+
+      layout = "dwindle";
     };
 
     exec-once = [
