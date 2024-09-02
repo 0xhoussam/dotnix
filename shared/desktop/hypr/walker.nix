@@ -4,6 +4,16 @@
     enable = true;
     runAsService = true;
 
+    config = {
+      ignore_mouse = true;
+      disabled = [
+        "finder"
+        "runner"
+        "windows"
+      ];
+      list.max_items = 20;
+    };
+
     theme = {
       layout = {
         ui = {
