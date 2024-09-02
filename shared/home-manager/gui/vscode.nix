@@ -19,7 +19,7 @@ in
       "editor.lineNumbers" = "relative";
       "workbench.list.smoothScrolling" = true;
       "editor.tabSize" = 4;
-      "workbench.iconTheme" = "catppuccin-mocha";
+      "workbench.iconTheme" = "vscode-jetbrains-icon-theme-2023-dark";
     };
   };
 }
