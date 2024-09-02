@@ -7,7 +7,6 @@
     ./../../shared/desktop/hypr
     ./fonts.nix
     ./pkgs.nix
-    ./vscode.nix
     ./xdg.nix
     ./theme.nix
     ./env.nix
