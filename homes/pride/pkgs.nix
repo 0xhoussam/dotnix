@@ -51,5 +51,13 @@
       enable = true;
       package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
     };
+    xfconf.enable = true;
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
   };
 }

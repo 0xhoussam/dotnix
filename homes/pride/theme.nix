@@ -43,4 +43,11 @@
     package = pkgs.yaru-theme;
     size = 22;
   };
+
+  dconf.enable = true;
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
 }

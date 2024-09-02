@@ -5,6 +5,7 @@
     ./../../shared/nixos
     ./xdg.nix
     ./services.nix
+    ./pkgs.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -23,12 +24,6 @@
     packages = with pkgs; [ vim ];
   };
 
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
@@ -36,12 +31,7 @@
     '';
   };
 
-  programs.nm-applet = {
-    enable = true;
-    indicator = true;
-  };
-
-  programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   system.stateVersion = "24.05";
 }
