@@ -76,6 +76,7 @@ in
       "$mod, M, exit,"
       "$mod, V, togglefloating,"
       "$mod, R, exec, ${walker} --theme home-manager --modules applications"
+      "$mod, F, fullscreen"
 
       "$mod, h, movefocus, l"
       "$mod, l, movefocus, r"
