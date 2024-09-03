@@ -19,7 +19,6 @@
       nixpkgs,
       home-manager,
       walker,
-      disko,
       firefox,
       ...
     }@inputs:

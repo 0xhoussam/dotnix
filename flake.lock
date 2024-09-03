@@ -16,23 +16,6 @@
         "type": "github"
       }
     },
-    "disko": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1724895876,
-        "narHash": "sha256-GSqAwa00+vRuHbq9O/yRv7Ov7W/pcMLis3HmeHv8a+Q=",
-        "owner": "nix-community",
-        "repo": "disko",
-        "rev": "511388d837178979de66d14ca4a2ebd5f7991cd3",
-        "type": "github"
-      },
-      "original": {
-        "id": "disko",
-        "type": "indirect"
-      }
-    },
     "firefox": {
       "inputs": {
         "cachix": "cachix",
@@ -168,18 +151,17 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1725099143,
-        "narHash": "sha256-CHgumPZaC7z+WYx72WgaLt2XF0yUVzJS60rO4GZ7ytY=",
+        "lastModified": 1724479785,
+        "narHash": "sha256-pP3Azj5d6M5nmG68Fu4JqZmdGt4S4vqI5f8te+E/FTw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5629520edecb69630a3f4d17d3d33fc96c13f6fe",
+        "rev": "d0e1602ddde669d5beb01aec49d71a51937ed7be",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
       }
     },
     "nixpkgs-lib": {
@@ -199,21 +181,6 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1724479785,
-        "narHash": "sha256-pP3Azj5d6M5nmG68Fu4JqZmdGt4S4vqI5f8te+E/FTw=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "d0e1602ddde669d5beb01aec49d71a51937ed7be",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "ref": "nixos-unstable",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1720957393,
         "narHash": "sha256-oedh2RwpjEa+TNxhg5Je9Ch6d3W1NKi7DbRO1ziHemA=",
         "owner": "NixOS",
@@ -230,10 +197,9 @@
     },
     "root": {
       "inputs": {
-        "disko": "disko",
         "firefox": "firefox",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "walker": "walker"
       }
     },
@@ -255,7 +221,7 @@
     "walker": {
       "inputs": {
         "flake-parts": "flake-parts",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1724741320,
