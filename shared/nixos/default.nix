@@ -20,7 +20,6 @@
     security.rtkit.enable = true;
     environment.homeBinInPath = true;
     fonts.enableDefaultPackages = true;
-    programs.dconf.enable = true;
     hardware.enableAllFirmware = true;
   };
   config.nixpkgs.config.allowUnfree = true;
