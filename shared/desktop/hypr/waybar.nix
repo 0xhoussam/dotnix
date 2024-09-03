@@ -59,7 +59,7 @@
       cpu = {
         format = "{usage}% ";
         tooltip = false;
-        on-click = "flatpak run net.nokyan.Resources";
+        # on-click = "flatpak run net.nokyan.Resources";
       };
 
       "custom/logo" = {

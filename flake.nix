@@ -7,7 +7,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
     walker.url = "github:abenz1267/walker";
     firefox = {
       url = "github:nix-community/flake-firefox-nightly";
@@ -19,7 +18,6 @@
       self,
       nixpkgs,
       home-manager,
-      nix-flatpak,
       walker,
       disko,
       firefox,
@@ -45,7 +43,6 @@
         pride = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            nix-flatpak.homeManagerModules.nix-flatpak
             walker.homeManagerModules.default
             ./homes/pride
           ];
