@@ -1,18 +1,16 @@
 { pkgs, ... }:
 {
-  /*
-    virtualisation = {
-      libvirtd = {
-        enable = true;
-        qemu = {
-          verbatimConfig = ''
-            nvram = [ "${pkgs.OVMF}/FV/OVMF.fd:${pkgs.OVMF}/FV/OVMF_VARS.fd" ]
-          '';
-        };
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu = {
+        verbatimConfig = ''
+          nvram = [ "${pkgs.OVMF}/FV/OVMF.fd:${pkgs.OVMF}/FV/OVMF_VARS.fd" ]
+        '';
       };
-      spiceUSBRedirection.enable = true;
     };
-  */
+    spiceUSBRedirection.enable = true;
+  };
 
   environment = {
     systemPackages = with pkgs; [
