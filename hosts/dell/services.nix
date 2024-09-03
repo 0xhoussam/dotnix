@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   services.printing.enable = true;
-  services.gvfs.enable = true; # for nautilus
+  services.gvfs.enable = true;
   # services.greetd = {
   #   enable = true;
   #   settings = {
