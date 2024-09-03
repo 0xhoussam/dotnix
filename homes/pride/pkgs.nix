@@ -7,13 +7,13 @@
     pavucontrol
     brave
     zoom-us
-    transmission-gtk
+    transmission_4-gtk
     loupe
     planify
     clapper
     rnote
     postman
-    gnome.gnome-calculator
+    gnome-calculator
 
     devenv
     tokei
