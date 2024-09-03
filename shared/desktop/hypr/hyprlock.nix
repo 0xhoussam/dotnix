@@ -1,6 +1,6 @@
 { ... }:
 let
-  background = ../../../assets/wallpapers/lock.jpg;
+  background = ../../../assets/wallpapers/blured-wallpaper.jpg;
 in
 {
   programs.hyprlock.enable = true;
