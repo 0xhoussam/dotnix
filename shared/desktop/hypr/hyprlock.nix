@@ -15,6 +15,10 @@ in
       {
         path = builtins.toString background; # only png supported for now
         color = "rgba(25, 20, 20, 1.0)";
+        blur_passes = 1; # 0 disables blurring
+        blur_size = 30;
+        contrast = "0.8916";
+        brightness = "0.7";
       }
     ];
 
