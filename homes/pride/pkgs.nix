@@ -6,6 +6,7 @@
     zathura
     pavucontrol
     brave
+    zoom-us
 
     devenv
     tokei
