@@ -38,8 +38,6 @@
     bind
     wl-clipboard
 
-    nautilus
-
     (writeShellScriptBin "reload-failed-services" ''
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart
     '')
@@ -50,14 +48,6 @@
     firefox = {
       enable = true;
       package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-    };
-    xfconf.enable = true;
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
     };
   };
 }
