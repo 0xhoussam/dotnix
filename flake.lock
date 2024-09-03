@@ -114,6 +114,26 @@
         "type": "github"
       }
     },
+    "kvlibadwaita": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1720277189,
+        "narHash": "sha256-GhYf//TrA+yWAIws/KTlx1V+ocb6QtxwH5uvnOFSqCY=",
+        "owner": "MOIS3Y",
+        "repo": "KvLibadwaita",
+        "rev": "856ed01f26348d0f8a054b05c34c40f43a7bfbd4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MOIS3Y",
+        "repo": "KvLibadwaita",
+        "type": "github"
+      }
+    },
     "lib-aggregate": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -199,6 +219,7 @@
       "inputs": {
         "firefox": "firefox",
         "home-manager": "home-manager",
+        "kvlibadwaita": "kvlibadwaita",
         "nixpkgs": "nixpkgs",
         "walker": "walker"
       }

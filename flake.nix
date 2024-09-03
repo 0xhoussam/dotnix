@@ -12,6 +12,10 @@
       url = "github:nix-community/flake-firefox-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kvlibadwaita = {
+      url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {
@@ -20,12 +24,18 @@
       home-manager,
       walker,
       firefox,
+      kvlibadwaita,
       ...
     }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          inputs.kvlibadwaita.overlays.default
+        ];
+      };
     in
     {
       nixosConfigurations = {

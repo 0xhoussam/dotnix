@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
+  imports = [
+    inputs.kvlibadwaita.homeManagerModule
+  ];
   gtk = {
     enable = true;
     theme = {
@@ -32,8 +35,13 @@
   };
   qt = {
     enable = true;
-    platformTheme.name = "adwaita";
-    style.name = "adwaita-dark";
+    platformTheme.name = "qtct";
+    style.name = "kvantum";
+    kvlibadwaita = {
+      enable = true;
+      auto = true;
+      # theme = "onedark";
+    };
   };
 
   home.pointerCursor = {
