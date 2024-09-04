@@ -33,14 +33,17 @@
       gtk-application-prefer-dark-theme = true;
     };
   };
+  xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
+    [General]
+    theme=KvLibadwaitaDark
+  '';
   qt = {
     enable = true;
     platformTheme.name = "qtct";
     style.name = "kvantum";
     kvlibadwaita = {
       enable = true;
-      auto = true;
-      # theme = "onedark";
+      auto = false;
     };
   };
 
