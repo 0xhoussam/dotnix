@@ -1,4 +1,7 @@
 { inputs, pkgs, ... }:
+let
+  zen-browser = inputs.zen-browser.packages."${pkgs.system}".default;
+in
 {
   home.packages = with pkgs; [
     brave
@@ -14,6 +17,7 @@
     transmission_4-gtk
     zathura
     zoom-us
+    zen-browser
 
     devenv
     tokei
