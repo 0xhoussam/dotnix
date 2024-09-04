@@ -1,54 +1,56 @@
 { inputs, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    qbittorrent
-    mpv
-    zathura
-    pavucontrol
     brave
-    zoom-us
-    transmission_4-gtk
-    loupe
-    planify
     clapper
-    rnote
-    postman
     gnome-calculator
+    loupe
+    mpv
+    pavucontrol
+    planify
+    postman
+    qbittorrent
+    rnote
+    transmission_4-gtk
+    zathura
+    zoom-us
 
     devenv
     tokei
     whois
 
-    file
-    killall
-    btop
-    wget
-    curl
+    atool
     axel
-    git
-    tree
     bat
-    eza
-    ripgrep
-    fd
-    procps
-    zip
-    unzip
-    p7zip
-    github-cli
-    glow
+    bind
+    btop
+    curl
     delta
     exiftool
-    atool
+    eza
+    fd
+    file
+    git
+    github-cli
+    glow
+    killall
     nettools
     nftables
+    p7zip
+    procps
+    ripgrep
     sof-firmware
-    bind
+    tree
+    unzip
+    wget
     wl-clipboard
+    zip
 
     (writeShellScriptBin "reload-failed-services" ''
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart
     '')
+
+    (pkgs.callPackage ./custom-packages/harper.nix { })
   ];
 
   programs = {
