@@ -27,6 +27,7 @@
       firefox,
       kvlibadwaita,
       zen-browser,
+      stylix,
       ...
     }@inputs:
     let
@@ -46,7 +47,9 @@
           specialArgs = {
             inherit inputs;
           };
-          modules = [ ./hosts/dell ];
+          modules = [
+            ./hosts/dell
+          ];
         };
       };
 
