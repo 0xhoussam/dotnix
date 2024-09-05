@@ -27,7 +27,6 @@
       firefox,
       kvlibadwaita,
       zen-browser,
-      stylix,
       ...
     }@inputs:
     let
