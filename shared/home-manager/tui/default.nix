@@ -2,7 +2,7 @@
 {
   imports = [
     ./git.nix
-    # ./neovim.nix
+    ./neovim.nix
     ./zsh.nix
     ./zellij.nix
     ./fish.nix

@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
-  font = "ZedMono Nerd Font";
-  shell = "${pkgs.zsh}/bin/zsh";
+  font = "monospace";
+  shell = "${pkgs.fish}/bin/fish";
 in
 {
   programs.alacritty = {
