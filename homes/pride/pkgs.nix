@@ -5,16 +5,11 @@ in
 {
   home.packages = with pkgs; [
     brave
-    clapper
-    gnome-calculator
-    loupe
     mpv
     pavucontrol
-    planify
     postman
     qbittorrent
-    rnote
-    transmission_4-gtk
+
     zathura
     zoom-us
     zen-browser
