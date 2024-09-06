@@ -50,15 +50,10 @@
   home.pointerCursor = {
     name = "Yaru-dark";
     gtk.enable = true;
-    # x11.enable = true;
     package = pkgs.yaru-theme;
     size = 22;
   };
 
   dconf.enable = true;
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-  };
+  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 }
