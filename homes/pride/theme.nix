@@ -10,8 +10,8 @@
       package = pkgs.adw-gtk3;
     };
     cursorTheme = {
-      package = pkgs.yaru-theme;
-      name = "Yaru-dark";
+      package = pkgs.phinger-cursors;
+      name = "phinger-cursors-darkr";
       size = 22;
     };
     iconTheme = {
@@ -48,10 +48,10 @@
   };
 
   home.pointerCursor = {
-    name = "Yaru-dark";
-    gtk.enable = true;
-    package = pkgs.yaru-theme;
+    name = "phinger-cursors-dark";
+    package = pkgs.phinger-cursors;
     size = 22;
+    gtk.enable = true;
   };
 
   dconf.enable = true;

@@ -34,6 +34,8 @@ in
   wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
   wayland.windowManager.hyprland.extraConfig = ''
     monitor=,1920x1080@60,0x0,1
+    env = HYPRCURSOR_THEME,phinger-cursors-dark-hyprcursor
+    env = HYPRCURSOR_SIZE,22
   '';
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
