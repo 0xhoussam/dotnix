@@ -17,6 +17,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser.url = "github:MarceColl/zen-browser-flake";
+    hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
+    hyprcursor.url = "github:hyprwm/hyprcursor";
   };
   outputs =
     {
@@ -24,9 +26,9 @@
       nixpkgs,
       home-manager,
       walker,
-      firefox,
-      kvlibadwaita,
-      zen-browser,
+      # firefox,
+      # kvlibadwaita,
+      # zen-browser,
       ...
     }@inputs:
     let
