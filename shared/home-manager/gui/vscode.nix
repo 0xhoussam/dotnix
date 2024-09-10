@@ -13,7 +13,7 @@ in
     ];
     userSettings = {
       "window.titleBarStyle" = "custom";
-      "editor.fontSize" = 18;
+      "editor.fontSize" = 16;
       "editor.fontFamily" = "monospace";
       "workbench.colorTheme" = "JetBrains Fleet";
       "editor.lineNumbers" = "relative";
