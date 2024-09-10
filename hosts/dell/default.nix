@@ -27,7 +27,10 @@
   users.users.pride = {
     isNormalUser = true;
     initialPassword = "toor";
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+    ];
     packages = with pkgs; [ vim ];
   };
 
