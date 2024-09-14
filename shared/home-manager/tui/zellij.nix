@@ -101,7 +101,7 @@ in
                   hide_frame_for_single_pane "true"
 
                   tab_normal   "#[bg=NONE,fg=#fafafa]{index}:{name}    "
-                  tab_active   "#[bg=#3584e4,fg=#1e1e1e,bold]*{index}:{name}    "
+                  tab_active   "#[bg=NONE,fg=#3584e4,bold]*{index}:{name}    "
 
                   datetime          " {format} "
                   datetime_format   "%H:%M %d-%b-%y"
