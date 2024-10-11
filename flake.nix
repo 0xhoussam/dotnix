@@ -8,10 +8,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     walker.url = "github:abenz1267/walker";
-    firefox = {
-      url = "github:nix-community/flake-firefox-nightly";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     kvlibadwaita = {
       url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
       inputs.nixpkgs.follows = "nixpkgs";
