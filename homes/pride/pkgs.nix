@@ -54,9 +54,5 @@ in
 
   programs = {
     direnv.enable = true;
-    firefox = {
-      enable = true;
-      package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-    };
   };
 }

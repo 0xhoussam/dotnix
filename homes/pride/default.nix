@@ -10,7 +10,6 @@
     ./xdg.nix
     ./theme.nix
     ./env.nix
-    ./firefox.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

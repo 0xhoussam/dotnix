@@ -24,7 +24,7 @@
             }) list
           );
       in
-      gen_default_app "firefox.desktop" [
+      gen_default_app "brave.desktop" [
         "x-scheme-handler/http"
         "x-scheme-handler/https"
         "x-scheme-handler/chrome"
