@@ -8,7 +8,6 @@ in
     simplified_ui = true;
     default_shell = "${pkgs.zsh}/bin/zsh";
     pane_frames = false;
-    # auto_layout = false;
     copy_command = "wl-copy";
     theme = "libadwaita";
     themes.libadwaita = {
@@ -100,8 +99,8 @@ in
 
                   hide_frame_for_single_pane "true"
 
-                  tab_normal   "#[bg=NONE,fg=#fafafa]{index}:{name}"
-                  tab_active   "#[bg=NONE,fg=#3584e4,bold]*{index}:[{name}]"
+                  tab_normal   " #[bg=NONE,fg=#fafafa]{index}:{name} "
+                  tab_active   " #[bg=NONE,fg=#3584e4,bold]*{index}:[{name}] "
 
                   datetime          " {format} "
                   datetime_format   "%H:%M %d-%b-%y"
