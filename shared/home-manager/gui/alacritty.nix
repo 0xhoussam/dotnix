@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   font = "monospace";
-  shell = "${pkgs.fish}/bin/fish";
+  shell = "${pkgs.zsh}/bin/zsh";
 in
 {
   programs.alacritty = {
