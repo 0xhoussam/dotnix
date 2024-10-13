@@ -8,7 +8,7 @@ in
     mpv
     pavucontrol
     postman
-    qbittorrent
+    jetbrains-toolbox
 
     zathura
     zoom-us
