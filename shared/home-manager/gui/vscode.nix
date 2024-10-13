@@ -13,9 +13,9 @@ in
     ];
     userSettings = {
       "window.titleBarStyle" = "custom";
-      "editor.fontSize" = 16;
-      "editor.fontFamily" = "monospace";
-      "workbench.colorTheme" = "JetBrains Fleet";
+      "editor.fontSize" = 18;
+      "editor.fontFamily" = "JetBrains Mono Nerd Font";
+      "workbench.colorTheme" = "Jetbrains Fleet";
       "editor.lineNumbers" = "relative";
       "workbench.list.smoothScrolling" = true;
       "editor.tabSize" = 4;
