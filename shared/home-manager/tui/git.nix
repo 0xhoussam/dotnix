@@ -51,7 +51,9 @@
 
         # log
         l = "log";
-        lo = ''log --pretty=format:"%C(yellow)%h %ad%Cred%d %Creset%s%Cblue [%cn]" --decorate --date=short'';
+        lo = ''
+          git log --color --graph --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'
+        '';
 
         # stash
         staash = "stash --all";
