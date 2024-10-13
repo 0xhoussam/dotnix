@@ -16,6 +16,11 @@
   };
   home.packages = with pkgs; [
     ibm-plex
-    (nerdfonts.override { fonts = [ "ZedMono" ]; })
+    (nerdfonts.override {
+      fonts = [
+        "ZedMono"
+        "JetBrainsMono"
+      ];
+    })
   ];
 }
