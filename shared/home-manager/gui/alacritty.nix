@@ -14,11 +14,11 @@ in
           cursor = "#52a7f6";
         };
         primary = {
-          background = "#1e1e1e";
-          foreground = "#d6d6dd";
+          background = "#181818";
+          foreground = "#d1d1d1";
         };
         bright = {
-          black = "#292929";
+          black = "#000000";
           red = "#CC7C8A";
           green = "#afcb85";
           yellow = "#e5c995";

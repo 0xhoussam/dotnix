@@ -8,17 +8,20 @@
         v = "nvim";
         nv = "neovide";
         m = "make -j `nproc`";
+        z = "zellij";
       };
     };
     shellAliases = {
       ls = "eza --icons";
-      update = "sudo nixos-rebuild switch";
+      "nix-update" = "sudo nixos-rebuild switch";
+      "hm-update" = "home-manager switch -b backup --flake .#pride";
     };
     zplug = {
       enable = true;
       plugins = [
         { name = "zsh-users/zsh-syntax-highlighting"; }
         { name = "jeffreytse/zsh-vi-mode"; }
+        { name = "zsh-users/zsh-autosuggestions"; }
       ];
     };
     oh-my-zsh = {
@@ -34,8 +37,9 @@
       extraConfig = # bash
         ''
           typeset -A ZSH_HIGHLIGHT_STYLES
-          ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#6d6d6d'
-          ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#6d6d6d'
+          ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#898989'
+          ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#898989'
+          ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#898989"
 
           # this update zellij tab name to match the current running process
           function change_tab_name() {
