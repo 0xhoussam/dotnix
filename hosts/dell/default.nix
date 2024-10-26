@@ -34,13 +34,6 @@
     packages = with pkgs; [ vim ];
   };
 
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
-
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   system.stateVersion = "24.05";
