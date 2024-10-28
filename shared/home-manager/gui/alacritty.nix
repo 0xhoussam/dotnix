@@ -7,7 +7,9 @@ in
   programs.alacritty = {
     enable = true;
     settings = {
-      live_config_reload = true;
+      general = {
+        live_config_reload = true;
+      };
       colors = rec {
         cursor = {
           text = "#292929";
@@ -33,9 +35,6 @@ in
           background = "#767676";
         };
       };
-      # cursor = {
-      #   shape = "Beam";
-      # };
       env = {
         TERM = "xterm-256color";
       };
@@ -58,9 +57,11 @@ in
           style = "Bolditalic";
         };
       };
-      shell = {
-        args = [ "--login" ];
-        program = "${shell}";
+      terminal = {
+        shell = {
+          args = [ "--login" ];
+          program = "${shell}";
+        };
       };
       window = {
         opacity = 1;
