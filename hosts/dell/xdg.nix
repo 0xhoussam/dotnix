@@ -12,14 +12,14 @@
     config = {
       common = {
         default = [
-          "hyprland"
           "gtk"
+          "hyprland"
         ];
       };
       hyprland = {
         default = [
-          "hyprland"
           "gtk"
+          "hyprland"
         ];
       };
     };

@@ -1,6 +1,5 @@
 { ... }:
 {
-  services.printing.enable = true;
   services.gvfs.enable = true;
   services.flatpak.enable = true;
   services.auto-cpufreq.enable = true;

@@ -4,7 +4,9 @@
 }:
 {
 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+  };
   programs.dconf.enable = true;
 
   programs.thunar.enable = true;
