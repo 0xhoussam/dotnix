@@ -16,7 +16,7 @@
   };
   home.packages = with pkgs; [
     ibm-plex
-    julia-mono
+    sf-mono-liga-bin
     (nerdfonts.override {
       fonts = [
         "ZedMono"

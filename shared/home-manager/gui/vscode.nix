@@ -14,7 +14,7 @@ in
     userSettings = {
       "window.titleBarStyle" = "custom";
       "editor.fontSize" = 18;
-      "editor.fontFamily" = "JetBrainsMono Nerd Font";
+      "editor.fontFamily" = "Liga SFMono Nerd Font";
       "workbench.colorTheme" = "Jetbrains Fleet";
       "editor.lineNumbers" = "relative";
       "workbench.list.smoothScrolling" = true;
