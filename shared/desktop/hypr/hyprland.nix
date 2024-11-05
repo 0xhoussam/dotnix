@@ -33,12 +33,15 @@ in
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
   wayland.windowManager.hyprland.extraConfig = ''
-    monitor=,1920x1080@60,0x0,1
     env = HYPRCURSOR_THEME,phinger-cursors-dark-hyprcursor
     env = HYPRCURSOR_SIZE,22
   '';
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
+
+    monitor = [
+      "eDP-1,preferred,auto,1,bitdepth,8"
+    ];
 
     input = {
       kb_layout = "us";
