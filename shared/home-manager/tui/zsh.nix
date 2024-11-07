@@ -22,6 +22,7 @@
         { name = "zsh-users/zsh-syntax-highlighting"; }
         { name = "jeffreytse/zsh-vi-mode"; }
         { name = "zsh-users/zsh-autosuggestions"; }
+        { name = "olets/zsh-abbr"; }
       ];
     };
     oh-my-zsh = {
