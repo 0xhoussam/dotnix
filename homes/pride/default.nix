@@ -10,6 +10,7 @@
     ./xdg.nix
     ./theme.nix
     ./env.nix
+    ./ags.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
