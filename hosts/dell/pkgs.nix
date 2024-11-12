@@ -1,5 +1,4 @@
 {
-  pkgs,
   ...
 }:
 {
@@ -9,12 +8,7 @@
   };
   programs.dconf.enable = true;
 
-  programs.thunar.enable = true;
   programs.xfconf.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman # auto mount
-  ];
 
   programs.mtr.enable = true;
   programs.gnupg.agent = {

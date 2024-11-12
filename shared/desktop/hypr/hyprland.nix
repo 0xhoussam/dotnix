@@ -79,6 +79,7 @@ in
     bind = [
       "$mod, Return, exec, ${alacritty}"
       "$mod, b, exec, ${brave}"
+      "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
       "$mod, M, exit,"
       "$mod, V, togglefloating,"

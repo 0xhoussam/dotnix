@@ -24,7 +24,10 @@
             }) list
           );
       in
-      gen_default_app "brave.desktop" [
+      gen_default_app "nemo.desktop" [
+        "inode/directory"
+      ]
+      // gen_default_app "brave.desktop" [
         "x-scheme-handler/http"
         "x-scheme-handler/https"
         "x-scheme-handler/chrome"

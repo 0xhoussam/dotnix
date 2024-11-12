@@ -33,7 +33,10 @@
       "wheel"
       "docker"
     ];
-    packages = with pkgs; [ vim ];
+    packages = with pkgs; [
+      vim
+      nemo-with-extensions
+    ];
   };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
