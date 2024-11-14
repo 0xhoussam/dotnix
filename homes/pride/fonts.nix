@@ -17,6 +17,7 @@
   home.packages = with pkgs; [
     ibm-plex
     sf-mono-liga-bin
+    victor-mono
     (nerdfonts.override {
       fonts = [
         "ZedMono"
