@@ -17,8 +17,8 @@
       font = {
         normal = [
           {
-            family = "Liga SFMono Nerd Font";
-            style = "Medium";
+            family = "ZedMono Nerd Font";
+            style = "Regular";
           }
         ];
         size = 14.0;
