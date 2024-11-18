@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
-  alacritty = "${pkgs.alacritty}/bin/alacritty";
+  wezterm = "${inputs.wezterm.packages.${pkgs.system}.default}/bin/wezterm";
   brave = "${pkgs.brave}/bin/brave";
   walker = "${pkgs.walker}/bin/walker";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
@@ -76,7 +76,7 @@ in
     master.new_status = true;
     gestures.workspace_swipe = "on";
     bind = [
-      "$mod, Return, exec, ${alacritty}"
+      "$mod, Return, exec, ${wezterm}"
       "$mod, b, exec, ${brave}"
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
