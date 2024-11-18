@@ -13,6 +13,7 @@ in
     zathura
     zoom-us
     zen-browser
+    zed-editor
 
     devenv
     tokei
