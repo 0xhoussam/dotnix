@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   services.gvfs.enable = true;
   services.flatpak.enable = true;
@@ -11,6 +11,15 @@
     charger = {
       governor = "performance";
       turbo = "auto";
+    };
+  };
+  services.preload.enable = true;
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+      };
     };
   };
 }
