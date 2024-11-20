@@ -2,6 +2,18 @@
 {
   programs.git = {
     enable = true;
+    delta = {
+      enable = true;
+      options = {
+        merge = {
+          conflictStyle = "zdiff3";
+        };
+        line-numbers = true;
+        side-by-side = true;
+        features = "Solarized (dark)";
+        true-color = "always";
+      };
+    };
     userEmail = "owner@0xhoussam.me";
     userName = "Houssam Abouiba";
     includes = [
@@ -18,7 +30,7 @@
     extraConfig = {
       core.excludesfile = "gitignore";
       core.editor = "nvim";
-      core.pager = "delta";
+      # core.pager = "delta";
       branch.sort = "-committerdate";
       color.ui = "auto";
       init.defaultBranch = "main";
