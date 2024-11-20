@@ -5,5 +5,6 @@
     git
     curl
     zsh
+    greetd.tuigreet
   ];
 }
