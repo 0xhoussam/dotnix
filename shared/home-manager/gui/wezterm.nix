@@ -8,10 +8,12 @@
         local config = wezterm.config_builder()
         config.font = wezterm.font 'ZedMono Nerd Font'
         config.window_decorations = "NONE"
+        config.window_close_confirmation = 'NeverPrompt'
         config.colors = {
             background = "#181818";
             foreground = "#ffffff";
-            cursor_fg = "#52a7f6";
+            cursor_bg = "#52a7f6";
+            cursor_fg = "#000000";
             ansi = {
                 '#1e1e1e',
                 '#CC7C8A',
@@ -21,7 +23,7 @@
                 '#a390f0',
                 '#00AF99',
                 '#6d6d6d',
-            }
+            },
              brights = {
                 '#535353',
                 '#CC7C8A',
@@ -56,7 +58,7 @@
           "#DEA407"
           "#a390f0"
           "#d898d8"
-          "#7dbeff"
+          "#2197F3"
           "#ffffff"
         ];
         compose_cursor = "#efb080";
