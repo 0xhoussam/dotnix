@@ -9,7 +9,7 @@ let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   swww = "${pkgs.swww}/bin/swww";
-  background = ./../../../assets/wallpapers/tanjiro.jpg;
+  background = ./../../../assets/wallpapers/mountain-landscape-7680x4320-19802.jpg;
 in
 {
   imports = [
