@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 let
-  zen-browser = inputs.zen-browser.packages."${pkgs.system}".default;
+  zen-browser = inputs.zen-browser.packages."${pkgs.system}".specific;
 in
 {
   home.packages = with pkgs; [
