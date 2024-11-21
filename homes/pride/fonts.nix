@@ -16,6 +16,7 @@
   };
   home.packages = with pkgs; [
     ibm-plex
+    ubuntu_font_family
     sf-mono-liga-bin
     victor-mono
     (nerdfonts.override {
