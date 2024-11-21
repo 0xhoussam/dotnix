@@ -9,6 +9,12 @@
         config.font = wezterm.font 'ZedMono Nerd Font'
         config.window_decorations = "NONE"
         config.window_close_confirmation = 'NeverPrompt'
+        config.window_padding = {
+          left = 2,
+          right = 2,
+          top = 0,
+          bottom = 0,
+        }
         config.colors = {
             background = "#181818";
             foreground = "#ffffff";
