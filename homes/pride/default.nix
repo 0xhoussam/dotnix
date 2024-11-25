@@ -11,6 +11,7 @@
     ./theme.nix
     ./env.nix
     ./ags.nix
+    ./service.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
