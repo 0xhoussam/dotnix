@@ -45,7 +45,7 @@ in
 
     input = {
       kb_layout = "us,us,ara";
-      kb_variant = ",dvorak,";
+      kb_variant = "dvorak,,";
       kb_options = "grp:win_space_toggle";
       follow_mouse = 1;
       touchpad = {
