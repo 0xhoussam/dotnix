@@ -5,6 +5,7 @@
     extraPackages = with pkgs; [
       gcc
       stylua
+      python3
     ];
   };
 }
