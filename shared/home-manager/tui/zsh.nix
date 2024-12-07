@@ -5,6 +5,7 @@
     zsh-abbr = {
       enable = true;
       abbreviations = {
+        g = "git";
         v = "nvim";
         nv = "neovide";
         m = "make -j `nproc`";
