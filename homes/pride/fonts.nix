@@ -19,11 +19,7 @@
     ubuntu_font_family
     sf-mono-liga-bin
     victor-mono
-    (nerdfonts.override {
-      fonts = [
-        "ZedMono"
-        "JetBrainsMono"
-      ];
-    })
+    nerd-fonts.zed-mono
+    nerd-fonts.jetbrains-mono
   ];
 }
