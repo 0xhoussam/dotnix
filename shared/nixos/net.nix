@@ -4,6 +4,9 @@
 
   networking.nftables.enable = true;
   networking.firewall.enable = true;
+  networking.hosts = {
+    "127.0.0.1" = [ "minio" ];
+  };
 
   # networking.nameservers = [
   #   "1.1.1.1#one.one.one.one"
