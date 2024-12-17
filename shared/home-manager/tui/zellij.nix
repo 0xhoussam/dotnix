@@ -78,7 +78,7 @@ in
           children
           pane size=1 borderless=true {
               plugin location="${zjstatusPluginPath}" {
-                  format_left  "#[fg=#2ec27e,bg=NONE,bold] {mode}  |  {tabs}"
+                  format_left  "#[fg=#2ec27e,bg=NONE,bold] [{mode}] {tabs}"
                   format_right "#[fg=#fafafa,bg=NONE]{datetime}"
                   format_space "#[bg=NONE]"
 
@@ -99,8 +99,8 @@ in
 
                   hide_frame_for_single_pane "true"
 
-                  tab_normal   " #[bg=NONE,fg=#fafafa]{index}:{name} "
-                  tab_active   " #[bg=NONE,fg=#3584e4,bold]*{index}:[{name}] "
+                  tab_normal   " #[bg=NONE,fg=#6d6d6d]{index}:{name} "
+                  tab_active   " #[bg=NONE,fg=#d6d6d6,bold]{index}:{name}* "
 
                   datetime          " {format} "
                   datetime_format   "%H:%M %d-%b-%y"
