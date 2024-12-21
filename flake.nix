@@ -20,7 +20,7 @@
       url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zen-browser.url = "github:MarceColl/zen-browser-flake";
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     hyprcursor.url = "github:hyprwm/hyprcursor";
     sf-mono-liga-src = {
