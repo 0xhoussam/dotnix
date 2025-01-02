@@ -9,6 +9,7 @@ in
     pavucontrol
     postman
     jetbrains-toolbox
+    thunderbird
 
     zathura
     zoom-us
