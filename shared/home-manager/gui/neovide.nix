@@ -21,7 +21,7 @@
             style = "Regular";
           }
         ];
-        size = 14.5;
+        size = 15.5;
       };
     };
   };
