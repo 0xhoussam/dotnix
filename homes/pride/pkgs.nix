@@ -51,6 +51,12 @@ in
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart
     '')
 
+    (writeShellScriptBin "nv" ''
+      neovide $@ &
+      pid=$!
+      disown $pid
+    '')
+
     (pkgs.callPackage ./custom-packages/harper.nix { })
   ];
 
