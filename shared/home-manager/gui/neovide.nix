@@ -17,11 +17,10 @@
       font = {
         normal = [
           {
-            family = "ZedMono Nerd Font";
-            style = "Regular";
+            family = "monospace";
           }
         ];
-        size = 15.5;
+        size = 14.5;
       };
     };
   };

@@ -74,12 +74,11 @@
     ''
       * {
           font-family:
-            Ubuntu,
-            IBM Plex Serif,
+            Adwaita Sans,
             FontAwesome,
             sans-serif
             ;
-          font-size: 14px;
+          font-size: 12px;
         }
 
         window#waybar {

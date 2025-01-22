@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }:
 let
-  wezterm = "${inputs.wezterm.packages.${pkgs.system}.default}/bin/wezterm";
+  alacritty = "${pkgs.alacritty}/bin/alacritty";
   brave = "${pkgs.brave}/bin/brave";
   walker = "${pkgs.walker}/bin/walker";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
@@ -9,7 +9,7 @@ let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   swww = "${pkgs.swww}/bin/swww";
-  background = ./../../../assets/wallpapers/mountain-landscape-7680x4320-19802.jpg;
+  background = ./../../../assets/wallpapers/anime-illustration-minimalism-dark-background-uchiha-madara-hd-wallpaper-e99008dd01dacdebf6f708af90d166dd.jpg;
 in
 {
   imports = [
@@ -76,7 +76,7 @@ in
     master.new_status = true;
     gestures.workspace_swipe = "on";
     bind = [
-      "$mod, Return, exec, ${wezterm}"
+      "$mod, Return, exec, ${alacritty}"
       "$mod, b, exec, ${brave}"
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"

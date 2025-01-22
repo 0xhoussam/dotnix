@@ -52,6 +52,9 @@
     package = pkgs.phinger-cursors;
     size = 22;
     gtk.enable = true;
+    hyprcursor.enable = true;
+    hyprcursor.size = 22;
+    x11.enable = true;
   };
 
   dconf.enable = true;

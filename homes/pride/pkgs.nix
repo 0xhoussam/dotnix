@@ -10,6 +10,7 @@ in
     postman
     jetbrains-toolbox
     thunderbird
+    ghostty
 
     zathura
     zoom-us
@@ -19,6 +20,8 @@ in
     devenv
     tokei
     whois
+    nixd
+    nixfmt-rfc-style
 
     atool
     axel
@@ -58,6 +61,8 @@ in
     '')
 
     (pkgs.callPackage ./custom-packages/harper.nix { })
+    (pkgs.callPackage ./custom-packages/adwaita-font { })
+
   ];
 
   programs = {

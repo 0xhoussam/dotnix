@@ -6,7 +6,7 @@
     extraConfig = # lua
       ''
         local config = wezterm.config_builder()
-        config.font = wezterm.font 'ZedMono Nerd Font'
+        config.font = wezterm.font 'monospace'
         config.window_decorations = "NONE"
         config.window_close_confirmation = 'NeverPrompt'
         config.window_padding = {

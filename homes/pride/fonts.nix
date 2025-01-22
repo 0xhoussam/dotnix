@@ -8,6 +8,7 @@
         "IBM Plex Sans Arabic"
       ];
       sansSerif = [
+        "Adwaita Sans"
         "IBM Plex Sans"
         "IBM Plex Sans Arabic"
       ];
@@ -21,5 +22,8 @@
     victor-mono
     nerd-fonts.zed-mono
     nerd-fonts.jetbrains-mono
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.fira-code
+    nerd-fonts.inconsolata-go
   ];
 }
