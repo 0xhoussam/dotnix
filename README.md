@@ -15,7 +15,7 @@ Explore the reposity take what you like.
 
 System wide config is managed through nix and nix modules everything else is managed through home-manager. Some configurations still not yet ported to nix. (some of them will never like neovim).
 
-- Terminal: [Weztem](https://github.com/wez/wezterm)
+- Terminal: [Alacritty](https://github.com/alacritty/alacritty)
 - Terminal multiplexer: [Zellij](https://github.com/zellij-org/zellij)
 - Shell: zsh
 - Editor: Neovim
