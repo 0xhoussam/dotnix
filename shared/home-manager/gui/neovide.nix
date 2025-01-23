@@ -18,6 +18,7 @@
         normal = [
           {
             family = "monospace";
+            weight = "Light";
           }
         ];
         size = 14.5;
