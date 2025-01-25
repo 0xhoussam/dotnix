@@ -25,7 +25,6 @@ in
 
     atool
     axel
-    bat
     bind
     btop
     curl
@@ -67,5 +66,9 @@ in
 
   programs = {
     direnv.enable = true;
+    bat = {
+      enable = true;
+      config.theme = "base16";
+    };
   };
 }
