@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }:
 let
   alacritty = "${pkgs.alacritty}/bin/alacritty";
-  brave = "${pkgs.brave}/bin/brave";
+  zen-browser = "${inputs.zen-browser.packages."${pkgs.system}".default}/bin/zen";
   walker = "${pkgs.walker}/bin/walker";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
@@ -77,7 +77,7 @@ in
     gestures.workspace_swipe = "on";
     bind = [
       "$mod, Return, exec, ${alacritty}"
-      "$mod, b, exec, ${brave}"
+      "$mod, b, exec, ${zen-browser}"
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
       "$mod, M, exit,"
