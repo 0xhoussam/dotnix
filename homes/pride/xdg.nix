@@ -39,7 +39,7 @@
         "application/x-extension-xhtml"
         "application/x-extension-xht"
       ]
-      // gen_default_app "imv.desktop" [
+      // gen_default_app "org.gnome.Loupe.desktop" [
         "image/avif"
         "image/bmp"
         "image/gif"
