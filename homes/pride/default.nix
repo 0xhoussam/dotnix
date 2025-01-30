@@ -10,7 +10,6 @@
     ./xdg.nix
     ./theme.nix
     ./env.nix
-    ./ags.nix
     # ./service.nix
   ];
 

@@ -27,7 +27,6 @@
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
       flake = false;
     };
-    ags.url = "github:Aylur/ags";
     wezterm.url = "github:wez/wezterm?dir=nix";
   };
   outputs =
