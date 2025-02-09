@@ -73,6 +73,10 @@ in
       };
     };
 
+    ecosystem = {
+      no_update_news = true;
+    };
+
     master.new_status = true;
     gestures.workspace_swipe = "on";
     bind = [
