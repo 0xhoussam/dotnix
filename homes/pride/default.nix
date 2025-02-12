@@ -10,6 +10,7 @@
     ./xdg.nix
     ./theme.nix
     ./env.nix
+    ./ssh.nix
     # ./service.nix
   ];
 

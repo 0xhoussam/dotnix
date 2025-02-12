@@ -87,7 +87,7 @@
           }
 
           #window {
-            background: none;
+            background: #242424;
             font-family:
               sans-serif;
             font-size: 15px;
@@ -100,7 +100,7 @@
           }
 
           scrollbar {
-            background: none;
+            /* background: none; */
           }
 
           slider {
@@ -125,7 +125,7 @@
           }
 
           #input {
-            background: unset;
+            /* background: unset; */
           }
 
           #input > *:first-child,

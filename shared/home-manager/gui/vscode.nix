@@ -11,15 +11,5 @@ in
       jetbrains-icon-theme
       fleet-theme
     ];
-    userSettings = {
-      "window.titleBarStyle" = "custom";
-      "editor.fontSize" = 18;
-      "editor.fontFamily" = "monospace";
-      "workbench.colorTheme" = "Jetbrains Fleet";
-      "editor.lineNumbers" = "relative";
-      "workbench.list.smoothScrolling" = true;
-      "editor.tabSize" = 4;
-      "workbench.iconTheme" = "vscode-jetbrains-icon-theme-2023-dark";
-    };
   };
 }

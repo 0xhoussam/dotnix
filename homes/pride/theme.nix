@@ -20,9 +20,9 @@
     };
 
     font = {
-      name = "IBM Plex Sans Condensed";
+      name = "Adwaita Sans";
       size = 11;
-      package = pkgs.ibm-plex;
+      package = pkgs.adwaita-fonts;
     };
 
     gtk3.extraConfig = {

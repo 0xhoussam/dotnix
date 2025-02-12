@@ -12,7 +12,7 @@
         "IBM Plex Sans"
         "IBM Plex Sans Arabic"
       ];
-      monospace = [ "ZedMono Nerd Font" ];
+      monospace = [ "Adwaita Mono" ];
     };
   };
   home.packages = with pkgs; [
@@ -25,5 +25,6 @@
     nerd-fonts.caskaydia-cove
     nerd-fonts.fira-code
     nerd-fonts.inconsolata-go
+    adwaita-fonts
   ];
 }

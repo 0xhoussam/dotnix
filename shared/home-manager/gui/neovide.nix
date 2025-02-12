@@ -21,7 +21,7 @@
             weight = "Light";
           }
         ];
-        size = 14.5;
+        size = 14;
       };
     };
   };
