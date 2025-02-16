@@ -8,7 +8,7 @@
         g = "git";
         v = "nvim";
         m = "make -j `nproc`";
-        z = "zellij";
+        zl = "zellij";
       };
     };
     shellAliases = {
@@ -59,6 +59,8 @@
               add-zsh-hook preexec set_tab_to_command_line
               add-zsh-hook precmd unset_tab_to_command_line
           fi
+
+          eval "$(zoxide init zsh)"
         '';
     };
   };
