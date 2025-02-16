@@ -19,11 +19,11 @@
       package = pkgs.papirus-icon-theme;
     };
 
-    font = {
-      name = "Adwaita Sans";
-      size = 11;
-      package = pkgs.adwaita-fonts;
-    };
+    # font = {
+    #   name = "Adwaita Sans";
+    #   size = 11;
+    #   package = pkgs.adwaita-fonts;
+    # };
 
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = true;
