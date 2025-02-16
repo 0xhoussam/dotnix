@@ -4,7 +4,7 @@
     enable = true;
     layer = "top";
     anchor = "bottom-right";
-    font = "IBM Plex Sans";
+    font = "Adwaita Sans";
     backgroundColor = "#242424";
     textColor = "#fafafa";
 
