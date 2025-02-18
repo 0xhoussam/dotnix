@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  font = "monospace";
+  font = "Liga SFMono Nerd Font";
   shell = "${pkgs.zsh}/bin/zsh";
 in
 {
@@ -42,7 +42,7 @@ in
         size = 12;
         normal = {
           family = "${font}";
-          style = "Regular";
+          style = "Medium";
         };
         italic = {
           family = "${font}";
