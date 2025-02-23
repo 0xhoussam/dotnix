@@ -27,6 +27,7 @@
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
       flake = false;
     };
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
   outputs =
     {
@@ -42,6 +43,7 @@
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
+          inputs.neovim-nightly-overlay.overlays.default
           inputs.kvlibadwaita.overlays.default
           (final: prev: {
             sf-mono-liga-bin = prev.stdenvNoCC.mkDerivation {
