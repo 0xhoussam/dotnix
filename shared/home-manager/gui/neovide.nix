@@ -21,7 +21,7 @@
             weight = "Medium";
           }
         ];
-        size = 14;
+        size = 12;
       };
     };
   };
