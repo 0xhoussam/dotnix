@@ -1,9 +1,10 @@
 { pkgs, ... }:
 let
-  zjstatusPluginPath = "https://github.com/dj95/zjstatus/releases/download/v0.17.0/zjstatus.wasm";
+  zjstatusPluginPath = "https://github.com/dj95/zjstatus/releases/download/v0.20.2/zjstatus.wasm";
 in
 {
   programs.zellij.enable = true;
+  programs.zellij.enableZshIntegration = false;
   programs.zellij.settings = {
     simplified_ui = true;
     default_shell = "${pkgs.zsh}/bin/zsh";
