@@ -60,9 +60,9 @@ in
     };
 
     decoration = {
-      rounding = 0;
+      rounding = 15;
       blur = {
-        enabled = true;
+        enabled = false;
         size = 3;
         passes = 1;
         new_optimizations = "on";
