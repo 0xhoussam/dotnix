@@ -9,6 +9,7 @@
         v = "nvim";
         m = "make -j `nproc`";
         zl = "zellij";
+        open = "xdg-open";
       };
     };
     shellAliases = {
