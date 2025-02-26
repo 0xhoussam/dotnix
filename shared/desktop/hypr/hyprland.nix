@@ -54,6 +54,10 @@ in
       };
     };
 
+    cursor = {
+      hide_on_key_press = true;
+    };
+
     device = {
       name = "elan-touchscreen";
       enabled = false;

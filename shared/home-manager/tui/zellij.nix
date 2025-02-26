@@ -79,7 +79,7 @@ in
           children
           pane size=1 borderless=true {
               plugin location="${zjstatusPluginPath}" {
-                  format_left  "#[fg=#2ec27e,bg=NONE,bold] [{mode}] {tabs}"
+                  format_left  "#[fg=#2ec27e,bg=NONE,bold] {mode} {tabs}"
                   format_right "#[fg=#fafafa,bg=NONE]{datetime}"
                   format_space "#[bg=NONE]"
 

@@ -17,11 +17,11 @@
       font = {
         normal = [
           {
-            family = "Liga SFMono Nerd Font";
-            weight = "Medium";
+            family = "ZedMono Nerd Font";
+            weight = "Light";
           }
         ];
-        size = 12;
+        size = 14;
       };
     };
   };
