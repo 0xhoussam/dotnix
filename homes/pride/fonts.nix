@@ -26,5 +26,7 @@
     nerd-fonts.fira-code
     nerd-fonts.inconsolata-go
     adwaita-fonts
+    input-fonts
   ];
+  nixpkgs.config.input-fonts.acceptLicense = true;
 }

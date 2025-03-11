@@ -3,9 +3,11 @@
   nixConfig = {
     extra-substituters = [
       "https://colmena.cachix.org"
+      "https://anyrun.cachix.org"
     ];
     extra-trusted-public-keys = [
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+      "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
     ];
   };
   inputs = {
@@ -15,7 +17,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    walker.url = "github:abenz1267/walker";
     kvlibadwaita = {
       url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,13 +29,14 @@
       flake = false;
     };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    anyrun.url = "github:anyrun-org/anyrun";
   };
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
-      walker,
+      anyrun,
       ...
     }@inputs:
     let
@@ -93,8 +95,8 @@
         pride = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            walker.homeManagerModules.default
             ./homes/pride
+            anyrun.homeManagerModules.default
           ];
 
           extraSpecialArgs = {

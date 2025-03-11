@@ -18,10 +18,10 @@
         normal = [
           {
             family = "ZedMono Nerd Font";
-            weight = "Light";
+            weight = "Regular";
           }
         ];
-        size = 14;
+        size = 15;
       };
     };
   };

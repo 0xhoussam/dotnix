@@ -6,7 +6,7 @@ in
 {
   programs.vscode = {
     enable = true;
-    extensions = with pkgs; [
+    profiles.default.extensions = with pkgs; [
       vscode-extensions.vscodevim.vim
       jetbrains-icon-theme
       fleet-theme

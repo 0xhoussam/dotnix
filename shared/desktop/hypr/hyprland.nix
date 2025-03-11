@@ -2,13 +2,16 @@
 let
   alacritty = "${pkgs.alacritty}/bin/alacritty";
   zen-browser = "${inputs.zen-browser.packages."${pkgs.system}".default}/bin/zen";
-  walker = "${pkgs.walker}/bin/walker";
+  anyrun = "${inputs.anyrun.packages."${pkgs.system}".default}/bin/anyrun";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   swww = "${pkgs.swww}/bin/swww";
+  cliphist = "${pkgs.cliphist}/bin/cliphist";
+  wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+  wl-paste = "${pkgs.wl-clipboard}/bin/wl-paste";
   background = ./../../../assets/wallpapers/anime-illustration-minimalism-dark-background-uchiha-madara-hd-wallpaper-e99008dd01dacdebf6f708af90d166dd.jpg;
 in
 {
@@ -90,7 +93,7 @@ in
       "$mod, W, killactive,"
       "$mod, M, exit,"
       "$mod, V, togglefloating,"
-      "$mod, R, exec, ${walker} --theme home-manager --modules applications"
+      "$mod, R, exec, ${anyrun}"
       "$mod, F, fullscreen"
 
       "$mod, h, movefocus, l"
@@ -123,7 +126,7 @@ in
       "$mod, mouse_down, workspace, e+1"
       "$mod, mouse_up, workspace, e-1"
 
-      "$mod SHIFT, V, exec, ${walker} --modules clipboard"
+      "$mod SHIFT, V, exec, ${cliphist} list | ${anyrun} --plugins libstdin.so | ${cliphist} decode | ${wl-copy}"
       "$mod CTRL, L, exec, ${hyprlock}"
       "$mod SHIFT CTRL, L, exec, ${hyprlock} && ${hyprctl} dispatch dpms off"
 
@@ -174,6 +177,10 @@ in
 
       layout = "dwindle";
     };
+
+    layerrule = [
+      "blur, anyrun"
+    ];
 
     exec-once = [
       "${swww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"

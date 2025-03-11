@@ -11,6 +11,7 @@ in
     jetbrains-toolbox
     thunderbird
     ghostty
+    firefox
 
     zathura
     zoom-us
