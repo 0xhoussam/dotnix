@@ -18,6 +18,7 @@
         "cpu"
         "backlight"
         "pulseaudio"
+        "custom/notification"
         "tray"
       ];
       tray = {
@@ -65,6 +66,27 @@
       "custom/logo" = {
         format = "󱄅";
         tooltip = false;
+      };
+
+      "custom/notification" = {
+        tooltip = true;
+        format = "{icon}";
+        format-icons = {
+          notification = "";
+          none = "";
+          dnd-notification = "";
+          dnd-none = "";
+          inhibited-notification = "";
+          inhibited-none = "";
+          dnd-inhibited-notification = "";
+          dnd-inhibited-none = "";
+        };
+        return-type = "json";
+        exec-if = "which swaync-client";
+        exec = "swaync-client -swb";
+        on-click = "swaync-client -t -sw";
+        on-click-right = "swaync-client -d -sw";
+        escape = true;
       };
 
     };
@@ -160,10 +182,16 @@
           margin-right: 10px;
         }
 
+        #custom-notification {
+          padding-right: 10px;
+          margin-right: 10px;
+        }
+
         #custom-logo {
           font-size: 25px;
           margin-right: 25px;
           padding-left: 10px;
+          background-color: #383838;
         }
 
         #tray {

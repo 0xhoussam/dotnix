@@ -23,4 +23,7 @@
     hardware.enableAllFirmware = true;
   };
   config.nixpkgs.config.allowUnfree = true;
+  config.nixpkgs.config.permittedInsecurePackages = [
+    "openssl-1.1.1w"
+  ];
 }

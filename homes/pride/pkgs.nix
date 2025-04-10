@@ -1,4 +1,8 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
 let
   zen-browser = inputs.zen-browser.packages."${pkgs.system}".default;
 in
@@ -12,11 +16,11 @@ in
     thunderbird
     ghostty
     firefox
+    sublime4
 
     zathura
     zoom-us
     zen-browser
-    zed-editor
 
     devenv
     tokei
@@ -49,7 +53,6 @@ in
     wget
     wl-clipboard
     zip
-    yazi
     zoxide
 
     (writeShellScriptBin "reload-failed-services" ''
@@ -65,9 +68,10 @@ in
 
   programs = {
     direnv.enable = true;
-    bat = {
+    zed-editor = {
       enable = true;
-      config.theme = "base16";
+      extraPackages = with pkgs; [ nerd-fonts.jetbrains-mono ];
+
     };
   };
 }

@@ -1,8 +1,13 @@
 {
+  pkgs,
   ...
 }:
 {
 
+  environment.systemPackages = with pkgs; [
+    uutils-coreutils-noprefix
+    clinfo
+  ];
   programs.hyprland = {
     enable = true;
   };

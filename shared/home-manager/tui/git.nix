@@ -10,7 +10,7 @@
         };
         line-numbers = true;
         side-by-side = true;
-        features = "Solarized (dark)";
+        features = "base16-256";
         true-color = "always";
       };
     };

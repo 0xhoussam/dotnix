@@ -6,6 +6,7 @@
     ./zsh.nix
     ./zellij.nix
     ./fish.nix
+    ./bat.nix
   ];
 
   home.packages = with pkgs; [ nixfmt-rfc-style ];

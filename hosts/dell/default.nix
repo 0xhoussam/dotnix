@@ -41,6 +41,9 @@
 
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
+    variables = {
+      ROC_ENABLE_PRE_VEGA = "1";
+    };
   };
 
   system.stateVersion = "24.05";

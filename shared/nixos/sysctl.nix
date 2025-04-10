@@ -1,6 +1,6 @@
 { ... }:
 {
-  # source https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/sysctl.d/99-cachyos-settings.conf 
+  # source https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/sysctl.d/99-cachyos-settings.conf
   # source https://github.com/LudovicoPiero/dotfiles/blob/main/cells/workstations/nixosProfiles/security/default.nix
   boot.kernel.sysctl = {
     # The sysctl swappiness parameter determines the kernel's preference for pushing anonymous pages or page cache to disk in memory-starved situations.
@@ -8,7 +8,7 @@
     # and a value of 100 means IO cost is assumed to be equal.
     "vm.swappiness" = 1;
 
-    # The value controls the tendency of the kernel to reclaim the memory which is used for caching of directory and inode objects (VFS cache). 
+    # The value controls the tendency of the kernel to reclaim the memory which is used for caching of directory and inode objects (VFS cache).
     # Lowering it from the default value of 100 makes the kernel less inclined to reclaim VFS cache (do not set it to 0, this may produce out-of-memory conditions)
     #vm.vfs_cache_pressure=50
 
@@ -17,8 +17,8 @@
     # writing out dirty data.
     "vm.dirty_bytes" = 268435456;
 
-    # page-cluster controls the number of pages up to which consecutive pages are read in from swap in a single attempt. 
-    # This is the swap counterpart to page cache readahead. The mentioned consecutivity is not in terms of virtual/physical addresses, 
+    # page-cluster controls the number of pages up to which consecutive pages are read in from swap in a single attempt.
+    # This is the swap counterpart to page cache readahead. The mentioned consecutivity is not in terms of virtual/physical addresses,
     # but consecutive on swap space - that means they were swapped out together. (Default is 3)
     # increase this value to 1 or 2 if you are using physical swap (1 if ssd, 2 if hdd)
     "vm.page-cluster" = 0;
@@ -51,7 +51,7 @@
     # Restricting access to kernel pointers in the proc filesystem
     "kernel.kptr_restrict" = 2;
 
-    # Disable Kexec, which allows replacing the current running kernel. 
+    # Disable Kexec, which allows replacing the current running kernel.
     "kernel.kexec_load_disabled" = 1;
 
     # Increase the maximum connections
@@ -60,8 +60,8 @@
 
     # Enable TCP Fast Open
     # TCP Fast Open is an extension to the transmission control protocol (TCP) that helps reduce network latency
-    # by enabling data to be exchanged during the sender’s initial TCP SYN [3]. 
-    # Using the value 3 instead of the default 1 allows TCP Fast Open for both incoming and outgoing connections: 
+    # by enabling data to be exchanged during the sender’s initial TCP SYN [3].
+    # Using the value 3 instead of the default 1 allows TCP Fast Open for both incoming and outgoing connections:
     "net.ipv4.tcp_fastopen" = 3;
 
     # Enable BBR3
@@ -69,7 +69,7 @@
     # "net.ipv4.tcp_congestion_control" = "bbr";
 
     # TCP SYN cookie protection
-    # Helps protect against SYN flood attacks. Only kicks in when net.ipv4.tcp_max_syn_backlog is reached: 
+    # Helps protect against SYN flood attacks. Only kicks in when net.ipv4.tcp_max_syn_backlog is reached:
     "net.ipv4.tcp_syncookies" = 1;
 
     # TCP Enable ECN Negotiation by default
@@ -87,7 +87,7 @@
     # Helps kill persistent single connection performance
     "net.ipv4.tcp_slow_start_after_idle" = 0;
 
-    # Protect against tcp time-wait assassination hazards, drop RST packets for sockets in the time-wait state. Not widely supported outside of Linux, but conforms to RFC: 
+    # Protect against tcp time-wait assassination hazards, drop RST packets for sockets in the time-wait state. Not widely supported outside of Linux, but conforms to RFC:
     "net.ipv4.tcp_rfc1337" = 1;
 
     # Set the maximum watches on files
@@ -130,7 +130,7 @@
     # data in the sender’s initial TCP SYN. Setting 3 = enable TCP Fast Open for
     # both incoming and outgoing connections:
     # Bufferbloat mitigations + slight improvement in throughput & latency
-    # "net.ipv4.tcp_congestion_control" = "bbr";
+    "net.ipv4.tcp_congestion_control" = "bbr";
     "net.core.default_qdisc" = "cake";
   };
 

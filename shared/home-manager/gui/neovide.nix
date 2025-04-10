@@ -1,4 +1,7 @@
 { ... }:
+let
+  font = "Iosevka Nerd Font";
+in
 {
   programs.neovide = {
     enable = true;
@@ -14,14 +17,23 @@
       title-hidden = true;
       vsync = true;
       wsl = false;
+      box-drawing = {
+        mode = "native";
+      };
       font = {
         normal = [
           {
-            family = "ZedMono Nerd Font";
+            family = font;
             weight = "Regular";
           }
         ];
-        size = 15;
+        bold = [
+          {
+            family = font;
+            weight = "Semibold";
+          }
+        ];
+        size = 14;
       };
     };
   };

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   fonts.fontconfig = {
     enable = true;
@@ -27,6 +27,7 @@
     nerd-fonts.inconsolata-go
     adwaita-fonts
     input-fonts
+    nerd-fonts.iosevka
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }
