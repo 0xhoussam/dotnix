@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "Iosevka Nerd Font";
+  font = "Liga SFMono Nerd Font";
 in
 {
   programs.neovide = {
@@ -24,16 +24,16 @@ in
         normal = [
           {
             family = font;
-            weight = "Regular";
+            weight = "Semibold";
           }
         ];
         bold = [
           {
             family = font;
-            weight = "Semibold";
+            weight = "Bold";
           }
         ];
-        size = 14;
+        size = 12;
       };
     };
   };

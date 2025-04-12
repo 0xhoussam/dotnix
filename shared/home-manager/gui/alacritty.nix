@@ -20,11 +20,11 @@ in
         size = 12;
         normal = {
           family = "${font}";
-          style = "Medium";
+          style = "Semibold";
         };
         italic = {
           family = "${font}";
-          style = "Italic";
+          style = "Semibolditalic";
         };
         bold = {
           family = "${font}";
