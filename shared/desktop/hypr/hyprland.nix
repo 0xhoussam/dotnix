@@ -57,6 +57,10 @@ in
       hide_on_key_press = true;
     };
 
+    animation = [
+      "windows, 1, 6, default, gnomed"
+    ];
+
     device = {
       name = "elan-touchscreen";
       enabled = false;

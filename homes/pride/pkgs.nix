@@ -17,8 +17,8 @@ in
     ghostty
     firefox
     sublime4
+    spotify
 
-    zathura
     zoom-us
     zen-browser
 
@@ -59,11 +59,14 @@ in
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart
     '')
 
-    (writeShellScriptBin "nv" ''
-      neovide $@ &
-      pid=$!
-      disown $pid
-    '')
+    (writeShellScriptBin "nv" # bash
+      ''
+        export DRI_PRIME=1
+        neovide $@ &
+        pid=$!
+        disown $pid
+      ''
+    )
   ];
 
   programs = {

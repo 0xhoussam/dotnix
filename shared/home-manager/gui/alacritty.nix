@@ -8,6 +8,15 @@ in
 {
   programs.alacritty = {
     enable = true;
+    package = pkgs.symlinkJoin {
+      name = "alacritty";
+      paths = [ pkgs.alacritty ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/alacritty \
+          --set DRI_PRIME 1
+      '';
+    };
     settings = {
       general = {
         live_config_reload = true;

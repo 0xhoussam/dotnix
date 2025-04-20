@@ -27,6 +27,10 @@
         };
       }
     ];
+    ignores = [
+      "todo.md"
+      "TODO.md"
+    ];
     extraConfig = {
       core.excludesfile = "gitignore";
       core.editor = "nvim";
