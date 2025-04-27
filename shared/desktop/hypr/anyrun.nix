@@ -2,7 +2,7 @@
 {
   programs.anyrun = {
     enable = true;
-    package = inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins;
+    # package = inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins;
     config = {
       x = {
         fraction = 0.5;
@@ -17,14 +17,16 @@
       ignoreExclusiveZones = false;
       layer = "overlay";
       hidePluginInfo = true;
-      closeOnClick = false;
+      closeOnClick = true;
       showResultsImmediately = true;
       maxEntries = null;
 
       plugins = [
-        # An array of all the plugins you want, which either can be paths to the .so files, or their packages
-        inputs.anyrun.packages.${pkgs.system}.applications
-        inputs.anyrun.packages.${pkgs.system}.stdin
+      #   # An array of all the plugins you want, which either can be paths to the .so files, or their packages
+      #   inputs.anyrun.packages.${pkgs.system}.applications
+      #   inputs.anyrun.packages.${pkgs.system}.stdin
+                "${pkgs.anyrun}/lib/libapplications.so"
+                "${pkgs.anyrun}/lib/libstdin.so"
       ];
     };
 

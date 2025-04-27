@@ -2,7 +2,7 @@
 let
   alacritty = "${pkgs.alacritty}/bin/alacritty";
   zen-browser = "${inputs.zen-browser.packages."${pkgs.system}".default}/bin/zen";
-  anyrun = "${inputs.anyrun.packages."${pkgs.system}".default}/bin/anyrun";
+  anyrun = "${pkgs.anyrun}/bin/anyrun";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   hyprlock = "${pkgs.hyprlock}/bin/hyprlock";

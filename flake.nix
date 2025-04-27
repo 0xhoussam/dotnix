@@ -3,11 +3,9 @@
   nixConfig = {
     extra-substituters = [
       "https://colmena.cachix.org"
-      "https://anyrun.cachix.org"
     ];
     extra-trusted-public-keys = [
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
-      "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
     ];
   };
   inputs = {
@@ -29,14 +27,14 @@
       flake = false;
     };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    anyrun.url = "github:anyrun-org/anyrun";
+    # anyrun.url = "github:anyrun-org/anyrun";
   };
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
-      anyrun,
+      # anyrun,
       ...
     }@inputs:
     let
@@ -96,7 +94,7 @@
           inherit pkgs;
           modules = [
             ./homes/pride
-            anyrun.homeManagerModules.default
+            # anyrun.homeManagerModules.default
           ];
 
           extraSpecialArgs = {
