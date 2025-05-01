@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "Liga SFMono Nerd Font";
+  font = "FiraCode Nerd Font Propo";
 in
 {
   programs.neovide = {
@@ -24,7 +24,7 @@ in
         normal = [
           {
             family = font;
-            weight = "Semibold";
+            weight = "Regular";
           }
         ];
         bold = [
@@ -33,7 +33,7 @@ in
             weight = "Bold";
           }
         ];
-        size = 12;
+        size = 14;
       };
     };
   };

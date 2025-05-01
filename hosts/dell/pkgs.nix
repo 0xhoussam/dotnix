@@ -25,8 +25,4 @@
     enable = true;
     indicator = true;
   };
-
-  programs.steam = {
-    enable = true;
-  };
 }
