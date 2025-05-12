@@ -3,9 +3,6 @@
   pkgs,
   ...
 }:
-let
-  zen-browser = inputs.zen-browser.packages."${pkgs.system}".default;
-in
 {
   home.packages = with pkgs; [
     brave
@@ -20,7 +17,6 @@ in
     spotify
 
     zoom-us
-    zen-browser
 
     devenv
     tokei

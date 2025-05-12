@@ -19,7 +19,6 @@
       url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
     hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     hyprcursor.url = "github:hyprwm/hyprcursor";
     sf-mono-liga-src = {
@@ -27,14 +26,13 @@
       flake = false;
     };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    # anyrun.url = "github:anyrun-org/anyrun";
+    apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
   };
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
-      # anyrun,
       ...
     }@inputs:
     let

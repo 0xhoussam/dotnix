@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "FiraCode Nerd Font Propo";
+  font = "Input Mono Condensed";
 in
 {
   programs.neovide = {

@@ -1,7 +1,6 @@
 { pkgs, inputs, ... }:
 let
   alacritty = "${pkgs.alacritty}/bin/alacritty";
-  zen-browser = "${inputs.zen-browser.packages."${pkgs.system}".default}/bin/zen";
   anyrun = "${pkgs.anyrun}/bin/anyrun";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
@@ -88,7 +87,7 @@ in
     gestures.workspace_swipe = "on";
     bind = [
       "$mod, Return, exec, ${alacritty}"
-      "$mod, b, exec, ${zen-browser}"
+      "$mod, b, exec,   flatpak run app.zen_browser.zen "
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
       "$mod, M, exit,"

@@ -4,10 +4,12 @@
     enable = true;
     defaultFonts = {
       serif = [
+          "SFProDisplay Nerd Font"
         "IBM Plex Serif"
         "IBM Plex Sans Arabic"
       ];
       sansSerif = [
+          "SFProDisplay Nerd Font"
         "Adwaita Sans"
         "IBM Plex Sans"
         "IBM Plex Sans Arabic"
@@ -28,6 +30,7 @@
     adwaita-fonts
     input-fonts
     nerd-fonts.iosevka
+    inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }

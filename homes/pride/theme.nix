@@ -19,11 +19,11 @@
       package = pkgs.papirus-icon-theme;
     };
 
-    # font = {
-    #   name = "Adwaita Sans";
-    #   size = 11;
-    #   package = pkgs.adwaita-fonts;
-    # };
+    font = {
+      name = "SFProDisplay Nerd Font";
+      size = 11;
+      package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
+    };
 
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = true;
