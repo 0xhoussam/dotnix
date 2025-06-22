@@ -92,7 +92,6 @@
           inherit pkgs;
           modules = [
             ./homes/pride
-            # anyrun.homeManagerModules.default
           ];
 
           extraSpecialArgs = {

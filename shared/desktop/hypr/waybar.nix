@@ -96,7 +96,7 @@
     ''
       * {
           font-family:
-            Adwaita Sans,
+            SFProDisplay Nerd Font,
             FontAwesome,
             sans-serif
             ;

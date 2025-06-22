@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   ...
 }:
@@ -8,13 +7,14 @@
     brave
     mpv
     pavucontrol
-    postman
     jetbrains-toolbox
     thunderbird
     ghostty
     firefox
     sublime4
     spotify
+    imv
+    kitty
 
     zoom-us
 

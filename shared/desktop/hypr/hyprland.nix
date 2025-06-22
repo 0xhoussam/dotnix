@@ -1,6 +1,7 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 let
-  alacritty = "${pkgs.alacritty}/bin/alacritty";
+  # alacritty = "${pkgs.alacritty}/bin/alacritty";
+  kitty = "${pkgs.kitty}/bin/kitty";
   anyrun = "${pkgs.anyrun}/bin/anyrun";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
@@ -10,7 +11,6 @@ let
   swww = "${pkgs.swww}/bin/swww";
   cliphist = "${pkgs.cliphist}/bin/cliphist";
   wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
-  wl-paste = "${pkgs.wl-clipboard}/bin/wl-paste";
   background = ./../../../assets/wallpapers/anime-illustration-minimalism-dark-background-uchiha-madara-hd-wallpaper-e99008dd01dacdebf6f708af90d166dd.jpg;
 in
 {
@@ -57,7 +57,7 @@ in
     };
 
     animation = [
-      "windows, 1, 6, default, gnomed"
+      "windows, 1, 6, default, slide"
     ];
 
     device = {
@@ -86,7 +86,7 @@ in
     master.new_status = true;
     gestures.workspace_swipe = "on";
     bind = [
-      "$mod, Return, exec, ${alacritty}"
+      "$mod, Return, exec, ${kitty}"
       "$mod, b, exec,   flatpak run app.zen_browser.zen "
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"

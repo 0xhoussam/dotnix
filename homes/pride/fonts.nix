@@ -31,6 +31,7 @@
     input-fonts
     nerd-fonts.iosevka
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
+    nerd-fonts.meslo-lg
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }

@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "Input Mono Condensed";
+  font = "Liga SFMono Nerd Font";
 in
 {
   programs.neovide = {
@@ -24,7 +24,7 @@ in
         normal = [
           {
             family = font;
-            weight = "Regular";
+            weight = "Meduim";
           }
         ];
         bold = [
@@ -33,7 +33,7 @@ in
             weight = "Bold";
           }
         ];
-        size = 14;
+        size = 12;
       };
     };
   };

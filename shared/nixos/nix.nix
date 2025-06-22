@@ -17,6 +17,7 @@
         "read-only-local-store"
       ];
       trusted-users = [ "@wheel" ];
+      auto-optimise-store = true;
       warn-dirty = false;
       substituters = [
         "https://nix-community.cachix.org"
