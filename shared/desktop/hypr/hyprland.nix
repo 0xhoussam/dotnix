@@ -11,7 +11,7 @@ let
   swww = "${pkgs.swww}/bin/swww";
   cliphist = "${pkgs.cliphist}/bin/cliphist";
   wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
-  background = ./../../../assets/wallpapers/anime-illustration-minimalism-dark-background-uchiha-madara-hd-wallpaper-e99008dd01dacdebf6f708af90d166dd.jpg;
+  background = ../../../assets/wallpapers/2355728.jpg;
 in
 {
   imports = [
