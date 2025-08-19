@@ -19,19 +19,14 @@
   };
   home.packages = with pkgs; [
     ibm-plex
-    ubuntu_font_family
     sf-mono-liga-bin
-    victor-mono
     nerd-fonts.zed-mono
     nerd-fonts.jetbrains-mono
-    nerd-fonts.caskaydia-cove
-    nerd-fonts.fira-code
-    nerd-fonts.inconsolata-go
     adwaita-fonts
     input-fonts
-    nerd-fonts.iosevka
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
-    nerd-fonts.meslo-lg
+    martian-mono
+    lato
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }

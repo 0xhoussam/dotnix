@@ -7,6 +7,8 @@
       gcc
       stylua
       python3
+      cargo
+      rustc
     ];
   };
 }
