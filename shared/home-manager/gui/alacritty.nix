@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  font = "ZedMono Nerd Font";
+  font = "JetBrainsMono Nerd Font";
   shell = "${pkgs.zsh}/bin/zsh";
   corbonfox_theme_path = ".config/alacritty/theme/corbonfox.toml";
   fleet_theme_path = ".config/alacritty/theme/fleet.toml";
@@ -29,11 +29,11 @@ in
         size = 12;
         normal = {
           family = "${font}";
-          style = "Semibold";
+          style = "Medium";
         };
         italic = {
           family = "${font}";
-          style = "Semibolditalic";
+          style = "Mediumitalic";
         };
         bold = {
           family = "${font}";

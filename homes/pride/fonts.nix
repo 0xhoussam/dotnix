@@ -1,4 +1,7 @@
 { pkgs, inputs, ... }:
+let
+    zenbones = inputs.zenbones.packages.${pkgs.system};
+in
 {
   fonts.fontconfig = {
     enable = true;
@@ -27,6 +30,11 @@
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     martian-mono
     lato
+    zenbones.zenbones-mono
+    zenbones.zenbones-brainy
+    zenbones.zenbones-prose
+    zenbones.zenbones-proto
+    zenbones.zenbones-slab
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }

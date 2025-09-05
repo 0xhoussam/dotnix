@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "ZedMono Nerd Font";
+  font = "Zenbones Brainy";
 in
 {
   programs.neovide = {
@@ -33,7 +33,7 @@ in
             weight = "Bold";
           }
         ];
-        size = 15;
+        size = 13;
       };
     };
   };
