@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  font = "JetBrainsMono Nerd Font";
+  font = "Zenbones Proto";
   shell = "${pkgs.zsh}/bin/zsh";
   corbonfox_theme_path = ".config/alacritty/theme/corbonfox.toml";
   fleet_theme_path = ".config/alacritty/theme/fleet.toml";

@@ -28,12 +28,16 @@
             pname = "zenbones-${lib.toLower family}";
             version = "2.400";
             src = pkgs.fetchzip {
-              inherit hash;
-              url =
-                "https://github.com/zenbones-theme/zenbones-mono/releases/download/v${version}/Zenbones-${family}-TTF"
-                + (if unhinted == true then "-Unhinted" else "")
-                + ".zip";
+                url = "https://github.com/zenbones-theme/zenbones-mono/releases/download/v2.400/Zenbones-Proto-TTF.zip";
+                hash = "sha256-lxUIew2xwDnHnthIhsK3GfB/NlGzY3dZarBWYEAvJrg=";
             };
+            # src = pkgs.fetchzip {
+            #   inherit hash;
+            #   url =
+            #     "https://github.com/zenbones-theme/zenbones-mono/releases/download/v${version}/Zenbones-${family}-TTF"
+            #     + (if unhinted == true then "-Unhinted" else "")
+            #     + ".zip";
+            # };
             dontUnpack = true;
             sourceRoot = ".";
             installPhase = ''

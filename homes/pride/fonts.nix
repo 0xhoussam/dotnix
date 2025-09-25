@@ -25,16 +25,19 @@ in
     sf-mono-liga-bin
     nerd-fonts.zed-mono
     nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.fira-mono
     adwaita-fonts
     input-fonts
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     martian-mono
     lato
-    zenbones.zenbones-mono
-    zenbones.zenbones-brainy
-    zenbones.zenbones-prose
+    # zenbones.zenbones-mono
+    # zenbones.zenbones-brainy
+    # zenbones.zenbones-prose
     zenbones.zenbones-proto
-    zenbones.zenbones-slab
+    # zenbones.zenbones-slab
+    monaspace
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }

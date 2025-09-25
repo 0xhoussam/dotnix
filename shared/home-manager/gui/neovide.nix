@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "Zenbones Brainy";
+  font = "Zenbones Proto";
 in
 {
   programs.neovide = {
@@ -24,7 +24,7 @@ in
         normal = [
           {
             family = font;
-            weight = "Meduim";
+            weight = "Medium";
           }
         ];
         bold = [
@@ -33,7 +33,7 @@ in
             weight = "Bold";
           }
         ];
-        size = 13;
+        size = 15;
       };
     };
   };

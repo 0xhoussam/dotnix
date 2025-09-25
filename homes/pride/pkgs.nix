@@ -15,6 +15,8 @@
     spotify
     imv
     kitty
+    nmgui
+    code-cursor
 
     zoom-us
 
