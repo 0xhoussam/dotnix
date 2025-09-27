@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 let
   # alacritty = "${pkgs.alacritty}/bin/alacritty";
   kitty = "${pkgs.kitty}/bin/kitty";
@@ -34,11 +34,15 @@ in
     env = HYPRCURSOR_THEME,phinger-cursors-dark-hyprcursor
     env = HYPRCURSOR_SIZE,22
   '';
+  wayland.windowManager.hyprland.plugins = [
+    inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
+  ];
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
     monitor = [
       "eDP-1,preferred, auto, 1, bitdepth, 8"
+      "HDMI-A-1,1920x1080@100,0x0,1,mirror,eDP-1"
     ];
     # monitor = [
     #   "eDP-1,preferred, auto, 1, bitdepth, 8"
