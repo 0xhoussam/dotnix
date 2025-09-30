@@ -2,7 +2,6 @@
 {
   programs.anyrun = {
     enable = true;
-    # package = inputs.anyrun.packages.${pkgs.system}.anyrun-with-all-plugins;
     config = {
       x = {
         fraction = 0.5;
@@ -22,7 +21,6 @@
       maxEntries = null;
 
       plugins = [
-      #   # An array of all the plugins you want, which either can be paths to the .so files, or their packages
       #   inputs.anyrun.packages.${pkgs.system}.applications
       #   inputs.anyrun.packages.${pkgs.system}.stdin
                 "${pkgs.anyrun}/lib/libapplications.so"
@@ -30,8 +28,6 @@
       ];
     };
 
-    # Inline comments are supported for language injection into
-    # multi-line strings with Treesitter! (Depends on your editor)
     extraCss = # css
       ''
                 #window,
@@ -40,10 +36,10 @@
                 #plugin,
                 #main {
                       /* background: transparent; */
-                    background: rgba(24, 24, 24, 0.8);
+                    background: rgba(24, 24, 24, 0.6);
                     }
                 #entry {
-                    background: rgba(24, 24, 24, 0.8);
+                    background: rgba(24, 24, 24, 0.6);
                 }
 
         #match:hover {

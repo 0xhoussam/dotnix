@@ -11,7 +11,7 @@ let
   swww = "${pkgs.swww}/bin/swww";
   cliphist = "${pkgs.cliphist}/bin/cliphist";
   wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
-  background = ../../../assets/wallpapers/2355728.jpg;
+  background = ../../../assets/wallpapers/tanjiro.jpg;
 in
 {
   imports = [
@@ -42,7 +42,7 @@ in
 
     monitor = [
       "eDP-1,preferred, auto, 1, bitdepth, 8"
-      "HDMI-A-1,1920x1080@100,0x0,1,mirror,eDP-1"
+      "HDMI-A-1,preferred,0x0,2,mirror,eDP-1"
     ];
     # monitor = [
     #   "eDP-1,preferred, auto, 1, bitdepth, 8"
@@ -80,10 +80,11 @@ in
     decoration = {
       rounding = 15;
       blur = {
-        enabled = false;
-        size = 3;
+        enabled = true;
+        size = 5;
         passes = 1;
         new_optimizations = "on";
+        vibrancy = 0.1696;
       };
 
       shadow = {
@@ -95,8 +96,11 @@ in
       no_update_news = true;
     };
 
+    gesture = [
+        "3, horizontal, workspace"
+    ];
+
     master.new_status = true;
-    gestures.workspace_swipe = "on";
     bind = [
       "$mod, Return, exec, ${kitty}"
       "$mod, b, exec,   flatpak run app.zen_browser.zen "
@@ -191,6 +195,7 @@ in
 
     layerrule = [
       "blur, anyrun"
+      "blur, waybar"
     ];
 
     exec-once = [

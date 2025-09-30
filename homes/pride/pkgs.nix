@@ -14,7 +14,6 @@
     sublime4
     spotify
     imv
-    kitty
     nmgui
     code-cursor
 

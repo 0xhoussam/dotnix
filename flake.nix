@@ -102,6 +102,15 @@
             inherit inputs;
           };
         };
+        lubellion = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./homes/lubellion
+          ];
+          extraSpecialArgs = {
+            inherit inputs;
+          };
+        };
       };
 
       devShells = forEachSupportedSystem (
