@@ -6,5 +6,6 @@
     ./neovide.nix
     ./zathura.nix
     ./kitty.nix
+    ./ghostty.nix
   ];
 }
