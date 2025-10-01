@@ -89,6 +89,15 @@
             ./hosts/dell
           ];
         };
+        bystial = lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            ./hosts/bystial
+          ];
+        };
       };
 
       homeConfigurations = {
