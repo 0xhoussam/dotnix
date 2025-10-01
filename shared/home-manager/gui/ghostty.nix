@@ -44,6 +44,8 @@
         selection-foreground = "f2f4f8";
       };
     };
+  };
+
     home.file.".config/ghostty/shader/cursor_smear.glsl".text = ''
               float getSdfRectangle(in vec2 p, in vec2 xy, in vec2 b)
       {
@@ -164,5 +166,4 @@
           fragColor = mix(fragColor, newColor, step(sdfCurrentCursor, easedProgress * lineLength));
       }
     '';
-  };
 }
