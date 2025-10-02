@@ -19,10 +19,28 @@
         "backlight"
         "pulseaudio"
         "custom/notification"
+        "battery"
         "tray"
       ];
       tray = {
         spacing = 16;
+      };
+      battery = {
+        bat = "BAT0";
+        interval = 60;
+        states = {
+          warning = 30;
+          critical = 15;
+        };
+        format = "{capacity}% {icon}";
+        format-icons = [
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
+        max-length = 25;
       };
       clock = {
         format = "{:%d %b   %H:%M}";
@@ -178,6 +196,11 @@
         }
 
         #cpu {
+          padding-right: 10px;
+          margin-right: 10px;
+        }
+
+        #battery {
           padding-right: 10px;
           margin-right: 10px;
         }

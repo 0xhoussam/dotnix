@@ -24,7 +24,7 @@ in
         normal = [
           {
             family = font;
-            weight = "Medium";
+            weight = "Regular";
           }
         ];
         bold = [

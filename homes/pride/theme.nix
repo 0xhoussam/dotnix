@@ -9,11 +9,6 @@
       name = "adw-gtk3";
       package = pkgs.adw-gtk3;
     };
-    cursorTheme = {
-      package = pkgs.phinger-cursors;
-      name = "phinger-cursors-darkr";
-      size = 22;
-    };
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;

@@ -44,10 +44,6 @@ in
       "eDP-1,preferred, auto, 1, bitdepth, 8"
       "HDMI-A-1,preferred,0x0,2,mirror,eDP-1"
     ];
-    # monitor = [
-    #   "eDP-1,preferred, auto, 1, bitdepth, 8"
-    #   "HDMI-A-1, 1920x1080@100, 1920x0, 1"
-    # ];
 
     workspace = [
       "3,monitor:HDMI-A-1"
@@ -110,6 +106,8 @@ in
       "$mod, V, togglefloating,"
       "$mod, R, exec, ${anyrun}"
       "$mod, F, fullscreen"
+
+      "$mod SHIFT, h, cyclenext"
 
       "$mod, h, movefocus, l"
       "$mod, l, movefocus, r"
