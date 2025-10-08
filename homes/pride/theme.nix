@@ -9,6 +9,7 @@
       name = "adw-gtk3";
       package = pkgs.adw-gtk3;
     };
+
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
@@ -40,16 +41,6 @@
       enable = true;
       auto = false;
     };
-  };
-
-  home.pointerCursor = {
-    name = "phinger-cursors-dark";
-    package = pkgs.phinger-cursors;
-    size = 22;
-    gtk.enable = true;
-    hyprcursor.enable = true;
-    hyprcursor.size = 22;
-    x11.enable = true;
   };
 
   dconf.enable = true;

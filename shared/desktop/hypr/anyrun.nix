@@ -21,32 +21,85 @@
       maxEntries = null;
 
       plugins = [
-      #   inputs.anyrun.packages.${pkgs.system}.applications
-      #   inputs.anyrun.packages.${pkgs.system}.stdin
-                "${pkgs.anyrun}/lib/libapplications.so"
-                "${pkgs.anyrun}/lib/libstdin.so"
+        #   inputs.anyrun.packages.${pkgs.system}.applications
+        #   inputs.anyrun.packages.${pkgs.system}.stdin
+        "${pkgs.anyrun}/lib/libapplications.so"
+        "${pkgs.anyrun}/lib/libstdin.so"
       ];
     };
 
     extraCss = # css
       ''
-                #window,
-                #match,
-                #entry,
-                #plugin,
-                #main {
-                      /* background: transparent; */
-                    background: rgba(24, 24, 24, 0.6);
-                    }
-                #entry {
-                    background: rgba(24, 24, 24, 0.6);
-                }
+        @define-color theme_bg_color #181818;
+        @define-color theme_selected_bg_color #52a7f6;
 
-        #match:hover {
-            background: rgba(82, 167, 246, 0.6);
+        window {
+          background: transparent;
         }
-        #match:selected {
-          background: rgba(82, 167, 246, 1);
+
+        box.main {
+          padding: 5px;
+          margin: 10px;
+          border-radius: 10px;
+          border: 2px solid @theme_selected_bg_color;
+          background-color: @theme_bg_color;
+          color: #ffffff;
+          box-shadow: 0 0 5px black;
+        }
+
+        * {
+          color: #ffffff;
+        }
+
+        text {
+          min-height: 30px;
+          padding: 5px;
+          border-radius: 5px;
+        }
+
+        .matches {
+          background-color: rgba(0, 0, 0, 0);
+          border-radius: 10px;
+        }
+
+        box.plugin:first-child {
+          margin-top: 5px;
+        }
+
+        box.plugin.info {
+          min-width: 200px;
+        }
+
+        list.plugin {
+          background-color: rgba(0, 0, 0, 0);
+        }
+
+        label.match.description {
+          font-size: 10px;
+        }
+
+        label.plugin.info {
+          font-size: 14px;
+        }
+
+        .match {
+          background: transparent;
+        }
+
+        .match:selected {
+          border-left: 4px solid @theme_selected_bg_color;
+          background: transparent;
+          animation: fade 0.1s linear;
+        }
+
+        @keyframes fade {
+          0% {
+            opacity: 0;
+          }
+
+          100% {
+            opacity: 1;
+          }
         }
       '';
   };

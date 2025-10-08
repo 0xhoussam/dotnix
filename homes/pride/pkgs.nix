@@ -1,4 +1,5 @@
 {
+    inputs,
   pkgs,
   ...
 }:
@@ -16,6 +17,7 @@
     imv
     nmgui
     code-cursor
+    inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     zoom-us
 

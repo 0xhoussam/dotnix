@@ -1,7 +1,6 @@
 { inputs, pkgs, ... }:
 let
-  # alacritty = "${pkgs.alacritty}/bin/alacritty";
-  kitty = "${pkgs.kitty}/bin/kitty";
+  ghostty = "${pkgs.ghostty}/bin/ghostty";
   anyrun = "${pkgs.anyrun}/bin/anyrun";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
@@ -31,8 +30,8 @@ in
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
   wayland.windowManager.hyprland.extraConfig = ''
-    env = HYPRCURSOR_THEME,phinger-cursors-dark-hyprcursor
-    env = HYPRCURSOR_SIZE,22
+    env = HYPRCURSOR_THEME,McMojave
+    env = HYPRCURSOR_SIZE,24
   '';
   wayland.windowManager.hyprland.plugins = [
     inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
@@ -77,7 +76,7 @@ in
       rounding = 15;
       blur = {
         enabled = true;
-        size = 5;
+        size = 3;
         passes = 1;
         new_optimizations = "on";
         vibrancy = 0.1696;
@@ -98,8 +97,8 @@ in
 
     master.new_status = true;
     bind = [
-      "$mod, Return, exec, ${kitty}"
-      "$mod, b, exec,   flatpak run app.zen_browser.zen "
+      "$mod, Return, exec, ${ghostty}"
+      "$mod, b, exec, flatpak run app.zen_browser.zen "
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
       "$mod, M, exit,"
@@ -192,7 +191,6 @@ in
     };
 
     layerrule = [
-      "blur, anyrun"
       "blur, waybar"
     ];
 

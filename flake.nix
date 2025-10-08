@@ -9,7 +9,6 @@
     ];
   };
   inputs = {
-    # NixOS official package source, using the nixos-23.11 branch here
     nixpkgs.url = "nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -19,7 +18,6 @@
       url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
     hyprcursor.url = "github:hyprwm/hyprcursor";
     sf-mono-liga-src = {
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
@@ -31,6 +29,7 @@
     Hyprspace = {
       url = "github:KZDKM/Hyprspace";
     };
+    mcmojave-hyprcursor.url = "github:libadoxon/mcmojave-hyprcursor";
   };
   outputs =
     {

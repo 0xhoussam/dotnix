@@ -27,7 +27,7 @@
       gen_default_app "nemo.desktop" [
         "inode/directory"
       ]
-      // gen_default_app "zen.desktop" [
+      // gen_default_app "app.zen_browser.zen.desktop" [
         "x-scheme-handler/http"
         "x-scheme-handler/https"
         "x-scheme-handler/chrome"
@@ -59,6 +59,20 @@
         "image/x-portable-bitmap"
         "image/x-portable-graymap"
         "image/x-portable-pixmap"
+      ]
+      // gen_default_app "org.libreoffice.LibreOffice.desktop" [
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        "application/msword"
+        "application/vnd.oasis.opendocument.text"
+        "application/rtf"
+        "text/rtf"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.ms-excel"
+        "application/vnd.oasis.opendocument.spreadsheet"
+        "text/csv"
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        "application/vnd.ms-powerpoint"
+        "application/vnd.oasis.opendocument.presentation"
       ]
       // gen_default_app "org.pwmt.zathura.desktop" [
         "application/pdf"
