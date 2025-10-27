@@ -17,7 +17,8 @@
     imv
     nmgui
     code-cursor
-    inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
+    gns3-gui
+    openvpn3
 
     zoom-us
 
@@ -53,6 +54,7 @@
     wl-clipboard
     zip
     zoxide
+    inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     (writeShellScriptBin "reload-failed-services" ''
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart

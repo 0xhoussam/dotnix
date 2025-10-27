@@ -35,7 +35,7 @@
     ];
     packages = with pkgs; [
       vim
-      nemo-with-extensions
+      nautilus
     ];
   };
 

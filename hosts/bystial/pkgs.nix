@@ -7,6 +7,7 @@
   environment.systemPackages = with pkgs; [
     uutils-coreutils-noprefix
     clinfo
+    gns3-server
   ];
   programs.hyprland = {
     enable = true;

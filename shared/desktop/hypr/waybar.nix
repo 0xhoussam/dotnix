@@ -65,11 +65,13 @@
         scroll-step = 1;
         on-click = "pavucontrol";
         ignored-sinks = [ "Easy Effects Sink" ];
+        interval = 20;
       };
       backlight = {
         device = "intel_backlight";
         format = "{percent}%  {icon}";
         format-icons = [ "" ];
+        interval = 20;
       };
       "hyprland/workspaces" = {
         format = "{name}";
@@ -78,6 +80,7 @@
       cpu = {
         format = "{usage}% ";
         tooltip = false;
+        interval = 30;
         # on-click = "flatpak run net.nokyan.Resources";
       };
 

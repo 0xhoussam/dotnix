@@ -8,6 +8,8 @@
     settings = {
       font-family = "Zenbones Proto";
       font-style = "Medium";
+      font-size = 17;
+      working-directory = "/home/pride/";
       "gtk-tabs-location" = "hidden";
       "bold-is-bright" = true;
       theme = "carbonfox";

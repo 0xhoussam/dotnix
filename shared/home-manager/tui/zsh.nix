@@ -10,6 +10,11 @@
         m = "make -j `nproc`";
         zl = "zellij";
         open = "xdg-open";
+        dcu = "docker compose up";
+        dcd = "docker compose down";
+        dce = "docker compose exec";
+        dcr = "docker compose restart";
+        dcb = "docker compose build";
       };
     };
     shellAliases = {

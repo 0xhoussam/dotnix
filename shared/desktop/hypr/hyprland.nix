@@ -33,15 +33,12 @@ in
     env = HYPRCURSOR_THEME,McMojave
     env = HYPRCURSOR_SIZE,24
   '';
-  wayland.windowManager.hyprland.plugins = [
-    inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
-  ];
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
     monitor = [
       "eDP-1,preferred, auto, 1, bitdepth, 8"
-      "HDMI-A-1,preferred,0x0,2,mirror,eDP-1"
+      "HDMI-A-1,1920x1080@100,1920x0,1"
     ];
 
     workspace = [

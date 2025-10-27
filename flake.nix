@@ -26,9 +26,6 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     zenbones.url = "./flakes/zenbones-mono-flake";
-    Hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-    };
     mcmojave-hyprcursor.url = "github:libadoxon/mcmojave-hyprcursor";
   };
   outputs =
