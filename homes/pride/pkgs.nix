@@ -17,7 +17,6 @@
     imv
     nmgui
     code-cursor
-    gns3-gui
     openvpn3
 
     zoom-us

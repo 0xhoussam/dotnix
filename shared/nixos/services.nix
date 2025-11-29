@@ -14,4 +14,6 @@
     };
   };
   console.keyMap = "us";
+
+  systemd.coredump.enable = true;
 }

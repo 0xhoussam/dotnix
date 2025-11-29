@@ -27,6 +27,7 @@ in
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.fira-mono
+    nerd-fonts.iosevka
     adwaita-fonts
     input-fonts
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd

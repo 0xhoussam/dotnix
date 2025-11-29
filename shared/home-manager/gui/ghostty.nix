@@ -6,10 +6,11 @@
     enableZshIntegration = true;
     installVimSyntax = true;
     settings = {
-      font-family = "Zenbones Proto";
+      font-family = "Iosevka Nerd Font";
       font-style = "Medium";
       font-size = 17;
       working-directory = "/home/pride/";
+      window-inherit-working-directory = false;
       "gtk-tabs-location" = "hidden";
       "bold-is-bright" = true;
       theme = "carbonfox";

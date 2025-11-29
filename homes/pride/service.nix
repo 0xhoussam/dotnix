@@ -3,6 +3,17 @@ let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
 in
 {
+  services.udiskie = {
+    enable = true;
+    settings = {
+      # workaround for
+      # https://github.com/nix-community/home-manager/issues/632
+      program_options = {
+        # replace with your favorite file manager
+        file_manager = "${pkgs.nemo-with-extensions}/bin/nemo";
+      };
+    };
+  };
   systemd.user.services = {
     auto-hide-waybar = {
       Install = {
