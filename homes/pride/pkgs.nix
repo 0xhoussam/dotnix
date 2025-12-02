@@ -18,6 +18,7 @@
     nmgui
     code-cursor
     openvpn3
+    jetbrains.datagrip
 
     zoom-us
 
