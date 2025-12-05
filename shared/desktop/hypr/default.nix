@@ -5,7 +5,7 @@
     ./waybar.nix
     ./wofi.nix
     ./swww.nix
-    ./anyrun.nix
+    ./vicinie.nix
   ];
 
   home.packages = [

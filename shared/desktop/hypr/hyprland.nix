@@ -1,16 +1,15 @@
 { inputs, pkgs, ... }:
 let
   ghostty = "${pkgs.ghostty}/bin/ghostty";
-  anyrun = "${pkgs.anyrun}/bin/anyrun";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   swww = "${pkgs.swww}/bin/swww";
-  cliphist = "${pkgs.cliphist}/bin/cliphist";
-  wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
   background = ../../../assets/wallpapers/tanjiro.jpg;
+  tmp = inputs.vicinae.packages.${pkgs.system}.default;
+  vicinae = "${tmp}/bin/vicinae";
 in
 {
   imports = [
@@ -89,7 +88,7 @@ in
     };
 
     gesture = [
-        "3, horizontal, workspace"
+      "3, horizontal, workspace"
     ];
 
     master.new_status = true;
@@ -100,7 +99,7 @@ in
       "$mod, W, killactive,"
       "$mod, M, exit,"
       "$mod, V, togglefloating,"
-      "$mod, R, exec, ${anyrun}"
+      "$mod, R, exec, ${vicinae} toggle"
       "$mod, F, fullscreen"
 
       "$mod SHIFT, h, cyclenext"
@@ -135,7 +134,6 @@ in
       "$mod, mouse_down, workspace, e+1"
       "$mod, mouse_up, workspace, e-1"
 
-      "$mod SHIFT, V, exec, ${cliphist} list | ${anyrun} --plugins libstdin.so | ${cliphist} decode | ${wl-copy}"
       "$mod CTRL, L, exec, ${hyprlock}"
       "$mod SHIFT CTRL, L, exec, ${hyprlock} && ${hyprctl} dispatch dpms off"
 
@@ -174,6 +172,7 @@ in
     misc = {
       mouse_move_enables_dpms = true;
       key_press_enables_dpms = true;
+      focus_on_activate = true;
     };
 
     general = {
@@ -189,10 +188,13 @@ in
 
     layerrule = [
       "blur, waybar"
+      "blur,vicinae"
+      "ignorealpha 0, vicinae"
     ];
 
     exec-once = [
       "${swww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
+      "${vicinae} server"
     ];
   };
 }

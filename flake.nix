@@ -3,9 +3,11 @@
   nixConfig = {
     extra-substituters = [
       "https://colmena.cachix.org"
+      "https://vicinae.cachix.org"
     ];
     extra-trusted-public-keys = [
       "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+      "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
     ];
   };
   inputs = {
@@ -27,12 +29,14 @@
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     zenbones.url = "./flakes/zenbones-mono-flake";
     mcmojave-hyprcursor.url = "github:libadoxon/mcmojave-hyprcursor";
+    vicinae.url = "github:vicinaehq/vicinae"; # tell Nixos where to get Vicinae
   };
   outputs =
     {
       self,
       nixpkgs,
       home-manager,
+      vicinae,
       ...
     }@inputs:
     let
@@ -100,6 +104,7 @@
         pride = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
+            vicinae.homeManagerModules.default
             ./homes/pride
           ];
 
