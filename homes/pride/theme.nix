@@ -11,8 +11,8 @@
     };
 
     iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      name = "MoreWaita";
+      package = pkgs.morewaita-icon-theme;
     };
 
     font = {
@@ -48,6 +48,9 @@
     "org/gnome/desktop/interface".color-scheme = "prefer-dark";
     "org/gnome/TextEditor" = {
       keybindings = "vim";
+    };
+    "org/gnome/desktop/interface" = {
+      icon-theme = "MoreWaita";
     };
   };
 }
