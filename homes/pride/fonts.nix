@@ -33,6 +33,7 @@ in
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     martian-mono
     lato
+    nerd-fonts.caskaydia-mono
     # zenbones.zenbones-mono
     # zenbones.zenbones-brainy
     # zenbones.zenbones-prose
