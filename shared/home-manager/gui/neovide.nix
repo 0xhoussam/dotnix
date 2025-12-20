@@ -33,7 +33,7 @@ in
             weight = "Bold";
           }
         ];
-        size = 15;
+        size = 14;
       };
     };
   };
