@@ -8,8 +8,7 @@ let
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   swww = "${pkgs.swww}/bin/swww";
   background = ../../../assets/wallpapers/tanjiro.jpg;
-  tmp = inputs.vicinae.packages.${pkgs.system}.default;
-  vicinae = "${tmp}/bin/vicinae";
+  vicinae = "${inputs.vicinae.packages.${pkgs.system}.default}/bin/vicinae";
 in
 {
   imports = [
@@ -37,7 +36,8 @@ in
 
     monitor = [
       "eDP-1,preferred, auto, 1, bitdepth, 8"
-      "HDMI-A-1,1920x1080@100,1920x0,1"
+      "HDMI-A-1,1920x1080@75,1920x0,1"
+      # "HDMI-A-1,preferred,auto,1,mirror,eDP-1"
     ];
 
     workspace = [
@@ -60,7 +60,7 @@ in
     };
 
     animation = [
-      "windows, 1, 6, default, slide"
+      "windows, 1, 6, default, popin"
     ];
 
     device = {
@@ -91,6 +91,10 @@ in
       "3, horizontal, workspace"
     ];
 
+    binds = {
+      movefocus_cycles_fullscreen = true;
+    };
+
     master.new_status = true;
     bind = [
       "$mod, Return, exec, ${ghostty}"
@@ -101,8 +105,6 @@ in
       "$mod, V, togglefloating,"
       "$mod, R, exec, ${vicinae} toggle"
       "$mod, F, fullscreen"
-
-      "$mod SHIFT, h, cyclenext"
 
       "$mod, h, movefocus, l"
       "$mod, l, movefocus, r"
@@ -157,22 +159,23 @@ in
       ", XF86AudioNext, exec, ${playerctl} next"
     ];
 
-    windowrulev2 = [
-      "float,title:^(Calculator)"
-      "float,class:^(xdg-desktop-portal-gtk)"
-      "float,class:^(blueman-manager)"
-      "float,class:^(pavucontrol)"
-      "float,class:^(nm-connection-editor)"
-      "float,class:^(xdg-desktop-portal)"
-      "float,class:^(xdg-desktop-portal-gnome)"
-      "float,class:^(de.haeckerfelix.Fragments)"
-      "float,class:^(pavucontrol)"
+    windowrulev = [
+      "match:class Calculator, float on"
+      "match:class C, float on"
+      "match:class xdg-desktop-portal-gtk, float on"
+      "match:class blueman-manager, float on"
+      "match:class pavucontrol, float on"
+      "match:class nm-connection-editor, float on"
+      "match:class xdg-desktop-portal, float on"
+      "match:class de.haeckerfelix.Fragments, float on"
+      "match:class nm-connection-editor, float on"
     ];
 
     misc = {
       mouse_move_enables_dpms = true;
       key_press_enables_dpms = true;
       focus_on_activate = true;
+      disable_hyprland_logo = true;
     };
 
     general = {
@@ -187,9 +190,9 @@ in
     };
 
     layerrule = [
-      "blur, waybar"
-      "blur,vicinae"
-      "ignorealpha 0, vicinae"
+      "blur on, match:namespace waybar"
+      "blur on, match:namespace vicinae"
+      "ignore_alpha 0, match:namespace vicinae"
     ];
 
     exec-once = [

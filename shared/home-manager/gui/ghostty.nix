@@ -6,7 +6,7 @@
     enableZshIntegration = true;
     installVimSyntax = true;
     settings = {
-      font-family = "Iosevka Nerd Font";
+      font-family = "Iosevka NFP";
       font-style = "Medium";
       font-size = 17;
       working-directory = "/home/pride/";

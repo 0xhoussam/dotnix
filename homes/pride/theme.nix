@@ -11,8 +11,8 @@
     };
 
     iconTheme = {
-      name = "MoreWaita";
-      package = pkgs.morewaita-icon-theme;
+      name = "Numix-Circle";
+      package = pkgs.numix-icon-theme-circle;
     };
 
     font = {
@@ -50,7 +50,7 @@
       keybindings = "vim";
     };
     "org/gnome/desktop/interface" = {
-      icon-theme = "MoreWaita";
+      icon-theme = "Numix-Circle";
     };
   };
 }

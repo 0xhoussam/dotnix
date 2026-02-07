@@ -1,8 +1,9 @@
 { ... }:
 {
-  services.vicinae = {
+  programs.vicinae = {
     enable = true;
-    autoStart = true;
+    systemd.enable = true;
+    systemd.autoStart = true;
     settings = {
       faviconService = "twenty"; # twenty | google | none
       font.size = 11;

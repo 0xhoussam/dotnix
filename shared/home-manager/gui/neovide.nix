@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "Zenbones Proto";
+  font = "Geist Mono";
 in
 {
   programs.neovide = {
@@ -24,7 +24,7 @@ in
         normal = [
           {
             family = font;
-            weight = "Regular";
+            weight = "Medium";
           }
         ];
         bold = [

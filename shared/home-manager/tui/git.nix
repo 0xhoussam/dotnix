@@ -2,6 +2,7 @@
 {
   programs.git = {
     enable = true;
+    maintenance.enable = true;
     settings = {
       user = {
         email = "owner@0xhoussam.me";
@@ -12,7 +13,6 @@
       branch.sort = "-committerdate";
       color.ui = "auto";
       init.defaultBranch = "main";
-      # core.pager = "delta";
       aliases = {
         # add
         a = "add";

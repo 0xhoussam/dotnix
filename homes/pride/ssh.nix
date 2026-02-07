@@ -3,6 +3,7 @@
   programs = {
     ssh = {
       enable = true;
+      enableDefaultConfig = true;
       extraConfig = ''
                 Host github.com
         Hostname ssh.github.com

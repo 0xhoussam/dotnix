@@ -1,7 +1,8 @@
-{ ... }:
+{ config, ... }:
 {
   programs.zsh = {
     enable = true;
+    dotDir = config.home.homeDirectory;# "${config.xdg.configHome}/zsh";
     zsh-abbr = {
       enable = true;
       abbreviations = {

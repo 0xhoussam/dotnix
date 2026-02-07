@@ -25,15 +25,9 @@ in
     sf-mono-liga-bin
     nerd-fonts.zed-mono
     nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    nerd-fonts.fira-mono
-    adwaita-fonts
-    input-fonts
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
-    martian-mono
-    lato
     zenbones.zenbones-proto
-    monaspace
+    geist-font
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }

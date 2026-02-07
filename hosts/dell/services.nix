@@ -14,7 +14,6 @@
   #     turbo = "auto";
   #   };
   # };
-  services.preload.enable = true;
   services.greetd = {
     enable = true;
     settings = {

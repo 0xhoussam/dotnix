@@ -7,9 +7,8 @@
     ./zellij.nix
     ./fish.nix
     ./bat.nix
+    ./delta.nix
   ];
-
-  home.packages = with pkgs; [ nixfmt-rfc-style ];
 
   programs = {
     atuin = {

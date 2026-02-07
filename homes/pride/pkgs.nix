@@ -1,5 +1,5 @@
 {
-    inputs,
+  inputs,
   pkgs,
   ...
 }:
@@ -18,7 +18,6 @@
     nmgui
     code-cursor
     openvpn3
-    jetbrains.datagrip
 
     zoom-us
 
@@ -26,14 +25,13 @@
     tokei
     whois
     nixd
-    nixfmt-rfc-style
+    nixfmt
 
     atool
     axel
     bind
     btop
     curl
-    delta
     exiftool
     eza
     fd

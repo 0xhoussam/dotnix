@@ -28,18 +28,16 @@ in
     nerd-fonts.fira-code
     nerd-fonts.fira-mono
     nerd-fonts.iosevka
+    nerd-fonts.commit-mono
     adwaita-fonts
     input-fonts
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     martian-mono
     lato
     nerd-fonts.caskaydia-mono
-    # zenbones.zenbones-mono
-    # zenbones.zenbones-brainy
-    # zenbones.zenbones-prose
     zenbones.zenbones-proto
-    # zenbones.zenbones-slab
     monaspace
+    geist-font
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
 }
