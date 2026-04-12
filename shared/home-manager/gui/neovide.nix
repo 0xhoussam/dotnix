@@ -1,6 +1,6 @@
 { ... }:
 let
-  font = "Geist Mono";
+  font = "Liga SFMono Nerd Font";
 in
 {
   programs.neovide = {

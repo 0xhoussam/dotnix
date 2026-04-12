@@ -1,6 +1,7 @@
 { ... }:
 {
   # Docker
+    virtualisation.waydroid.enable = true;
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false;

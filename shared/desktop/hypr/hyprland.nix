@@ -160,7 +160,7 @@ in
     ];
 
     windowrulev = [
-      "match:class Calculator, float on"
+      "match:class org.gnome.Calculator, float on"
       "match:class C, float on"
       "match:class xdg-desktop-portal-gtk, float on"
       "match:class blueman-manager, float on"

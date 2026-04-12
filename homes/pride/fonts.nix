@@ -34,7 +34,7 @@ in
     inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
     martian-mono
     lato
-    nerd-fonts.caskaydia-mono
+    cascadia-code
     zenbones.zenbones-proto
     monaspace
     geist-font

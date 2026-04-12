@@ -25,6 +25,10 @@
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
       flake = false;
     };
+    neovide-src = {
+      url = "github:neovide/neovide";
+      flake = false;
+    };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
     zenbones.url = "./flakes/zenbones-mono-flake";
@@ -58,6 +62,17 @@
                 cp -R $src/*.otf $out/share/fonts/opentype/
               '';
             };
+          })
+          (final: prev: {
+            neovide = prev.neovide.overrideAttrs (old:
+              (lib.removeAttrs old [ "cargoHash" "cargoDeps" ]) // {
+                version = "unstable-${lib.substring 0 7 inputs.neovide-src.rev}";
+                src = inputs.neovide-src;
+                cargoLock = {
+                  lockFile = "${inputs.neovide-src}/Cargo.lock";
+                };
+              }
+            );
           })
         ];
       };

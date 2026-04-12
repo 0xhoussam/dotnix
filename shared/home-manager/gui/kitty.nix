@@ -70,7 +70,7 @@
             color17 #ff7eb6
 
 
-            font_family      family="Zenbones Proto"
+            font_family      family="Liga SFMono Nerd Font"
             bold_font        auto
             italic_font      auto
             bold_italic_font auto

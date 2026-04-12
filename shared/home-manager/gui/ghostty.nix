@@ -6,8 +6,8 @@
     enableZshIntegration = true;
     installVimSyntax = true;
     settings = {
-      font-family = "Iosevka NFP";
-      font-style = "Medium";
+      font-family = "Input Mono Condensed";
+      font-style = "Regular";
       font-size = 17;
       working-directory = "/home/pride/";
       window-inherit-working-directory = false;

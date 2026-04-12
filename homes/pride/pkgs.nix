@@ -5,6 +5,7 @@
 }:
 {
   home.packages = with pkgs; [
+    bottles
     brave
     mpv
     pavucontrol
@@ -18,6 +19,8 @@
     nmgui
     code-cursor
     openvpn3
+    opencode
+    lutris
 
     zoom-us
 
