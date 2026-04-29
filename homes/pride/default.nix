@@ -11,6 +11,7 @@
     ./theme.nix
     ./env.nix
     ./ssh.nix
+    ./nix.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -28,5 +29,5 @@
   ];
 
   # environment.variables.EDITOR = "nvim";
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
 }

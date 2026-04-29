@@ -4,7 +4,7 @@
 
   programs.waybar.enable = true;
   programs.waybar.systemd.enable = true;
-  programs.waybar.systemd.target = "hyprland-session.target";
+  programs.waybar.systemd.targets = [ "hyprland-session.target" ];
   programs.waybar.settings = {
     mainBar = {
       height = 35;

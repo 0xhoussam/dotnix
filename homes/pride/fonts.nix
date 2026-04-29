@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }:
 let
-    zenbones = inputs.zenbones.packages.${pkgs.system};
+    zenbones = inputs.zenbones.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   fonts.fontconfig = {
@@ -31,7 +31,7 @@ in
     nerd-fonts.commit-mono
     adwaita-fonts
     input-fonts
-    inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
+    inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
     martian-mono
     lato
     cascadia-code

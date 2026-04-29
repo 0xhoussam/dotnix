@@ -6,9 +6,9 @@ let
   hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
-  swww = "${pkgs.swww}/bin/swww";
+  awww = "${pkgs.awww}/bin/awww";
   background = ../../../assets/wallpapers/tanjiro.jpg;
-  vicinae = "${inputs.vicinae.packages.${pkgs.system}.default}/bin/vicinae";
+  # vicinae = "${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae";
 in
 {
   imports = [
@@ -22,7 +22,7 @@ in
     pkgs.playerctl
     pkgs.hyprshot
     pkgs.brightnessctl
-    pkgs.swww
+    pkgs.awww
   ];
 
   wayland.windowManager.hyprland.enable = true;
@@ -103,7 +103,7 @@ in
       "$mod, W, killactive,"
       "$mod, M, exit,"
       "$mod, V, togglefloating,"
-      "$mod, R, exec, ${vicinae} toggle"
+      # "$mod, R, exec, ${vicinae} toggle"
       "$mod, F, fullscreen"
 
       "$mod, h, movefocus, l"
@@ -191,13 +191,13 @@ in
 
     layerrule = [
       "blur on, match:namespace waybar"
-      "blur on, match:namespace vicinae"
-      "ignore_alpha 0, match:namespace vicinae"
+      # "blur on, match:namespace vicinae"
+      # "ignore_alpha 0, match:namespace vicinae"
     ];
 
     exec-once = [
-      "${swww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
-      "${vicinae} server"
+      "${awww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
+      # "${vicinae} server"
     ];
   };
 }

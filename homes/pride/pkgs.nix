@@ -5,12 +5,10 @@
 }:
 {
   home.packages = with pkgs; [
-    bottles
     brave
     mpv
     pavucontrol
     jetbrains-toolbox
-    thunderbird
     ghostty
     firefox
     sublime4
@@ -20,7 +18,7 @@
     code-cursor
     openvpn3
     opencode
-    lutris
+    inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     zoom-us
 
@@ -55,8 +53,6 @@
     wl-clipboard
     zip
     zoxide
-    inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
-
     (writeShellScriptBin "reload-failed-services" ''
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart
     '')

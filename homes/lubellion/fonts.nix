@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }:
 let
-    zenbones = inputs.zenbones.packages.${pkgs.system};
+    zenbones = inputs.zenbones.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   fonts.fontconfig = {
@@ -25,7 +25,7 @@ in
     sf-mono-liga-bin
     nerd-fonts.zed-mono
     nerd-fonts.jetbrains-mono
-    inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
+    inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd
     zenbones.zenbones-proto
     geist-font
   ];

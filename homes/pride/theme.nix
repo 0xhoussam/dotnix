@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, config, ... }:
 {
   imports = [
     inputs.kvlibadwaita.homeManagerModule
@@ -9,6 +9,7 @@
       name = "adw-gtk3";
       package = pkgs.adw-gtk3;
     };
+    gtk4.theme = config.gtk.theme;
 
     iconTheme = {
       name = "Numix-Circle";
@@ -18,7 +19,7 @@
     font = {
       name = "SFProDisplay Nerd Font";
       size = 11;
-      package = inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd;
+      package = inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd;
     };
 
     gtk3.extraConfig = {

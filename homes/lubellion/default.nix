@@ -26,5 +26,5 @@
     "openssl-1.1.1w"
   ];
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
 }

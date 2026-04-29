@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [ swww ];
-  systemd.user.services.swww = {
+  home.packages = with pkgs; [ awww ];
+  systemd.user.services.awww = {
     Unit = {
       Description = "Wallpaper daemon";
-      Documentation = [ "man:swww-daemon(1)" ];
+      Documentation = [ "man:awww-daemon(1)" ];
 
       Requires = [ "hyprland-session.target" ];
     };
@@ -12,7 +12,7 @@
       Type = "notify";
 
       Environment = "XDG_RUNTIME_DIR=/run/user/%U";
-      ExecStart = "${pkgs.swww}/bin/swww-daemon";
+      ExecStart = "${pkgs.awww}/bin/awww-daemon";
     };
     Install.WantedBy = [ "hyprland-session.target" ];
   };
