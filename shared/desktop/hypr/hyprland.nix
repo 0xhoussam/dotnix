@@ -8,7 +8,21 @@ let
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   awww = "${pkgs.awww}/bin/awww";
   background = ../../../assets/wallpapers/tanjiro.jpg;
-  # vicinae = "${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae";
+  vicinae = "${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae";
+
+  workspaceBinds = builtins.concatLists (
+    builtins.genList (
+      i:
+      let
+        ws = toString (i + 1);
+        key = if i == 9 then "0" else ws;
+      in
+      [
+        "$mod, ${key}, workspace, ${ws}"
+        "$mod SHIFT, ${key}, movetoworkspace, ${ws}"
+      ]
+    ) 10
+  );
 in
 {
   imports = [
@@ -26,22 +40,14 @@ in
   ];
 
   wayland.windowManager.hyprland.enable = true;
+  wayland.windowManager.hyprland.configType = "hyprlang";
   wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
-  wayland.windowManager.hyprland.extraConfig = ''
-    env = HYPRCURSOR_THEME,McMojave
-    env = HYPRCURSOR_SIZE,24
-  '';
+  wayland.windowManager.hyprland.systemd.enableXdgAutostart = true;
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
     monitor = [
       "eDP-1,preferred, auto, 1, bitdepth, 8"
-      "HDMI-A-1,1920x1080@75,1920x0,1"
-      # "HDMI-A-1,preferred,auto,1,mirror,eDP-1"
-    ];
-
-    workspace = [
-      "3,monitor:HDMI-A-1"
     ];
 
     input = {
@@ -59,13 +65,26 @@ in
       hide_on_key_press = true;
     };
 
-    animation = [
-      "windows, 1, 6, default, popin"
+    device = [
+      {
+        name = "elan-touchscreen";
+        enabled = false;
+      }
     ];
 
-    device = {
-      name = "elan-touchscreen";
-      enabled = false;
+    gesture = [
+      "3, horizontal, workspace"
+    ];
+
+    general = {
+      allow_tearing = true;
+      gaps_in = 2;
+      gaps_out = 3;
+      border_size = 2;
+      "col.active_border" = "0xff1c71d8";
+      "col.inactive_border" = "0";
+
+      layout = "dwindle";
     };
 
     decoration = {
@@ -83,92 +102,8 @@ in
       };
     };
 
-    ecosystem = {
-      no_update_news = true;
-    };
-
-    gesture = [
-      "3, horizontal, workspace"
-    ];
-
-    binds = {
-      movefocus_cycles_fullscreen = true;
-    };
-
-    master.new_status = true;
-    bind = [
-      "$mod, Return, exec, ${ghostty}"
-      "$mod, b, exec, flatpak run app.zen_browser.zen "
-      "$mod, e, exec, xdg-open $HOME"
-      "$mod, W, killactive,"
-      "$mod, M, exit,"
-      "$mod, V, togglefloating,"
-      # "$mod, R, exec, ${vicinae} toggle"
-      "$mod, F, fullscreen"
-
-      "$mod, h, movefocus, l"
-      "$mod, l, movefocus, r"
-      "$mod, j, movefocus, u"
-      "$mod, k, movefocus, d"
-
-      "$mod, 1, workspace, 1"
-      "$mod, 2, workspace, 2"
-      "$mod, 3, workspace, 3"
-      "$mod, 4, workspace, 4"
-      "$mod, 5, workspace, 5"
-      "$mod, 6, workspace, 6"
-      "$mod, 7, workspace, 7"
-      "$mod, 8, workspace, 8"
-      "$mod, 9, workspace, 9"
-      "$mod, 0, workspace, 10"
-
-      "$mod SHIFT, 1, movetoworkspace, 1"
-      "$mod SHIFT, 2, movetoworkspace, 2"
-      "$mod SHIFT, 3, movetoworkspace, 3"
-      "$mod SHIFT, 4, movetoworkspace, 4"
-      "$mod SHIFT, 5, movetoworkspace, 5"
-      "$mod SHIFT, 6, movetoworkspace, 6"
-      "$mod SHIFT, 7, movetoworkspace, 7"
-      "$mod SHIFT, 8, movetoworkspace, 8"
-      "$mod SHIFT, 9, movetoworkspace, 9"
-      "$mod SHIFT, 0, movetoworkspace, 10"
-
-      "$mod, mouse_down, workspace, e+1"
-      "$mod, mouse_up, workspace, e-1"
-
-      "$mod CTRL, L, exec, ${hyprlock}"
-      "$mod SHIFT CTRL, L, exec, ${hyprlock} && ${hyprctl} dispatch dpms off"
-
-      "$mod CTRL, P, exec, ${hyprshot} -m window"
-      "$mod SHIFT, P, exec, ${hyprshot} -m region"
-    ];
-
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
-    ];
-
-    bindl = [
-      ", XF86MonBrightnessUp, exec, ${swayosd-client} --brightness raise"
-      ", XF86MonBrightnessDown, exec, ${swayosd-client} --brightness lower"
-      ", XF86AudioRaiseVolume, exec,  ${swayosd-client} --output-volume raise"
-      ", XF86AudioLowerVolume, exec, ${swayosd-client} --output-volume lower"
-      ", XF86AudioMute, exec, ${swayosd-client} --output-volume mute-toggle"
-      ", XF86AudioPlay, exec, ${playerctl} play-pause"
-      ", XF86AudioPrev, exec, ${playerctl} previous"
-      ", XF86AudioNext, exec, ${playerctl} next"
-    ];
-
-    windowrulev = [
-      "match:class org.gnome.Calculator, float on"
-      "match:class C, float on"
-      "match:class xdg-desktop-portal-gtk, float on"
-      "match:class blueman-manager, float on"
-      "match:class pavucontrol, float on"
-      "match:class nm-connection-editor, float on"
-      "match:class xdg-desktop-portal, float on"
-      "match:class de.haeckerfelix.Fragments, float on"
-      "match:class nm-connection-editor, float on"
+    animation = [
+      "windows, 1, 6, default, popin"
     ];
 
     misc = {
@@ -178,21 +113,78 @@ in
       disable_hyprland_logo = true;
     };
 
-    general = {
-      allow_tearing = true;
-      gaps_in = 2;
-      gaps_out = 3;
-      border_size = 2;
-      "col.active_border" = "0xff1c71d8";
-      "col.inactive_border" = "0";
-
-      layout = "dwindle";
+    ecosystem = {
+      no_update_news = true;
     };
 
-    layerrule = [
-      "blur on, match:namespace waybar"
-      # "blur on, match:namespace vicinae"
-      # "ignore_alpha 0, match:namespace vicinae"
+    master.new_status = "master";
+
+    binds = {
+      movefocus_cycles_fullscreen = true;
+    };
+
+    # windowrulev2 = [
+    #   "float, class:^(org.gnome.Calculator)$"
+    #   "float, class:^(C)$"
+    #   "float, class:^(xdg-desktop-portal-gtk)$"
+    #   "float, class:^(blueman-manager)$"
+    #   "float, class:^(pavucontrol)$"
+    #   "float, class:^(nm-connection-editor)$"
+    #   "float, class:^(xdg-desktop-portal)$"
+    #   "float, class:^(de.haeckerfelix.Fragments)$"
+    # ];
+
+    # layerrule = [
+    #   "blur, ^(waybar)$"
+    #   # "blur, ^(vicinae)$"
+    #   # "ignorealpha 0, ^(vicinae)$"
+    # ];
+
+    bind = [
+      "$mod, Return, exec, ${ghostty}"
+      "$mod, b, exec, flatpak run app.zen_browser.zen"
+      "$mod, e, exec, xdg-open $HOME"
+      "$mod, W, killactive,"
+      "$mod, M, exit,"
+      "$mod, V, togglefloating,"
+      "$mod, R, exec, ${vicinae} toggle"
+      "$mod, F, fullscreen"
+      "$mod, Tab, workspace, previous"
+
+      "$mod, h, movefocus, l"
+      "$mod, l, movefocus, r"
+      "$mod, j, movefocus, u"
+      "$mod, k, movefocus, d"
+
+      "$mod, mouse_down, workspace, e+1"
+      "$mod, mouse_up, workspace, e-1"
+
+      "$mod CTRL, L, exec, ${hyprlock}"
+      "$mod SHIFT CTRL, L, exec, ${hyprlock} && ${hyprctl} dispatch dpms off"
+
+      "$mod CTRL, P, exec, ${hyprshot} -m window"
+      "$mod SHIFT, P, exec, ${hyprshot} -m region"
+      ", Print, exec, ${hyprshot} -m region --clipboard-only"
+    ]
+    ++ workspaceBinds;
+
+    bindm = [
+      "$mod, mouse:272, movewindow"
+      "$mod, mouse:273, resizewindow"
+    ];
+
+    bindel = [
+      ", XF86MonBrightnessUp, exec, ${swayosd-client} --brightness raise"
+      ", XF86MonBrightnessDown, exec, ${swayosd-client} --brightness lower"
+      ", XF86AudioRaiseVolume, exec, ${swayosd-client} --output-volume raise"
+      ", XF86AudioLowerVolume, exec, ${swayosd-client} --output-volume lower"
+    ];
+
+    bindl = [
+      ", XF86AudioMute, exec, ${swayosd-client} --output-volume mute-toggle"
+      ", XF86AudioPlay, exec, ${playerctl} play-pause"
+      ", XF86AudioPrev, exec, ${playerctl} previous"
+      ", XF86AudioNext, exec, ${playerctl} next"
     ];
 
     exec-once = [

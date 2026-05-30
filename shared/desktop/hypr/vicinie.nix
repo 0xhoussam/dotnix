@@ -5,7 +5,7 @@
     systemd.enable = true;
     systemd.autoStart = true;
     settings = {
-      faviconService = "twenty"; # twenty | google | none
+      faviconService = "google"; # twenty | google | none
       font.size = 11;
       popToRootOnClose = false;
       rootSearch.searchFiles = false;

@@ -4,8 +4,8 @@
     ./hyprland.nix
     ./waybar.nix
     ./wofi.nix
-    ./swww.nix
     ./vicinie.nix
+    ./awww.nix
   ];
 
   home.packages = [
