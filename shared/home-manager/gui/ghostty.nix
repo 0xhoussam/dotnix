@@ -6,7 +6,7 @@
     enableZshIntegration = true;
     installVimSyntax = true;
     settings = {
-      font-family = "Input Mono Condensed";
+      font-family = "FiraMono Nerd Font";
       font-style = "Regular";
       font-size = 17;
       working-directory = "/home/pride/";
