@@ -17,10 +17,10 @@
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
       flake = false;
     };
-    neovide-src = {
-      url = "github:neovide/neovide";
-      flake = false;
-    };
+    # neovide-src = {
+    #   url = "github:neovide/neovide";
+    #   flake = false;
+    # };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -72,22 +72,22 @@
               '';
             };
           })
-          (final: prev: {
-            neovide = prev.neovide.overrideAttrs (
-              old:
-              (lib.removeAttrs old [
-                "cargoHash"
-                "cargoDeps"
-              ])
-              // {
-                version = "unstable-${lib.substring 0 7 inputs.neovide-src.rev}";
-                src = inputs.neovide-src;
-                cargoDeps = prev.rustPlatform.importCargoLock {
-                  lockFile = inputs.neovide-src + "/Cargo.lock";
-                };
-              }
-            );
-          })
+          # (final: prev: {
+          #   neovide = prev.neovide.overrideAttrs (
+          #     old:
+          #     (lib.removeAttrs old [
+          #       "cargoHash"
+          #       "cargoDeps"
+          #     ])
+          #     // {
+          #       version = "unstable-${lib.substring 0 7 inputs.neovide-src.rev}";
+          #       src = inputs.neovide-src;
+          #       cargoDeps = prev.rustPlatform.importCargoLock {
+          #         lockFile = inputs.neovide-src + "/Cargo.lock";
+          #       };
+          #     }
+          #   );
+          # })
         ];
       };
 
