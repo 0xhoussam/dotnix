@@ -8,6 +8,9 @@ let
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   awww = "${pkgs.awww}/bin/awww";
   background = ../../../assets/wallpapers/tanjiro.jpg;
+  # AGS bar (separate flake under ~/projects/components). nix run rebuilds the
+  # bundle if its source changed, so dev edits land on next login.
+  bar = "${pkgs.nix}/bin/nix run path:/home/pride/projects/components";
   vicinae = "${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae";
 
   workspaceBinds = builtins.concatLists (
@@ -30,7 +33,6 @@ in
     ./hypridle.nix
     ./env.nix
     ./service.nix
-    ./swaync.nix
   ];
   home.packages = [
     pkgs.playerctl
@@ -189,6 +191,7 @@ in
 
     exec-once = [
       "${awww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
+      bar
       # "${vicinae} server"
     ];
   };

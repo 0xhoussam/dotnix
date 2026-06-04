@@ -2,7 +2,6 @@
 {
   imports = [
     ./hyprland.nix
-    ./waybar.nix
     ./wofi.nix
     ./vicinie.nix
     ./awww.nix
