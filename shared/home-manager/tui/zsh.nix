@@ -2,7 +2,7 @@
 {
   programs.zsh = {
     enable = true;
-    dotDir = config.home.homeDirectory;# "${config.xdg.configHome}/zsh";
+    dotDir = config.home.homeDirectory; # "${config.xdg.configHome}/zsh";
     zsh-abbr = {
       enable = true;
       abbreviations = {
@@ -32,6 +32,9 @@
         { name = "olets/zsh-abbr"; }
       ];
     };
+    # profileExtra = /* bash */ ''
+    # '';
+    # profileExtra = builtins.readFile ./profile.zsh;
     oh-my-zsh = {
       enable = true;
       plugins = [
