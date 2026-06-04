@@ -1,0 +1,592 @@
+// libadwaita dark palette (matches lock/style.scss)
+$bar-bg: #242424; // window_bg_color (dark)
+$fg: #ffffff; // window_fg_color
+$muted: rgba(255, 255, 255, 0.6); // dim-label
+$faint: rgba(255, 255, 255, 0.38); // empty / disabled
+$accent: #3584e4; // accent_bg_color
+$accent-fg: #ffffff; // on-accent text
+$card: rgba(255, 255, 255, 0.08); // card_bg_color
+$hover: rgba(255, 255, 255, 0.1);
+
+window.Bar {
+  background-color: $bar-bg;
+  color: $fg;
+  font-size: 13px;
+
+  > centerbox {
+    padding: 0 10px;
+  }
+
+  .modules-start,
+  .modules-center,
+  .modules-end {
+    padding: 5px 0;
+  }
+
+  // ---- Workspaces -------------------------------------------------------
+  .workspaces .workspace {
+    min-width: 22px;
+    padding: 1px 7px;
+    border-radius: 8px;
+    background-color: transparent;
+    transition:
+      background-color 140ms ease,
+      color 140ms ease;
+
+    .ws-id {
+      font-weight: bold;
+    }
+
+    // app icons sit a touch dimmer than the label until active
+    .app-icon {
+      opacity: 0.9;
+    }
+
+    &.empty .ws-id {
+      color: $faint;
+      font-weight: normal;
+    }
+
+    &.occupied {
+      background-color: $card;
+      .ws-id {
+        color: $fg;
+      }
+    }
+
+    &:hover {
+      background-color: $hover;
+    }
+
+    &.active {
+      background-color: $accent;
+      .ws-id {
+        color: $accent-fg;
+      }
+      .app-icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  // ---- Clock (center) ---------------------------------------------------
+  .clock {
+    padding: 3px 12px;
+    border-radius: 8px;
+    background-color: transparent;
+    color: $fg;
+    font-weight: bold;
+    transition: background-color 140ms ease;
+
+    &:hover {
+      background-color: $hover;
+    }
+  }
+
+  // ---- Right-side indicators -------------------------------------------
+  .modules-end {
+    button,
+    menubutton {
+      min-width: 22px;
+      padding: 3px 7px;
+      border-radius: 8px;
+      color: $muted;
+      background-color: transparent;
+      transition:
+        background-color 140ms ease,
+        color 140ms ease;
+
+      &:hover {
+        background-color: $hover;
+        color: $fg;
+      }
+    }
+
+    // menubutton wraps an inner button; flatten its chrome
+    menubutton > button {
+      padding: 0;
+      min-width: 0;
+    }
+
+    .keyboard label {
+      font-weight: bold;
+    }
+
+    .battery {
+      padding: 3px 7px;
+      color: $muted;
+
+      label {
+        font-weight: bold;
+      }
+    }
+
+    .volume label {
+      font-weight: bold;
+    }
+
+    .notifications .badge {
+      color: $accent-fg;
+      background-color: $accent;
+      font-size: 11px;
+      font-weight: bold;
+      border-radius: 9999px;
+      padding: 0 5px;
+      margin-left: 2px;
+    }
+  }
+}
+
+// ======================================================================
+// Date / notification panel (GNOME-style shade) + popups
+// ======================================================================
+$popover-bg: #2d2d2d; // elevated surface
+$panel-radius: 14px;
+
+window.Bar .clock.active {
+  background-color: $card;
+}
+
+.DatePanelWindow {
+  // transparent fullscreen overlay; only the card is visible
+  background-color: transparent;
+
+  .panel-backdrop {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    min-width: 1px;
+    min-height: 1px;
+  }
+}
+
+.date-panel {
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: $panel-radius;
+  background-color: $popover-bg;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  color: $fg;
+}
+
+// ---- Notification column ---------------------------------------------
+.notif-column {
+  min-width: 380px;
+  margin-right: 12px;
+
+  scrolledwindow {
+    min-height: 420px;
+  }
+}
+
+.notif-list {
+  padding-right: 6px;
+}
+
+.notif-empty {
+  color: $muted;
+  font-size: 14px;
+}
+
+.notif-card {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.06);
+
+  &.critical {
+    border: 1px solid rgba(255, 123, 99, 0.6);
+  }
+
+  .notif-head {
+    margin-bottom: 4px;
+  }
+
+  .notif-appicon {
+    color: $muted;
+  }
+
+  .notif-appname {
+    color: $muted;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .notif-time {
+    color: $faint;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+
+  .notif-close {
+    padding: 2px;
+    border-radius: 9999px;
+    background-color: transparent;
+    color: $muted;
+
+    &:hover {
+      background-color: $hover;
+      color: $fg;
+    }
+  }
+
+  .notif-image {
+    border-radius: 8px;
+  }
+
+  .notif-summary {
+    font-weight: bold;
+    color: $fg;
+  }
+
+  .notif-body {
+    color: $muted;
+    margin-top: 2px;
+  }
+
+  .notif-actions {
+    margin-top: 8px;
+
+    .notif-action {
+      padding: 5px 10px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.08);
+
+      &:hover {
+        background-color: $hover;
+      }
+    }
+  }
+}
+
+.notif-footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  label {
+    color: $fg;
+    font-weight: bold;
+  }
+
+  .clear-btn {
+    padding: 5px 14px;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.08);
+
+    &:hover {
+      background-color: $hover;
+    }
+  }
+}
+
+// ---- Calendar column -------------------------------------------------
+.cal-column {
+  min-width: 300px;
+}
+
+.cal-weekday {
+  font-size: 15px;
+  color: $fg;
+}
+
+.cal-date {
+  font-size: 22px;
+  font-weight: bold;
+  color: $fg;
+}
+
+.calendar {
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 4px;
+
+  &:selected,
+  & .today {
+    background-color: $accent;
+    color: $accent-fg;
+    border-radius: 9999px;
+  }
+}
+
+.cal-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.cal-card-title {
+  font-weight: bold;
+  color: $fg;
+}
+
+.cal-card-sub {
+  color: $muted;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.world-row {
+  margin-top: 4px;
+
+  .world-city {
+    color: $fg;
+  }
+
+  .world-time {
+    color: $muted;
+    font-weight: bold;
+  }
+}
+
+// ---- Popup toasts ----------------------------------------------------
+.NotifPopups {
+  background-color: transparent;
+
+  .popup-list {
+    margin: 8px 10px;
+  }
+
+  .notif-card {
+    min-width: 360px;
+    background-color: $popover-bg;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  }
+}
+
+// ---- Media (now playing) ---------------------------------------------
+.media {
+  margin-bottom: 10px;
+}
+
+.media-card {
+  padding: 10px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.06);
+
+  .media-cover {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .media-title {
+    font-weight: bold;
+    color: $fg;
+  }
+
+  .media-artist {
+    color: $muted;
+    font-size: 12px;
+    margin-top: 1px;
+  }
+
+  .media-controls {
+    margin-top: 8px;
+
+    .media-btn {
+      padding: 4px;
+      border-radius: 9999px;
+      background-color: transparent;
+      color: $fg;
+
+      &:hover {
+        background-color: $hover;
+      }
+    }
+
+    .media-play {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// ---- Clipboard history popover (libadwaita-style) --------------------
+.clipboard-popover {
+  > contents {
+    padding: 12px;
+    border-radius: 16px;
+    background-color: $popover-bg;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .clip-panel {
+    min-width: 380px;
+  }
+
+  .clip-header {
+    margin-bottom: 12px;
+    margin-left: 2px;
+
+    label {
+      font-size: 15px;
+      font-weight: bold;
+      color: $fg;
+    }
+
+    .clip-clear {
+      padding: 4px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 255, 255, 0.08);
+      color: $fg;
+      font-weight: bold;
+
+      &:hover {
+        background-color: $hover;
+      }
+    }
+  }
+
+  // boxed rows: each entry its own elevated card with breathing room
+  .clip-item {
+    min-height: 30px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background-color 140ms ease;
+
+    label {
+      color: $fg;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.16);
+    }
+
+    &:active {
+      background-color: $accent;
+      label {
+        color: $accent-fg;
+      }
+    }
+  }
+
+  .clip-empty {
+    color: $muted;
+    margin: 28px 0;
+  }
+}
+
+// ---- Wi-Fi popover (macOS-inspired, libadwaita) ----------------------
+.net-popover {
+  > contents {
+    padding: 12px;
+    border-radius: 16px;
+    background-color: $popover-bg;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .net-panel {
+    min-width: 320px;
+  }
+
+  .net-header {
+    margin: 2px 2px 10px 2px;
+
+    label {
+      font-size: 16px;
+      font-weight: bold;
+      color: $fg;
+    }
+  }
+
+  .net-section-title {
+    color: $muted;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 8px 2px 4px 2px;
+  }
+
+  .net-list {
+    padding-right: 4px;
+  }
+
+  .net-empty {
+    color: $muted;
+    margin: 20px 0;
+  }
+
+  // rows: boxed-list look with breathing room
+  .net-row {
+    min-height: 26px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: background-color 140ms ease;
+
+    label {
+      color: $fg;
+    }
+
+    .net-lock,
+    .net-check {
+      color: $muted;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    &.active {
+      background-color: rgba(53, 132, 228, 0.22);
+
+      .net-check {
+        color: $accent;
+      }
+    }
+  }
+
+  .net-password {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    .net-password-label {
+      color: $muted;
+      font-size: 12px;
+    }
+
+    .net-entry {
+      border-radius: 9999px;
+      padding: 6px 12px;
+      background-color: rgba(255, 255, 255, 0.08);
+      color: $fg;
+    }
+
+    .net-connect {
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background-color: $accent;
+      color: $accent-fg;
+      font-weight: bold;
+
+      &:hover {
+        background-color: shade($accent, 1.1);
+      }
+    }
+  }
+
+  .net-settings {
+    margin-top: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: $accent;
+    font-weight: bold;
+
+    &:hover {
+      background-color: $hover;
+    }
+  }
+}
+
+// Bluetooth device battery (reuses .net-popover rows)
+.net-popover .bt-battery {
+  color: $muted;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 2px;
+}

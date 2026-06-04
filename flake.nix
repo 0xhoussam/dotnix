@@ -41,6 +41,10 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    components = {
+      url = "./flakes/components"; # AGS bar (vendored)
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {

@@ -1,0 +1,25 @@
+// global tokens
+$bg: #1e1e2e;
+$fg: #cdd6f4;
+$accent: #89b4fa;
+
+window.Bar {
+  background: $bg;
+  color: $fg;
+  font-weight: bold;
+
+  > centerbox {
+    padding: 4px 8px;
+  }
+
+  button,
+  menubutton {
+    border-radius: 6px;
+    padding: 2px 8px;
+
+    &:hover {
+      background: $accent;
+      color: $bg;
+    }
+  }
+}

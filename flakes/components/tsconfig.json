@@ -1,0 +1,13 @@
+{
+  "$schema": "https://aylur.github.io/ags/tsconfig.schema.json",
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "ags/gtk4",
+    "lib": ["ES2023"],
+    "types": ["./env.d.ts"]
+  }
+}

@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-  hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
+  lock = "${inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
   loginctl = "${pkgs.systemd}/bin/loginctl";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   systemctl = "${pkgs.systemd}/bin/systemctl";
@@ -11,7 +11,7 @@ in
     enable = true;
     settings = {
       general = {
-        lock_cmd = "${hyprlock}";
+        lock_cmd = "${lock}";
         before_sleep_cmd = "${loginctl} lock-session";
         after_sleep_cmd = "${hyprctl} dispatch dpms on";
         ignore_dbus_inhibit = false;

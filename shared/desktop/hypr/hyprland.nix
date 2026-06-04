@@ -3,14 +3,11 @@ let
   ghostty = "${pkgs.ghostty}/bin/ghostty";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
-  hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
+  lock = "${inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   awww = "${pkgs.awww}/bin/awww";
   background = ../../../assets/wallpapers/tanjiro.jpg;
-  # AGS bar (separate flake under ~/projects/components). nix run rebuilds the
-  # bundle if its source changed, so dev edits land on next login.
-  bar = "${pkgs.nix}/bin/nix run path:/home/pride/projects/components";
   vicinae = "${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae";
 
   workspaceBinds = builtins.concatLists (
@@ -29,10 +26,10 @@ let
 in
 {
   imports = [
-    ./hyprlock.nix
     ./hypridle.nix
     ./env.nix
     ./service.nix
+    ./agsbar.nix
   ];
   home.packages = [
     pkgs.playerctl
@@ -161,8 +158,8 @@ in
       "$mod, mouse_down, workspace, e+1"
       "$mod, mouse_up, workspace, e-1"
 
-      "$mod CTRL, L, exec, ${hyprlock}"
-      "$mod SHIFT CTRL, L, exec, ${hyprlock} && ${hyprctl} dispatch dpms off"
+      "$mod CTRL, L, exec, ${lock}"
+      "$mod SHIFT CTRL, L, exec, ${lock} && ${hyprctl} dispatch dpms off"
 
       "$mod CTRL, P, exec, ${hyprshot} -m window"
       "$mod SHIFT, P, exec, ${hyprshot} -m region"
@@ -191,7 +188,6 @@ in
 
     exec-once = [
       "${awww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
-      bar
       # "${vicinae} server"
     ];
   };
