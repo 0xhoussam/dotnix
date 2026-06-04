@@ -3,7 +3,7 @@
 
   programs.ghostty = {
     enable = true;
-    enableZshIntegration = true;
+    enableFishIntegration = true;
     installVimSyntax = true;
     settings = {
       font-family = "FiraMono Nerd Font";

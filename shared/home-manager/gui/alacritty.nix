@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   font = "JetBrainsMono Nerd Font";
-  shell = "${pkgs.zsh}/bin/zsh";
+  shell = "${pkgs.fish}/bin/fish";
   corbonfox_theme_path = ".config/alacritty/theme/corbonfox.toml";
   fleet_theme_path = ".config/alacritty/theme/fleet.toml";
 in

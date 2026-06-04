@@ -7,7 +7,7 @@ in
   programs.zellij.enableZshIntegration = false;
   programs.zellij.settings = {
     simplified_ui = true;
-    default_shell = "${pkgs.zsh}/bin/zsh";
+    default_shell = "${pkgs.fish}/bin/fish";
     pane_frames = false;
     copy_command = "wl-copy";
     theme = "libadwaita";
