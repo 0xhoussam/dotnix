@@ -1,7 +1,6 @@
 import { Gdk } from "ags/gtk4"
 import { createBinding, createComputed, For } from "ags"
 import Hyprland from "gi://AstalHyprland"
-import { config } from "../config"
 
 // Hyprland workspaces with per-workspace app icons (icon = window class).
 export function Workspaces({ gdkmonitor: _gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
@@ -45,28 +44,7 @@ function WorkspaceButton({
 
   return (
     <button class={cls} onClicked={() => ws.focus()} tooltipText={`Workspace ${ws.id}`}>
-      <box spacing={5}>
-        <label class="ws-id" label={`${ws.id}`} />
-        <box class="ws-apps" spacing={3} visible={clients((c) => c.length > 0)}>
-          <For each={clients}>
-            {(client: Hyprland.Client) => <AppIcon client={client} />}
-          </For>
-        </box>
-      </box>
+      <label class="ws-id" label={`${ws.id}`} />
     </button>
-  )
-}
-
-function resolveIcon(klass: string): string {
-  if (!klass) return config.defaultAppIcon
-  const key = klass.toLowerCase()
-  // mapped override -> raw lowercased class (matches most desktop-file ids) -> default
-  return config.taskbarIcons[key] ?? key
-}
-
-function AppIcon({ client }: { client: Hyprland.Client }) {
-  const klass = createBinding(client, "class")
-  return (
-    <image class="app-icon" pixelSize={15} iconName={klass(resolveIcon)} />
   )
 }
