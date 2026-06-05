@@ -23,6 +23,11 @@ window.Bar {
     padding: 5px 0;
   }
 
+  // ---- NixOS logo -------------------------------------------------------
+  .logo {
+    padding: 0 8px 0 6px;
+  }
+
   // ---- Workspaces -------------------------------------------------------
   .workspaces .workspace {
     min-width: 22px;

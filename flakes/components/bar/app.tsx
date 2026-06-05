@@ -11,12 +11,14 @@ import { Battery } from "./items/Battery"
 import { Clipboard } from "./items/Clipboard"
 import { Settings } from "./items/Settings"
 import { Systray } from "./items/Systray"
+import { Logo } from "./items/Logo"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
 
   // Module registry. Each entry builds the widget for that module name.
   const Bar_Items: Record<string, () => any> = {
+    logo: () => <Logo />,
     workspaces: () => <Workspaces gdkmonitor={gdkmonitor} />,
     clock: () => <Clock />,
     keyboard: () => <Keyboard />,

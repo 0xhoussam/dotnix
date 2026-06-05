@@ -9,7 +9,7 @@ export const config = {
   spacing: 8, // gap between modules in a section
 
   modules: {
-    start: ["workspaces"],
+    start: ["logo", "workspaces"],
     center: ["clock"],
     // notifications moved into the date panel (Clock → panel); bell removed.
     end: ["systray", "keyboard", "volume", "network", "bluetooth", "battery", "clipboard", "settings"],
