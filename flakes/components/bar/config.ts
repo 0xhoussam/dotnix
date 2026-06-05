@@ -10,10 +10,10 @@ export const config = {
   screenCornerRadius: 14, // concave screen-corner rounding in px (0 disables)
 
   modules: {
-    start: ["logo", "workspaces"],
+    start: ["logo", "workspaces", "systray"],
     center: ["clock"],
     // notifications moved into the date panel (Clock → panel); bell removed.
-    end: ["systray", "keyboard", "volume", "network", "bluetooth", "battery", "clipboard", "settings"],
+    end: ["keyboard", "volume", "network", "bluetooth", "battery", "clipboard", "settings"],
   } satisfies Record<Location, string[]>,
 
   // World Clocks shown in the date panel. tz = IANA timezone id.

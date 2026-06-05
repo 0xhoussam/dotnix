@@ -1,8 +1,9 @@
-import { Gdk } from "ags/gtk4"
+import { Gdk, Gtk } from "ags/gtk4"
 import { createBinding, createComputed, For } from "ags"
 import Hyprland from "gi://AstalHyprland"
 
-// Hyprland workspaces with per-workspace app icons (icon = window class).
+// Hyprland workspaces as dots: a faint dot per workspace, brighter when
+// occupied, and an elongated accent pill for the focused one.
 export function Workspaces({ gdkmonitor: _gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
   const hypr = Hyprland.get_default()
   const focused = createBinding(hypr, "focusedWorkspace")
@@ -36,15 +37,20 @@ function WorkspaceButton({
   const cls = createComputed(() => {
     const fw = focused()
     const occupied = clients().length > 0
-    const c = ["workspace"]
+    const c = ["ws-dot"]
     if (fw && fw.id === ws.id) c.push("active")
     c.push(occupied ? "occupied" : "empty")
     return c.join(" ")
   })
 
+  // valign center stops the button stretching to the full bar height, so the
+  // dot keeps its min-height (otherwise border-radius makes a tall bar).
   return (
-    <button class={cls} onClicked={() => ws.focus()} tooltipText={`Workspace ${ws.id}`}>
-      <label class="ws-id" label={`${ws.id}`} />
-    </button>
+    <button
+      class={cls}
+      valign={Gtk.Align.CENTER}
+      onClicked={() => ws.focus()}
+      tooltipText={`Workspace ${ws.id}`}
+    />
   )
 }

@@ -34,48 +34,56 @@ window.Bar {
     padding: 0 8px 0 6px;
   }
 
-  // ---- Workspaces -------------------------------------------------------
-  .workspaces .workspace {
-    min-width: 22px;
-    padding: 1px 7px;
-    border-radius: 8px;
-    background-color: transparent;
+  // ---- Workspaces (dots) ------------------------------------------------
+  .workspaces .ws-dot {
+    min-width: 9px;
+    min-height: 9px;
+    margin: 0 3px;
+    padding: 0;
+    border-radius: 9999px;
+    background-color: $faint; // empty
     transition:
-      background-color 140ms ease,
-      color 140ms ease;
-
-    .ws-id {
-      font-weight: bold;
-    }
-
-    // app icons sit a touch dimmer than the label until active
-    .app-icon {
-      opacity: 0.9;
-    }
-
-    &.empty .ws-id {
-      color: $faint;
-      font-weight: normal;
-    }
+      background-color 160ms ease,
+      min-width 160ms ease;
 
     &.occupied {
-      background-color: $card;
-      .ws-id {
-        color: $fg;
-      }
+      background-color: $muted; // brighter than empty
     }
 
     &:hover {
-      background-color: $hover;
+      background-color: $fg;
     }
 
+    // focused workspace: elongated accent pill
     &.active {
+      min-width: 26px;
       background-color: $accent;
-      .ws-id {
-        color: $accent-fg;
+    }
+  }
+
+  // ---- System tray (right of workspaces) --------------------------------
+  .systray {
+    margin-left: 8px;
+
+    .systray-item {
+      min-width: 0;
+      padding: 3px 5px;
+      border-radius: 8px;
+      color: $muted;
+      background-color: transparent;
+      transition:
+        background-color 140ms ease,
+        color 140ms ease;
+
+      &:hover {
+        background-color: $hover;
+        color: $fg;
       }
-      .app-icon {
-        opacity: 1;
+
+      // menubutton wraps an inner button; flatten its chrome
+      > button {
+        padding: 0;
+        min-width: 0;
       }
     }
   }
@@ -134,14 +142,6 @@ window.Bar {
 
     .volume label {
       font-weight: bold;
-    }
-
-    // System tray: row of dbusmenu items, tighter gaps than other modules
-    .systray {
-      .systray-item {
-        min-width: 0;
-        padding: 3px 4px;
-      }
     }
 
     .notifications .badge {
