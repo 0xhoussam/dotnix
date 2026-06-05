@@ -125,6 +125,14 @@ window.Bar {
       font-weight: bold;
     }
 
+    // System tray: row of dbusmenu items, tighter gaps than other modules
+    .systray {
+      .systray-item {
+        min-width: 0;
+        padding: 3px 4px;
+      }
+    }
+
     .notifications .badge {
       color: $accent-fg;
       background-color: $accent;

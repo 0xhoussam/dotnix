@@ -32,7 +32,7 @@
       wireplumber # volume / audio
       notifd # notifications
       mpris # media player (now playing)
-      # tray
+      tray # StatusNotifierItem system tray
     ];
 
     extraPackages =

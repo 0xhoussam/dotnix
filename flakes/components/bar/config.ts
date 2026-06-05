@@ -12,7 +12,7 @@ export const config = {
     start: ["workspaces"],
     center: ["clock"],
     // notifications moved into the date panel (Clock → panel); bell removed.
-    end: ["keyboard", "volume", "network", "bluetooth", "battery", "clipboard", "settings"],
+    end: ["systray", "keyboard", "volume", "network", "bluetooth", "battery", "clipboard", "settings"],
   } satisfies Record<Location, string[]>,
 
   // World Clocks shown in the date panel. tz = IANA timezone id.

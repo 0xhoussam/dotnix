@@ -10,6 +10,7 @@ import { Volume } from "./items/Volume"
 import { Battery } from "./items/Battery"
 import { Clipboard } from "./items/Clipboard"
 import { Settings } from "./items/Settings"
+import { Systray } from "./items/Systray"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -25,6 +26,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     battery: () => <Battery />,
     clipboard: () => <Clipboard />,
     settings: () => <Settings />,
+    systray: () => <Systray />,
   }
 
   const getModules = (location: Location) =>
