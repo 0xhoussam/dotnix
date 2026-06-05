@@ -20,9 +20,4 @@
     enable = true;
     enableSSHSupport = true;
   };
-
-  programs.nm-applet = {
-    enable = true;
-    indicator = true;
-  };
 }
