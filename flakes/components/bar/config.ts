@@ -7,6 +7,7 @@ export const config = {
   position: "top" as "top" | "bottom",
   size: 40, // bar height in px (heightRequest)
   spacing: 8, // gap between modules in a section
+  screenCornerRadius: 14, // concave screen-corner rounding in px (0 disables)
 
   modules: {
     start: ["logo", "workspaces"],

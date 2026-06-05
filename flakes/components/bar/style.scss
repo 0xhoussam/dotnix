@@ -8,6 +8,12 @@ $accent-fg: #ffffff; // on-accent text
 $card: rgba(255, 255, 255, 0.08); // card_bg_color
 $hover: rgba(255, 255, 255, 0.1);
 
+// Concave screen-corner overlays: window is fully transparent; only the
+// cairo-drawn wedge (DrawingArea) paints the corner.
+window.ScreenCorner {
+  background-color: transparent;
+}
+
 window.Bar {
   background-color: $bar-bg;
   color: $fg;

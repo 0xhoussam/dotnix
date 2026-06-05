@@ -5,6 +5,7 @@ import style from "./bar/style.scss"
 import Bar from "./bar/app"
 import DatePanel from "./bar/widget/DatePanel"
 import NotificationPopups from "./bar/widget/NotificationPopups"
+import ScreenCorners from "./bar/widget/ScreenCorners"
 
 app.start({
   css: style,
@@ -13,6 +14,7 @@ app.start({
 
     const monitors = app.get_monitors()
     monitors.map(Bar)
+    monitors.map(ScreenCorners)
 
     // Single-instance overlays on the primary monitor.
     const primary = monitors[0]
