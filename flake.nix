@@ -4,11 +4,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     kvlibadwaita = {
       url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprcursor = {
       url = "github:hyprwm/hyprcursor";
@@ -17,17 +15,11 @@
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
       flake = false;
     };
-    # neovide-src = {
-    #   url = "github:neovide/neovide";
-    #   flake = false;
-    # };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     apple-fonts = {
       url = "github:Lyndeno/apple-fonts.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     zenbones.url = "./flakes/zenbones-mono-flake";
     mcmojave-hyprcursor = {
@@ -35,15 +27,12 @@
     };
     vicinae = {
       url = "github:vicinaehq/vicinae";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     claude-code = {
       url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     components = {
       url = "./flakes/components"; # AGS bar (vendored)
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   outputs =
