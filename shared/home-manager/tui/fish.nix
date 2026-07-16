@@ -32,6 +32,18 @@
       '';
 
     functions = {
+    detach = {
+      description = "Run a program independently of the terminal";
+      body = ''
+        if test (count $argv) -eq 0
+          echo "Usage: detach <command> [args...]"
+          return 1
+        end
+
+        nohup $argv > /dev/null 2>&1 &
+        disown
+      '';
+    };
       # prompt mirroring oh-my-zsh afowler theme:
       #   bystial :: ~/projects/logistics ‹prod*› »
       _git_prompt = # fish

@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, ... }:
 let
   ghostty = "${pkgs.ghostty}/bin/ghostty";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
@@ -8,7 +8,8 @@ let
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   awww = "${pkgs.awww}/bin/awww";
   background = ../../../assets/wallpapers/tanjiro.jpg;
-  vicinae = "${inputs.vicinae.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/vicinae";
+  vicinae = "${pkgs.vicinae}/bin/vicinae";
+  kitty = lib.getExe pkgs.kitty;
 
   workspaceBinds = builtins.concatLists (
     builtins.genList (
@@ -89,7 +90,7 @@ in
     decoration = {
       rounding = 15;
       blur = {
-        enabled = true;
+        enabled = false;
         size = 3;
         passes = 1;
         new_optimizations = "on";
@@ -140,7 +141,7 @@ in
     # ];
 
     bind = [
-      "$mod, Return, exec, ${ghostty}"
+      "$mod, Return, exec, ${kitty}"
       "$mod, b, exec, flatpak run app.zen_browser.zen"
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"

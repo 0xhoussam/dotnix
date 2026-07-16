@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   imports = [
     ./audio.nix
@@ -14,6 +14,7 @@
     ./sysctl.nix
     ./virt.nix
     ./polkit-agent.nix
+    ./font.nix
   ];
   config = {
     programs.nix-ld.enable = true;

@@ -8,5 +8,6 @@
     python3
     cargo
     rustc
+    tree-sitter
   ]);
 }
