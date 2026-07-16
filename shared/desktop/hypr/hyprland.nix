@@ -1,6 +1,5 @@
 { inputs, pkgs, lib, ... }:
 let
-  ghostty = "${pkgs.ghostty}/bin/ghostty";
   swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   lock = "${inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
@@ -10,6 +9,7 @@ let
   background = ../../../assets/wallpapers/tanjiro.jpg;
   vicinae = "${pkgs.vicinae}/bin/vicinae";
   kitty = lib.getExe pkgs.kitty;
+  brave = lib.getExe pkgs.brave;
 
   workspaceBinds = builtins.concatLists (
     builtins.genList (
@@ -142,7 +142,7 @@ in
 
     bind = [
       "$mod, Return, exec, ${kitty}"
-      "$mod, b, exec, flatpak run app.zen_browser.zen"
+      "$mod, b, exec, ${brave}"
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
       "$mod, M, exit,"
