@@ -11,7 +11,6 @@
     jetbrains-toolbox
     ghostty
     firefox
-    sublime4
     spotify
     imv
     nmgui
