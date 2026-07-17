@@ -2,7 +2,7 @@
 {
   services.gvfs.enable = true;
   services.flatpak.enable = true;
-  services.cpupower-gui.enable = true;
+  # services.cpupower-gui.enable = true;
   # services.auto-cpufreq.enable = true;
   # services.auto-cpufreq.settings = {
   #   battery = {

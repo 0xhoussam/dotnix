@@ -7,6 +7,7 @@
     ./services.nix
     ./pkgs.nix
     ./intel.nix
+    ./power.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
