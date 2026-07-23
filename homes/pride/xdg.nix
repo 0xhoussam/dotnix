@@ -27,7 +27,7 @@
       gen_default_app "nemo.desktop" [
         "inode/directory"
       ]
-      // gen_default_app "app.zen_browser.zen.desktop" [
+      // gen_default_app "firefox.desktop" [
         "x-scheme-handler/http"
         "x-scheme-handler/https"
         "x-scheme-handler/chrome"

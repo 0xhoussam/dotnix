@@ -65,22 +65,6 @@
               '';
             };
           })
-          # (final: prev: {
-          #   neovide = prev.neovide.overrideAttrs (
-          #     old:
-          #     (lib.removeAttrs old [
-          #       "cargoHash"
-          #       "cargoDeps"
-          #     ])
-          #     // {
-          #       version = "unstable-${lib.substring 0 7 inputs.neovide-src.rev}";
-          #       src = inputs.neovide-src;
-          #       cargoDeps = prev.rustPlatform.importCargoLock {
-          #         lockFile = inputs.neovide-src + "/Cargo.lock";
-          #       };
-          #     }
-          #   );
-          # })
         ];
       };
 

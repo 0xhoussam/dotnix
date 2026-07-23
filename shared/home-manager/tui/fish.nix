@@ -5,7 +5,6 @@
     shellAliases = {
       ls = "eza --icons";
       v = "nvim";
-      nv = "neovide";
     };
 
     shellAbbrs = {

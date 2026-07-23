@@ -18,6 +18,8 @@
     openvpn3
     opencode
     inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
+    loupe
+    gnome-text-editor
 
     zoom-us
 
@@ -55,15 +57,6 @@
     (writeShellScriptBin "reload-failed-services" ''
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart
     '')
-
-    (writeShellScriptBin "nv" # bash
-      ''
-        export DRI_PRIME=1
-        neovide $@ &
-        pid=$!
-        disown $pid
-      ''
-    )
   ];
 
   programs = {
