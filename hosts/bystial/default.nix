@@ -34,6 +34,7 @@
     extraGroups = [
       "wheel"
       "docker"
+      "network"
     ];
     packages = with pkgs; [
       vim

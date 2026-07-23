@@ -1,15 +1,16 @@
 { inputs, pkgs, lib, ... }:
 let
-  swayosd-client = "${pkgs.swayosd}/bin/swayosd-client";
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   lock = "${inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   awww = "${pkgs.awww}/bin/awww";
   background = ../../../assets/wallpapers/tanjiro.jpg;
-  vicinae = "${pkgs.vicinae}/bin/vicinae";
   kitty = lib.getExe pkgs.kitty;
-  brave = lib.getExe pkgs.brave;
+  firefox = lib.getExe pkgs.firefox;
+  sherlock = lib.getExe pkgs.sherlock-launcher;
+  brightnessctl = lib.getExe pkgs.brightnessctl;
+  wpctl = "${pkgs.wireplumber}/bin/wpctl";
 
   workspaceBinds = builtins.concatLists (
     builtins.genList (
@@ -37,6 +38,7 @@ in
     pkgs.hyprshot
     pkgs.brightnessctl
     pkgs.awww
+    pkgs.wireplumber
   ];
 
   wayland.windowManager.hyprland.enable = true;
@@ -142,12 +144,12 @@ in
 
     bind = [
       "$mod, Return, exec, ${kitty}"
-      "$mod, b, exec, ${brave}"
+      "$mod, b, exec, ${firefox}"
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
       "$mod, M, exit,"
       "$mod, V, togglefloating,"
-      "$mod, R, exec, ${vicinae} toggle"
+      "$mod, R, exec, ${sherlock} toggle"
       "$mod, F, fullscreen"
       "$mod, Tab, workspace, previous"
 
@@ -174,14 +176,14 @@ in
     ];
 
     bindel = [
-      ", XF86MonBrightnessUp, exec, ${swayosd-client} --brightness raise"
-      ", XF86MonBrightnessDown, exec, ${swayosd-client} --brightness lower"
-      ", XF86AudioRaiseVolume, exec, ${swayosd-client} --output-volume raise"
-      ", XF86AudioLowerVolume, exec, ${swayosd-client} --output-volume lower"
+      ", XF86MonBrightnessUp, exec, ${brightnessctl} set 10%+"
+      ", XF86MonBrightnessDown, exec, ${brightnessctl} set 10%-"
+      ", XF86AudioRaiseVolume, exec, ${wpctl} set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+      ", XF86AudioLowerVolume, exec, ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-"
     ];
 
     bindl = [
-      ", XF86AudioMute, exec, ${swayosd-client} --output-volume mute-toggle"
+      ", XF86AudioMute, exec, ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle"
       ", XF86AudioPlay, exec, ${playerctl} play-pause"
       ", XF86AudioPrev, exec, ${playerctl} previous"
       ", XF86AudioNext, exec, ${playerctl} next"

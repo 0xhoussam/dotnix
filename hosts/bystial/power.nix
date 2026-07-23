@@ -56,14 +56,14 @@
           energy_performance_preference = "power";
           boost = 0;
         };
+        usb = {
+          autosuspend = 1;
+        };
         acpi = {
-          platform_profile = "low-power|quiet";
+          platform_profile = "low-power";
         };
         audio = {
           timeout = 10;
-        };
-        video = {
-          panel_power_savings = 3;
         };
         scsi_host = {
           alpm = "med_power_with_dipm";
