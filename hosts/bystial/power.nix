@@ -5,14 +5,76 @@
     "iwlmvm.power_scheme=3"
   ];
 
-  services.thermald = {
-    enable = true;
-  };
+  services.thermald.enable = true;
 
   services.power-profiles-daemon.enable = false;
 
   services.tuned = {
     enable = true;
+    ppdSupport = false;
+    recommend = { };
+    settings = {
+      daemon = true;
+      dynamic_tuning = true;
+      sleep_interval = 1;
+      update_interval = 10;
+    };
+    profiles = {
+      laptop-ac-balanced = {
+        main = {
+          summary = "Balanced profile for laptop on AC power with Intel optimizations";
+          include = "balanced";
+        };
+        cpu = {
+          governor = "schedutil|conservative|powersave";
+          energy_perf_bias = "performance|normal";
+          energy_performance_preference = "balance_performance";
+          boost = 1;
+        };
+        acpi = {
+          platform_profile = "balanced";
+        };
+        audio = {
+          timeout = 10;
+        };
+        video = {
+          panel_power_savings = 1;
+        };
+        scsi_host = {
+          alpm = "med_power_with_dipm";
+        };
+      };
+
+      laptop-battery-maxpower = {
+        main = {
+          summary = "Maximum power saving profile for laptop battery mode";
+          include = "powersave";
+        };
+        cpu = {
+          governor = "powersave";
+          energy_perf_bias = "power";
+          energy_performance_preference = "power";
+          boost = 0;
+        };
+        acpi = {
+          platform_profile = "low-power|quiet";
+        };
+        audio = {
+          timeout = 10;
+        };
+        video = {
+          panel_power_savings = 3;
+        };
+        scsi_host = {
+          alpm = "med_power_with_dipm";
+        };
+        sysctl = {
+          "vm.laptop_mode" = 5;
+          "vm.dirty_writeback_centisecs" = 1500;
+          "kernel.nmi_watchdog" = 0;
+        };
+      };
+    };
   };
 
   services.acpid = {
@@ -22,10 +84,12 @@
       vals=($1)
       case ''${vals[3]} in
         00000000)
-          ${pkgs.tuned}/bin/tuned-adm profile laptop-battery-powersave
+          ${pkgs.tuned}/bin/tuned-adm profile laptop-battery-maxpower
+          ${pkgs.sudo}/bin/sudo -u pride ${pkgs.hyprland}/bin/hyprctl keyword animations:enabled false || true
           ;;
         00000001)
-          ${pkgs.tuned}/bin/tuned-adm profile balanced
+          ${pkgs.tuned}/bin/tuned-adm profile laptop-ac-balanced
+          ${pkgs.sudo}/bin/sudo -u pride ${pkgs.hyprland}/bin/hyprctl keyword animations:enabled true || true
           ;;
         *)
           echo "acpid: unknown AC state: ''${vals[3]}" | systemd-cat -t acpid-tuned -p warning
@@ -43,11 +107,17 @@
     script = ''
       AC_PATH="/sys/class/power_supply/AC/online"
       if [ -f "$AC_PATH" ] && [ "$(cat "$AC_PATH")" = "1" ]; then
-        ${pkgs.tuned}/bin/tuned-adm profile balanced
+        ${pkgs.tuned}/bin/tuned-adm profile laptop-ac-balanced
+        ${pkgs.sudo}/bin/sudo -u pride ${pkgs.hyprland}/bin/hyprctl keyword animations:enabled true || true
       else
-        ${pkgs.tuned}/bin/tuned-adm profile laptop-battery-powersave
+        ${pkgs.tuned}/bin/tuned-adm profile laptop-battery-maxpower
+        ${pkgs.sudo}/bin/sudo -u pride ${pkgs.hyprland}/bin/hyprctl keyword animations:enabled false || true
       fi
     '';
   };
 
+  powerManagement = {
+    enable = true;
+    powertop.enable = true;
+  };
 }

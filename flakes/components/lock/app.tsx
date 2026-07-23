@@ -32,6 +32,8 @@ function findEntry(widget: Gtk.Widget): Gtk.Entry | null {
 }
 
 app.start({
+instanceName: "lock",
+
   css: style,
   main() {
     if (!GtkSessionLock.is_supported()) {
