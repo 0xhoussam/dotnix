@@ -5,6 +5,7 @@
 
     gc = {
       automatic = true;
+      persistent = true;
       dates = "weekly";
       options = "--delete-older-than 10d";
     };
@@ -14,11 +15,12 @@
       experimental-features = [
         "nix-command"
         "flakes"
-        "read-only-local-store"
       ];
       trusted-users = [ "@wheel" ];
       auto-optimise-store = true;
       warn-dirty = false;
+      min-free = "512M";
+      max-free = "1024M";
       substituters = [
         "https://nix-community.cachix.org"
       ];

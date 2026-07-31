@@ -14,6 +14,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
   boot.tmp.cleanOnBoot = true;
 
   networking.hostName = "bystial";
@@ -44,9 +45,6 @@
 
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
-    variables = {
-      ROC_ENABLE_PRE_VEGA = "1";
-    };
   };
 
   hardware.graphics = {

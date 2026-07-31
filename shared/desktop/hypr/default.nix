@@ -4,6 +4,7 @@
     ./hyprland.nix
     ./wofi.nix
     ./awww.nix
+    ./hyprsunset.nix
   ];
 
   home.packages = [

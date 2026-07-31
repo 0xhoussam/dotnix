@@ -22,9 +22,6 @@
   ];
 
   programs.home-manager.enable = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.1.1w"
-  ];
 
   home.stateVersion = "26.05";
 }

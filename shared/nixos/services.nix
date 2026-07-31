@@ -12,7 +12,6 @@
       xkb.variant = "dvorak,";
       xkb.options = "grp:win_space_toggle";
     };
+    fstrim.enable = true;
   };
-
-  systemd.coredump.enable = true;
 }

@@ -4,6 +4,7 @@
 
   networking.nftables.enable = true;
   networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 22 ];
   networking.hosts = {
     "127.0.0.1" = [ "minio" ];
   };

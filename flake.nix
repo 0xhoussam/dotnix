@@ -33,9 +33,6 @@
     mcmojave-hyprcursor = {
       url = "github:libadoxon/mcmojave-hyprcursor";
     };
-    vicinae = {
-      url = "github:vicinaehq/vicinae";
-    };
     claude-code = {
       url = "github:sadjow/claude-code-nix";
     };
@@ -55,7 +52,6 @@
       self,
       nixpkgs,
       home-manager,
-      vicinae,
       claude-code,
       nix-cachyos-kernel,
       gofi,
@@ -162,7 +158,6 @@
                 home.packages = [ pkgs.claude-code ];
               }
             )
-            vicinae.homeManagerModules.default
             ./homes/pride
           ];
 

@@ -76,7 +76,8 @@ in
 
     plugin = {
       hyprfocus = {
-        focus_animation = "flash";
+        enabled = "no";
+        focus_animation = "shrink";
         animate_workspacechange = "yes";
         animate_floating = "yes";
 
@@ -216,7 +217,6 @@ in
 
     exec-once = [
       "${awww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
-      # "${vicinae} server"
     ];
   };
 }

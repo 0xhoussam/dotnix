@@ -13,7 +13,6 @@
     ./shell.nix
     ./sysctl.nix
     ./virt.nix
-    ./polkit-agent.nix
     ./font.nix
   ];
   config = {
@@ -24,7 +23,4 @@
     hardware.enableAllFirmware = true;
   };
   config.nixpkgs.config.allowUnfree = true;
-  config.nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.1.1w"
-  ];
 }
