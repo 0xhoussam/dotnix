@@ -1,5 +1,13 @@
 {
   description = "A simple NixOS flake";
+  nixConfig = {
+    extra-substituters = [
+      "https://cache.xinux.uz"
+    ];
+    extra-trusted-public-keys = [
+      "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0="
+    ];
+  };
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
@@ -34,6 +42,13 @@
     components = {
       url = "./flakes/components"; # AGS bar (vendored)
     };
+    gofi = {
+      url = "./flakes/gofi";
+    };
+    eshot = {
+      url = "./flakes/eshot";
+    };
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
   outputs =
     {
@@ -42,6 +57,8 @@
       home-manager,
       vicinae,
       claude-code,
+      nix-cachyos-kernel,
+      gofi,
       ...
     }@inputs:
     let
@@ -101,6 +118,20 @@
             inherit inputs;
           };
           modules = [
+            ({ ... }: {
+
+              nixpkgs.overlays = [
+                # Use the exact nixpkgs revision as defined in this repo to ensure binary cache hits.
+                nix-cachyos-kernel.overlays.pinned
+
+                # Alternatively, use nixpkgs from your environment, nixpkgs.config will apply.
+                # Note: may not hit binary cache; kernel will need to be built locally.
+                # nix-cachyos-kernel.overlays.default
+
+                # Only use one of the two overlays!
+              ];
+            })
+
             ./hosts/bystial
           ];
         };

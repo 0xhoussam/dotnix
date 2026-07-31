@@ -69,9 +69,11 @@
           alpm = "med_power_with_dipm";
         };
         sysctl = {
-          "vm.laptop_mode" = 5;
-          "vm.dirty_writeback_centisecs" = 1500;
+          type = "sysctl";
+          "vm.laptop_mode" = 1;
           "kernel.nmi_watchdog" = 0;
+          "vm.dirty_expire_centisecs" = 6000;
+          "vm.dirty_writeback_centisecs" = 6000;
         };
       };
     };

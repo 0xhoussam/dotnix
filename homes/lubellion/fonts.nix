@@ -1,6 +1,12 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  config,
+  lib,
+  ...
+}:
 let
-    zenbones = inputs.zenbones.packages.${pkgs.stdenv.hostPlatform.system};
+  zenbones = inputs.zenbones.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   fonts.fontconfig = {
@@ -30,4 +36,10 @@ in
     geist-font
   ];
   nixpkgs.config.input-fonts.acceptLicense = true;
+  home.activation.linkFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/.local/share/fonts"
+    find ${config.home.profileDirectory}/share/fonts -type f \( -iname "*.ttf" -o -iname "*.otf" \) \
+      -exec ln -sf {} "$HOME/.local/share/fonts/" \;
+    ${pkgs.fontconfig}/bin/fc-cache -f "$HOME/.local/share/fonts"
+  '';
 }

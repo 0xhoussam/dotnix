@@ -18,8 +18,14 @@
     openvpn3
     opencode
     inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.gofi.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.eshot.packages.${pkgs.stdenv.hostPlatform.system}.default
     loupe
     gnome-text-editor
+    gns3-gui
+    inetutils
+    wireshark
+    papers
 
     zoom-us
 

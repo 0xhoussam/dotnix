@@ -13,7 +13,6 @@
       xkb.options = "grp:win_space_toggle";
     };
   };
-  console.keyMap = "us";
 
   systemd.coredump.enable = true;
 }

@@ -22,6 +22,10 @@
     };
   };
 
+  networking.firewall.trustedInterfaces = [ "virbr0" ];
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "pride" ];
+
   environment = {
     systemPackages = with pkgs; [
       virt-manager

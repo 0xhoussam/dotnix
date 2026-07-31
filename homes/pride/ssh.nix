@@ -5,7 +5,7 @@
     enableDefaultConfig = false;
     settings = {
       "*" = {
-        ForwardAgent = false;
+        ForwardAgent = true;
         AddKeysToAgent = "no";
         Compression = false;
         ServerAliveInterval = 0;
@@ -15,6 +15,9 @@
         ControlMaster = "no";
         ControlPath = "~/.ssh/master-%r@%n:%p";
         ControlPersist = "no";
+        SetEnv = {
+            TERM = "xterm-256color";
+        };
       };
       "github.com" = {
         HostName = "ssh.github.com";

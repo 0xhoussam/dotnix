@@ -1,18 +1,23 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 let
-    zenbones = inputs.zenbones.packages.${pkgs.stdenv.hostPlatform.system};
+  zenbones = inputs.zenbones.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
       serif = [
-          "SFProDisplay Nerd Font"
+        "SFProDisplay Nerd Font"
         "IBM Plex Serif"
         "IBM Plex Sans Arabic"
       ];
       sansSerif = [
-          "SFProDisplay Nerd Font"
+        "SFProDisplay Nerd Font"
         "Adwaita Sans"
         "IBM Plex Sans"
         "IBM Plex Sans Arabic"
@@ -39,5 +44,13 @@ in
     monaspace
     geist-font
   ];
+
+  home.activation.linkFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/.local/share/fonts"
+    find -L "$HOME/.nix-profile/share/fonts" -type f \( -iname "*.ttf" -o -iname "*.otf" \) \
+      -exec ln -sf {} "$HOME/.local/share/fonts/" \;
+    $DRY_RUN_CMD ${pkgs.fontconfig}/bin/fc-cache -f "$HOME/.local/share/fonts"
+  '';
+
   nixpkgs.config.input-fonts.acceptLicense = true;
 }

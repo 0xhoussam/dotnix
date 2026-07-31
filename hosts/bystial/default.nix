@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./hardware.nix
@@ -10,7 +10,7 @@
     ./power.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-x86_64-v3;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -25,7 +25,7 @@
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz";
     packages = with pkgs; [ terminus_font ];
-    keyMap = "us";
+    keyMap = "dvorak";
   };
 
   users.users.pride = {

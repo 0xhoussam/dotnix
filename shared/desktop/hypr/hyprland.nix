@@ -1,4 +1,9 @@
-{ inputs, pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 let
   playerctl = "${pkgs.playerctl}/bin/playerctl";
   lock = "${inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
@@ -8,7 +13,7 @@ let
   background = ../../../assets/wallpapers/tanjiro.jpg;
   kitty = lib.getExe pkgs.kitty;
   firefox = lib.getExe pkgs.firefox;
-  sherlock = lib.getExe pkgs.sherlock-launcher;
+  gofi = lib.getExe inputs.gofi.packages.${pkgs.stdenv.hostPlatform.system}.default;
   brightnessctl = lib.getExe pkgs.brightnessctl;
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
 
@@ -45,6 +50,12 @@ in
   wayland.windowManager.hyprland.configType = "hyprlang";
   wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
   wayland.windowManager.hyprland.systemd.enableXdgAutostart = true;
+
+  wayland.windowManager.hyprland.plugins = with pkgs; [
+    hyprlandPlugins.hyprfocus
+    hyprlandPlugins.hyprspace
+  ];
+
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
@@ -63,6 +74,35 @@ in
       };
     };
 
+    plugin = {
+      hyprfocus = {
+        focus_animation = "flash";
+        animate_workspacechange = "yes";
+        animate_floating = "yes";
+
+        flash = {
+          flash_opacity = 0.7;
+          in_bezier = "bezIn";
+          in_speed = 0.5;
+          out_bezier = "bezOut";
+          out_speed = 3;
+        };
+
+        # Shrink settings
+        shrink = {
+          shrink_percentage = 0.99;
+          in_bezier = "easeInOutBack";
+          in_speed = 1.5;
+          out_bezier = "easeInOutBack";
+          out_speed = 3;
+        };
+      };
+    };
+
+    "plugin:overview:centerAligned" = true;
+    "plugin:overview:exitOnClick" = true;
+    "plugin:overview:showNewWorkspace" = true;
+
     cursor = {
       hide_on_key_press = true;
     };
@@ -76,6 +116,7 @@ in
 
     gesture = [
       "3, horizontal, workspace"
+      "3, vertical, workspace"
     ];
 
     general = {
@@ -125,31 +166,15 @@ in
       movefocus_cycles_fullscreen = true;
     };
 
-    # windowrulev2 = [
-    #   "float, class:^(org.gnome.Calculator)$"
-    #   "float, class:^(C)$"
-    #   "float, class:^(xdg-desktop-portal-gtk)$"
-    #   "float, class:^(blueman-manager)$"
-    #   "float, class:^(pavucontrol)$"
-    #   "float, class:^(nm-connection-editor)$"
-    #   "float, class:^(xdg-desktop-portal)$"
-    #   "float, class:^(de.haeckerfelix.Fragments)$"
-    # ];
-
-    # layerrule = [
-    #   "blur, ^(waybar)$"
-    #   # "blur, ^(vicinae)$"
-    #   # "ignorealpha 0, ^(vicinae)$"
-    # ];
-
     bind = [
+      "$mod, TAB, overview:toggle"
       "$mod, Return, exec, ${kitty}"
       "$mod, b, exec, ${firefox}"
       "$mod, e, exec, xdg-open $HOME"
       "$mod, W, killactive,"
       "$mod, M, exit,"
       "$mod, V, togglefloating,"
-      "$mod, R, exec, ${sherlock} toggle"
+      "$mod, R, exec, ${gofi}"
       "$mod, F, fullscreen"
       "$mod, Tab, workspace, previous"
 
