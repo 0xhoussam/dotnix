@@ -107,9 +107,9 @@ function NotificationColumn() {
 }
 
 function CalendarColumn() {
-  // Single shared 10s tick drives the header date and every world clock,
+  // Single shared hourly tick drives the header date and every world clock,
   // instead of one timer per label.
-  const now = createPoll(GLib.DateTime.new_now_local(), 10_000, () =>
+  const now = createPoll(GLib.DateTime.new_now_local(), 3_600_000, () =>
     GLib.DateTime.new_now_local(),
   )
 

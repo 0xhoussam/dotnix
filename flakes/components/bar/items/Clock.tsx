@@ -4,7 +4,7 @@ import { panelOpen, togglePanel } from "../state"
 
 // Center clock: "Jun 04  12:16". Click toggles the date/notification panel.
 export function Clock() {
-  const time = createPoll("", 1000, () =>
+  const time = createPoll("", 60_000, () =>
     GLib.DateTime.new_now_local().format("%b %d  %H:%M")!,
   )
 
