@@ -47,16 +47,14 @@
     };
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      claude-code,
-      nix-cachyos-kernel,
-      gofi,
-      ...
-    }@inputs:
+   outputs =
+     {
+       self,
+       nixpkgs,
+       home-manager,
+       gofi,
+       ...
+     }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -102,7 +100,7 @@
         project = lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs;
+            inherit inputs self;
           };
           modules = [
             ./hosts/dell
@@ -111,23 +109,9 @@
         bystial = lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs;
+            inherit inputs self;
           };
           modules = [
-            ({ ... }: {
-
-              nixpkgs.overlays = [
-                # Use the exact nixpkgs revision as defined in this repo to ensure binary cache hits.
-                nix-cachyos-kernel.overlays.pinned
-
-                # Alternatively, use nixpkgs from your environment, nixpkgs.config will apply.
-                # Note: may not hit binary cache; kernel will need to be built locally.
-                # nix-cachyos-kernel.overlays.default
-
-                # Only use one of the two overlays!
-              ];
-            })
-
             ./hosts/bystial
           ];
         };
@@ -137,32 +121,10 @@
         pride = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            (
-              { pkgs, ... }:
-              {
-                nixpkgs.overlays = [
-                  claude-code.overlays.default
-                  (final: prev: {
-                    claude-code = prev.symlinkJoin {
-                      name = "claude-code-${prev.claude-code.version or "wrapped"}";
-                      paths = [ prev.claude-code ];
-                      nativeBuildInputs = [ prev.makeWrapper ];
-                      postBuild = ''
-                        wrapProgram $out/bin/claude \
-                          --prefix PATH : ${prev.lib.makeBinPath [ prev.nodejs ]}
-                      '';
-                      inherit (prev.claude-code) meta;
-                    };
-                  })
-                ];
-                home.packages = [ pkgs.claude-code ];
-              }
-            )
             ./homes/pride
           ];
-
           extraSpecialArgs = {
-            inherit inputs;
+            inherit inputs self;
           };
         };
         lubellion = home-manager.lib.homeManagerConfiguration {
@@ -171,7 +133,7 @@
             ./homes/lubellion
           ];
           extraSpecialArgs = {
-            inherit inputs;
+            inherit inputs self;
           };
         };
       };
