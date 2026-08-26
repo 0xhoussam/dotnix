@@ -3,7 +3,6 @@
   imports = [
     ./hardware-configuration.nix
     ./../../shared/nixos
-    ./xdg.nix
     ./services.nix
     ./pkgs.nix
   ];

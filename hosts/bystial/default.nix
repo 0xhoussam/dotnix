@@ -3,7 +3,6 @@
   imports = [
     ./hardware.nix
     ./../../shared/nixos
-    ./xdg.nix
     ./services.nix
     ./pkgs.nix
     ./intel.nix
@@ -35,7 +34,7 @@
     extraGroups = [
       "wheel"
       "docker"
-      "network"
+      "networkmanager"
     ];
     packages = with pkgs; [
       vim
