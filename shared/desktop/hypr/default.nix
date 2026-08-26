@@ -5,6 +5,7 @@
     ./wofi.nix
     ./awww.nix
     ./hyprsunset.nix
+    ./sherlock.nix
   ];
 
   home.packages = [

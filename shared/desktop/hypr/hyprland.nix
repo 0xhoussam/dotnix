@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   lib,
+  self,
   ...
 }:
 let
@@ -10,7 +11,7 @@ let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
   awww = "${pkgs.awww}/bin/awww";
-  background = ../../../assets/wallpapers/tanjiro.jpg;
+  background = "${self.outPath}/assets/wallpapers/tanjiro.jpg";
   kitty = lib.getExe pkgs.kitty;
   firefox = lib.getExe pkgs.firefox;
   gofi = lib.getExe inputs.gofi.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -51,11 +52,6 @@ in
   wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
   wayland.windowManager.hyprland.systemd.enableXdgAutostart = true;
 
-  wayland.windowManager.hyprland.plugins = with pkgs; [
-    hyprlandPlugins.hyprfocus
-    hyprlandPlugins.hyprspace
-  ];
-
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
 
@@ -73,36 +69,6 @@ in
         clickfinger_behavior = true;
       };
     };
-
-    plugin = {
-      hyprfocus = {
-        enabled = "no";
-        focus_animation = "shrink";
-        animate_workspacechange = "yes";
-        animate_floating = "yes";
-
-        flash = {
-          flash_opacity = 0.7;
-          in_bezier = "bezIn";
-          in_speed = 0.5;
-          out_bezier = "bezOut";
-          out_speed = 3;
-        };
-
-        # Shrink settings
-        shrink = {
-          shrink_percentage = 0.99;
-          in_bezier = "easeInOutBack";
-          in_speed = 1.5;
-          out_bezier = "easeInOutBack";
-          out_speed = 3;
-        };
-      };
-    };
-
-    "plugin:overview:centerAligned" = true;
-    "plugin:overview:exitOnClick" = true;
-    "plugin:overview:showNewWorkspace" = true;
 
     cursor = {
       hide_on_key_press = true;
@@ -128,7 +94,7 @@ in
       "col.active_border" = "0xff1c71d8";
       "col.inactive_border" = "0";
 
-      layout = "dwindle";
+      layout = "scrolling";
     };
 
     decoration = {
@@ -168,7 +134,6 @@ in
     };
 
     bind = [
-      "$mod, TAB, overview:toggle"
       "$mod, Return, exec, ${kitty}"
       "$mod, b, exec, ${firefox}"
       "$mod, e, exec, xdg-open $HOME"

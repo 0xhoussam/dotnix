@@ -1,6 +1,13 @@
-{...}: {
-    imports = [
-        ./gui
-        ./tui
-    ];
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  imports = [
+    ./gui
+    ./tui
+    ./claude.nix
+  ];
 }

@@ -4,8 +4,9 @@
     ./audio.nix
     ./bluetooth.nix
     ./docker.nix
+    ./kernel.nix
     ./man.nix
-    ./net.nix
+    ./networking.nix
     ./nix.nix
     ./polkit-agent.nix
     ./power.nix
@@ -13,7 +14,8 @@
     ./shell.nix
     ./sysctl.nix
     ./virt.nix
-    ./font.nix
+    ./fonts.nix
+    ./xdg.nix
   ];
   config = {
     programs.nix-ld.enable = true;
