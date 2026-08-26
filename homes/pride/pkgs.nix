@@ -26,6 +26,7 @@
     inetutils
     wireshark
     papers
+    helix
 
     zoom-us
 

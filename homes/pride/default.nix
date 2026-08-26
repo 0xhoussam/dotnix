@@ -1,9 +1,13 @@
-{ ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
 
   imports = [
-    ./../../shared/home-manager/gui
-    ./../../shared/home-manager/tui
+    ./../../shared/home-manager
     ./../../shared/desktop/hypr
     ./fonts.nix
     ./pkgs.nix
