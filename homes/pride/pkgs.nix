@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  eshot,
   ...
 }:
 {
@@ -8,18 +9,14 @@
     brave
     mpv
     pavucontrol
-    jetbrains-toolbox
     ghostty
     firefox
     spotify
     imv
-    nmgui
-    code-cursor
-    openvpn3
     opencode
+    anyrun
     inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.gofi.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.eshot.packages.${pkgs.stdenv.hostPlatform.system}.default
+    eshot.packages.${pkgs.stdenv.hostPlatform.system}.default
     loupe
     gnome-text-editor
     gns3-gui

@@ -1,6 +1,6 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, components, ... }:
 let
-  bar = inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  bar = components.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   # AGS bar as a user service (restart-on-failure, journalctl --user -u ags-bar).

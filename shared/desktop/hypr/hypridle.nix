@@ -1,7 +1,7 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, components, ... }:
 let
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-  lock = "${inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
+  lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
   loginctl = "${pkgs.systemd}/bin/loginctl";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   systemctl = "${pkgs.systemd}/bin/systemctl";

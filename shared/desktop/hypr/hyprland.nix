@@ -3,19 +3,20 @@
   pkgs,
   lib,
   self,
+  config,
+  components,
   ...
 }:
 
 let
   playerctl = lib.getExe pkgs.playerctl;
-  lock = "${inputs.components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
+  lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
   hyprctl = lib.getExe pkgs.hyprland;
   hyprshot = lib.getExe pkgs.hyprshot;
   awww = lib.getExe pkgs.awww;
   background = "${self.outPath}/assets/wallpapers/tanjiro.jpg";
   kitty = lib.getExe pkgs.kitty;
   firefox = lib.getExe pkgs.firefox;
-  gofi = lib.getExe inputs.gofi.packages.${pkgs.stdenv.hostPlatform.system}.default;
   brightnessctl = lib.getExe pkgs.brightnessctl;
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
 
@@ -165,14 +166,15 @@ let
               hl.dsp.exec_cmd("${firefox}")
             )
 
-            hl.bind(
+hl.bind(
               mod .. " + E",
               hl.dsp.exec_cmd("xdg-open $HOME")
             )
 
+
             hl.bind(
               mod .. " + R",
-              hl.dsp.exec_cmd("${gofi}")
+              hl.dsp.exec_cmd("anyrun")
             )
 
 
@@ -412,6 +414,7 @@ in
     ./env.nix
     ./service.nix
     ./agsbar.nix
+    ./anyrun.nix
   ];
 
   home.packages = [

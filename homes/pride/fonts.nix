@@ -2,10 +2,11 @@
   pkgs,
   inputs,
   lib,
+  zenbones,
   ...
 }:
 let
-  zenbones = inputs.zenbones.packages.${pkgs.stdenv.hostPlatform.system};
+  zenbonesPkgs = zenbones.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   fonts.fontconfig = {
@@ -40,7 +41,7 @@ in
     martian-mono
     lato
     cascadia-code
-    zenbones.zenbones-proto
+    zenbonesPkgs.zenbones-proto
     monaspace
     geist-font
   ];
