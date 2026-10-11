@@ -38,7 +38,12 @@ function startLock() {
     console.error("lock: compositor refused the lock (another locker running?)")
     app.quit()
   })
-  lock.connect("unlocked", () => app.quit())
+  // "unlocked" is emitted *before* gtk4-layer-shell sends unlock_and_destroy,
+  // and ags' app.quit() exit()s on the spot — quitting here would kill us
+  // while still locked ("lockscreen died"). Quit once unlock() has returned.
+  lock.connect("unlocked", () => {
+    GLib.idle_add(GLib.PRIORITY_DEFAULT, () => (app.quit(), GLib.SOURCE_REMOVE))
+  })
   // emitted for every output now and for any plugged in while locked
   lock.connect("monitor", (_l: Gtk4SessionLock.Instance, monitor: Gdk.Monitor) => {
     const win = new Gtk.Window({ application: app, cssClasses: ["lock-window"] })
