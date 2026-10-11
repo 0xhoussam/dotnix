@@ -6,6 +6,11 @@ import Bar from "./bar/app"
 import DatePanel from "./bar/widget/DatePanel"
 import NotificationPopups from "./bar/widget/NotificationPopups"
 import ScreenCorners from "./bar/widget/ScreenCorners"
+import PairingDialog from "./bar/items/bluetooth/PairingDialog"
+import { startAgent, stopAgent } from "./bar/items/bluetooth/agent"
+import { startObexAgent, stopObexAgent } from "./bar/items/bluetooth/obex"
+import { startRfkillWatch } from "./bar/items/bluetooth/rfkill"
+import { startBluetoothServices, stopBluetoothServices } from "./bar/items/bluetooth/services"
 
 app.start({
   css: style,
@@ -21,6 +26,19 @@ app.start({
     if (primary) {
       DatePanel(primary)
       NotificationPopups(primary)
+      PairingDialog(primary)
     }
+
+    // Bluetooth: pairing + OBEX agents, kill-switch watch, notifications,
+    // auto-connect and controller wakelock.
+    startAgent()
+    startObexAgent()
+    startRfkillWatch()
+    startBluetoothServices()
+    app.connect("shutdown", () => {
+      stopAgent()
+      stopObexAgent()
+      stopBluetoothServices()
+    })
   },
 })

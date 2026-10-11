@@ -601,10 +601,324 @@ window.Bar .clock.active {
   }
 }
 
-// Bluetooth device battery (reuses .net-popover rows)
-.net-popover .bt-battery {
-  color: $muted;
-  font-size: 12px;
-  font-weight: bold;
-  margin-right: 2px;
+// ---- Bluetooth popover (extends the Wi-Fi .net-popover look) -----------
+$danger: #e01b24; // libadwaita destructive_bg_color
+
+.bt-popover {
+  .net-panel {
+    min-width: 360px;
+  }
+
+  .bt-icon-btn {
+    min-width: 26px;
+    min-height: 26px;
+    padding: 0;
+    border-radius: 9999px;
+    background-color: transparent;
+    color: $muted;
+
+    &:hover {
+      background-color: $hover;
+      color: $fg;
+    }
+  }
+
+  .bt-banner {
+    margin: 0 2px 10px 2px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background-color: rgba(224, 27, 36, 0.18);
+    color: $fg;
+    font-size: 12px;
+  }
+
+  .bt-hint {
+    color: $muted;
+    font-size: 11px;
+  }
+
+  .bt-toggle {
+    padding: 6px 12px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+
+    label {
+      color: $fg;
+    }
+
+    .bt-hint {
+      color: $muted;
+    }
+  }
+
+  .bt-chip {
+    min-height: 22px;
+    padding: 2px 10px;
+    border-radius: 9999px;
+    background-color: $card;
+    color: $fg;
+    font-size: 12px;
+
+    &:hover {
+      background-color: $hover;
+    }
+
+    &.active {
+      background-color: $accent;
+      color: $accent-fg;
+    }
+  }
+
+  // device row: main click area + expand chevron inside one rounded row
+  .bt-row {
+    padding: 0;
+
+    .bt-row-main {
+      padding: 8px 4px 8px 12px;
+      border-radius: 12px;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .bt-expand {
+      min-width: 28px;
+      min-height: 28px;
+      margin-right: 6px;
+      padding: 0;
+      border-radius: 9999px;
+      background-color: transparent;
+      color: $muted;
+
+      &:hover {
+        background-color: $hover;
+        color: $fg;
+      }
+    }
+
+    &.open {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.error .bt-status {
+      color: #ff7b63;
+    }
+  }
+
+  .bt-name {
+    font-weight: bold;
+  }
+
+  .bt-status {
+    color: $muted;
+    font-size: 11px;
+  }
+
+  .bt-row.active .bt-status {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  // expanded panel
+  .bt-panel {
+    padding: 10px 12px 12px 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+
+    .net-section-title {
+      margin: 4px 2px 0 2px;
+    }
+
+    .bt-toggle {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+  }
+
+  .bt-info {
+    font-size: 12px;
+
+    .bt-info-key {
+      color: $muted;
+    }
+
+    .bt-info-val {
+      color: $fg;
+      font-family: monospace;
+    }
+  }
+
+  .bt-entry {
+    border-radius: 9999px;
+    padding: 6px 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: $fg;
+  }
+
+  .bt-profile {
+    padding: 2px 4px 2px 12px;
+
+    label {
+      color: $fg;
+      font-size: 12px;
+    }
+
+    .bt-chip {
+      min-width: 26px;
+      padding: 2px 6px;
+    }
+  }
+
+  .bt-option {
+    padding: 5px 12px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.04);
+    color: $fg;
+    font-size: 12px;
+
+    .net-check {
+      color: $accent;
+    }
+
+    &:hover {
+      background-color: $hover;
+    }
+
+    &.active {
+      background-color: rgba(53, 132, 228, 0.22);
+    }
+  }
+
+  .bt-action {
+    padding: 6px 10px;
+    border-radius: 9999px;
+    background-color: $card;
+    color: $fg;
+    font-size: 12px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: $hover;
+    }
+
+    &.on {
+      background-color: rgba(53, 132, 228, 0.22);
+      color: $fg;
+    }
+
+    &.destructive {
+      color: #ff7b63;
+    }
+
+    &.destructive.confirm {
+      background-color: $danger;
+      color: #ffffff;
+    }
+  }
+
+  .bt-transfer {
+    padding: 8px 10px 8px 12px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+
+    label {
+      color: $fg;
+      font-size: 12px;
+    }
+
+    levelbar block.filled {
+      background-color: $accent;
+    }
+
+    levelbar trough,
+    levelbar block.empty {
+      min-height: 4px;
+      border-radius: 9999px;
+    }
+  }
+
+  .bt-options {
+    padding: 4px 0 2px 0;
+  }
+}
+
+// ---- Bluetooth pairing / incoming-file dialog -------------------------
+window.BtPairing {
+  background-color: transparent;
+
+  .bt-dialog {
+    margin: 24px;
+    padding: 20px;
+    border-radius: 18px;
+    background-color: $popover-bg;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+    color: $fg;
+  }
+
+  .bt-dialog-icon {
+    color: $accent;
+  }
+
+  .bt-dialog-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .bt-dialog-sub {
+    color: $muted;
+    font-size: 12px;
+  }
+
+  .bt-dialog-msg {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .bt-passkey {
+    margin: 6px 0;
+    font-size: 34px;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 4px;
+  }
+
+  .bt-file {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background-color: $card;
+
+    .bt-file-size {
+      color: $muted;
+      font-size: 12px;
+    }
+  }
+
+  .bt-entry {
+    border-radius: 9999px;
+    padding: 8px 14px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: $fg;
+    font-family: monospace;
+    font-size: 15px;
+  }
+
+  .bt-dialog-btn {
+    padding: 8px 12px;
+    border-radius: 9999px;
+    background-color: $card;
+    color: $fg;
+    font-weight: bold;
+
+    &:hover {
+      background-color: $hover;
+    }
+
+    &.suggested {
+      background-color: $accent;
+      color: $accent-fg;
+
+      &:hover {
+        background-color: shade($accent, 1.1);
+      }
+    }
+  }
 }
