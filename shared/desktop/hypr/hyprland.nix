@@ -123,6 +123,9 @@ let
                 key_press_enables_dpms = true,
                 focus_on_activate = true,
                 disable_hyprland_logo = true,
+                -- if the lock screen dies, a new one can take over (start it
+                -- from a TTY) instead of the session staying stuck
+                allow_session_lock_restore = true,
               },
 
               ecosystem = {
