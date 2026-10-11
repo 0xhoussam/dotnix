@@ -1,20 +1,39 @@
-/** @jsxImportSource ags/gtk3 */
-import Gtk from "gi://Gtk?version=3.0"
+import { Gtk } from "ags/gtk4"
+import GLib from "gi://GLib"
+import { Background, noteInput } from "./Background"
+import BottomBar from "./BottomBar"
 import Clock from "./Clock"
 import LoginBox from "./LoginBox"
-import Indicators from "./Indicators"
 
-// One surface per monitor. Indicators top-right, clock top-center,
-// login box bottom-center. Only the primary monitor gets the login + chips.
-export default function LockSurface(primary: boolean, onSuccess: () => void) {
+// One surface per monitor: wallpaper, a legibility scrim, then the clock
+// (top-left), password field (right) and bottom bar on top.
+export default function LockSurface({ onSuccess }: { onSuccess: () => void }) {
   return (
-    <box class="lock-surface" hexpand vexpand>
-      <box class="lock-layout" vertical hexpand vexpand>
-        {primary ? <Indicators /> : <box />}
+    <overlay
+      class="lock-surface"
+      $={(self) => {
+        // any input resumes an idle-paused video
+        const keys = new Gtk.EventControllerKey()
+        keys.connect("key-pressed", () => (noteInput(), false))
+        const motion = new Gtk.EventControllerMotion()
+        motion.connect("motion", noteInput)
+        self.add_controller(keys)
+        self.add_controller(motion)
+      }}
+    >
+      <Background />
+      <box $type="overlay" class="lock-scrim" hexpand vexpand canTarget={false} />
+      <box $type="overlay" class="lock-content" orientation={Gtk.Orientation.VERTICAL} hexpand vexpand
+        $={(self) =>
+          // a frame after mapping so the opacity transition actually runs
+          self.connect("map", () =>
+            GLib.timeout_add(GLib.PRIORITY_DEFAULT, 60, () => (self.add_css_class("shown"), GLib.SOURCE_REMOVE)))
+        }>
         <Clock />
         <box vexpand />
-        {primary ? LoginBox(onSuccess) : <box />}
+        <LoginBox onSuccess={onSuccess} />
+        <BottomBar />
       </box>
-    </box>
+    </overlay>
   )
 }

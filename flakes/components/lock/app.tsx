@@ -1,87 +1,93 @@
-/** @jsxImportSource ags/gtk3 */
-import app from "ags/gtk3/app"
-import Gtk from "gi://Gtk?version=3.0"
-import Gdk from "gi://Gdk?version=3.0"
-import GLib from "gi://GLib?version=2.0"
-import GtkSessionLock from "gi://GtkSessionLock?version=0.1"
+import app from "ags/gtk4/app"
+import { Astal, Gdk, Gtk } from "ags/gtk4"
+import GLib from "gi://GLib"
+import Gtk4SessionLock from "gi://Gtk4SessionLock"
 import style from "./style.scss"
+import { startIdlePause, wallpaper } from "./widget/Background"
 import LockSurface from "./widget/LockSurface"
-import { WALLPAPER } from "./config"
 
-const lock = GtkSessionLock.prepare_lock()
+// Secure lock screen on ext-session-lock-v1 (gtk4-layer-shell's
+// Gtk4SessionLock): the compositor keeps every output locked until we
+// unlock after a successful PAM conversation, or shows its own failsafe
+// if this process dies.
+//
+// LOCK_PREVIEW=1 renders the same surfaces as plain overlay windows without
+// locking anything (Escape quits) — for working on the design.
 
-function unlock() {
-  for (const win of app.get_windows()) {
-    GtkSessionLock.unmap_lock_window(win)
-  }
-  lock.unlock_and_destroy()
-  Gdk.Display.get_default()?.sync()
-  app.quit()
+const PREVIEW = GLib.getenv("LOCK_PREVIEW") === "1"
+
+function surface(onSuccess: () => void) {
+  return <LockSurface onSuccess={onSuccess} />
 }
 
-// Walk the widget tree to find the password entry so we can focus it.
-function findEntry(widget: Gtk.Widget): Gtk.Entry | null {
-  if (widget instanceof Gtk.Entry) return widget
-  if (widget instanceof Gtk.Container) {
-    for (const child of widget.get_children()) {
-      const found = findEntry(child)
-      if (found) return found
-    }
+function fadeOutThen(done: () => void) {
+  for (const w of app.get_windows()) w.add_css_class("leaving")
+  GLib.timeout_add(GLib.PRIORITY_DEFAULT, 260, () => (done(), GLib.SOURCE_REMOVE))
+}
+
+function startLock() {
+  if (!Gtk4SessionLock.is_supported()) {
+    console.error("lock: ext-session-lock-v1 not supported by this compositor")
+    return app.quit()
   }
-  return null
+
+  const lock = Gtk4SessionLock.Instance.new()
+  const unlock = () => fadeOutThen(() => lock.unlock())
+
+  lock.connect("failed", () => {
+    console.error("lock: compositor refused the lock (another locker running?)")
+    app.quit()
+  })
+  lock.connect("unlocked", () => app.quit())
+  // emitted for every output now and for any plugged in while locked
+  lock.connect("monitor", (_l: Gtk4SessionLock.Instance, monitor: Gdk.Monitor) => {
+    const win = new Gtk.Window({ application: app, cssClasses: ["lock-window"] })
+    win.set_child(surface(unlock) as Gtk.Widget)
+    lock.assign_window_to_monitor(win, monitor)
+    win.present()
+  })
+
+  if (!lock.lock()) {
+    console.error("lock: lock() failed")
+    app.quit()
+  }
+}
+
+function startPreview() {
+  for (const monitor of app.get_monitors()) {
+    const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
+    const win = (
+      <window
+        visible
+        gdkmonitor={monitor}
+        namespace="lock-preview"
+        class="lock-window"
+        layer={Astal.Layer.OVERLAY}
+        exclusivity={Astal.Exclusivity.IGNORE}
+        keymode={Astal.Keymode.EXCLUSIVE}
+        anchor={TOP | BOTTOM | LEFT | RIGHT}
+        application={app}
+      >
+        {surface(() => fadeOutThen(() => app.quit()))}
+      </window>
+    ) as Gtk.Window
+    const keys = new Gtk.EventControllerKey()
+    keys.propagationPhase = Gtk.PropagationPhase.CAPTURE
+    keys.connect("key-pressed", (_c, keyval, _code, state) => {
+      // Ctrl+Escape: Escape alone clears the password field
+      if (keyval === Gdk.KEY_Escape && state & Gdk.ModifierType.CONTROL_MASK) app.quit()
+      return false
+    })
+    win.add_controller(keys)
+  }
 }
 
 app.start({
-instanceName: "lock",
-
+  instanceName: PREVIEW ? "lock-preview" : "lock",
   css: style,
   main() {
-    if (!GtkSessionLock.is_supported()) {
-      console.error("ext-session-lock-v1 not supported by this compositor")
-      return app.quit()
-    }
-
-    // wallpaper overrides the gradient when a valid path is configured
-    if (WALLPAPER && GLib.file_test(WALLPAPER, GLib.FileTest.EXISTS)) {
-      app.apply_css(
-        `.lock-surface {
-           background-image: url("file://${WALLPAPER}");
-           background-size: cover;
-           background-position: center;
-         }`,
-        false,
-      )
-    }
-
-    lock.connect("finished", () => {
-      console.error("session lock finished without locking")
-      app.quit()
-    })
-
-    let passwordEntry: Gtk.Entry | null = null
-    lock.connect("locked", () => {
-      console.log("session locked")
-      passwordEntry?.grab_focus()
-    })
-
-    lock.lock_lock()
-
-    const display = Gdk.Display.get_default()
-    const primaryMon = display?.get_primary_monitor() ?? null
-    const monitors = app.get_monitors()
-
-    for (const monitor of monitors) {
-      const isPrimary = primaryMon ? monitor === primaryMon : monitor === monitors[0]
-
-      const win = new Gtk.Window()
-      win.set_decorated(false)
-      win.add(LockSurface(isPrimary, unlock))
-
-      lock.new_surface(win, monitor)
-      win.show_all()
-      app.add_window(win)
-
-      if (isPrimary) passwordEntry = findEntry(win)
-    }
+    wallpaper() // start decoding before the surfaces map
+    startIdlePause()
+    PREVIEW ? startPreview() : startLock()
   },
 })

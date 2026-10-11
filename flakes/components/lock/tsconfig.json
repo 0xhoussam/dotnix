@@ -6,7 +6,7 @@
     "module": "Preserve",
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
-    "jsxImportSource": "ags/gtk3",
+    "jsxImportSource": "ags/gtk4",
     "lib": ["ES2023"],
     "types": ["../env.d.ts"]
   }

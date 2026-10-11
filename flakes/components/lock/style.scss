@@ -1,100 +1,204 @@
-// libadwaita dark palette
-$fg: #ffffff; // window_fg_color
-$muted: rgba(255, 255, 255, 0.55); // dim-label
-$accent: #78aeed; // accent_color (on dark)
-$accent-bg: #3584e4; // accent_bg_color
-$error: #ff7b63; // error_color (on dark)
-$card: rgba(255, 255, 255, 0.08); // card_bg_color
+// Lock screen: video wallpaper with a techno HUD (Orbitron, bundled via
+// FONTCONFIG_FILE in default.nix).
 
-.lock-surface {
-  // Wallpaper (config.ts) overrides this. Adwaita dark window background.
-  background-image: linear-gradient(135deg, #303030 0%, #242424 55%, #1a1a1a 100%);
+$font: "Orbitron", sans-serif;
+$fg: #ffffff;
+$dim: rgba(255, 255, 255, 0.6);
+$cyan: #7fdcff;
+$line: rgba(255, 255, 255, 0.35);
+$error: #ff7b63;
+
+window.lock-window {
+  background-color: #0b0d12;
+  transition: opacity 250ms ease-in;
+
+  &.leaving {
+    opacity: 0;
+  }
 }
 
-.indicators {
-  margin-top: 14px;
-  margin-right: 18px;
+.lock-bg-fallback {
+  background-image: radial-gradient(circle at 70% 30%, #1d2a3a 0%, #0f141c 55%, #07090d 100%);
 }
 
-.chip {
-  color: $muted;
-  padding: 2px 8px;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.08);
+// darken the edges where the text sits, keep the middle of the video clean
+.lock-scrim {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 28%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 30%);
 }
 
-.chip-text {
-  color: $muted;
-  font-size: 12px;
-}
-
-.chip-icon {
-  color: $muted;
-  font-size: 14px;
-}
-
-.clock-date {
+.lock-content {
+  font-family: $font;
   color: $fg;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 90px;
+  padding: 0 44px 26px 44px;
+  opacity: 0;
+  transition: opacity 600ms ease-out;
+
+  &.shown {
+    opacity: 1;
+  }
+
+  label {
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+  }
+}
+
+// ---- clock ----------------------------------------------------------------
+
+.clock {
+  margin-top: 30px;
 }
 
 .clock-time {
-  color: $accent;
   font-size: 92px;
-  font-weight: 300;
+  font-weight: 900;
+  letter-spacing: 2px;
 }
+
+.clock-date-row {
+  margin-top: 2px;
+  margin-left: 4px;
+}
+
+.clock-dash {
+  min-width: 26px;
+  min-height: 2px;
+  background-color: $cyan;
+}
+
+.clock-date {
+  color: $cyan;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+// ---- password -------------------------------------------------------------
 
 .login {
-  margin-bottom: 90px;
+  min-width: 210px;
+  margin-bottom: 70px;
 }
 
-.avatar {
-  border-radius: 9999px;
-}
-
-.login-name {
-  color: $fg;
+.login-user {
   font-size: 15px;
-  font-weight: bold;
-  margin-top: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.login-field {
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.75);
+
+  &.shake {
+    animation: shake 380ms ease-in-out;
+  }
 }
 
 .login-entry {
-  margin-top: 12px;
-  min-width: 220px;
-  padding: 6px 14px;
-  border-radius: 9999px;
+  min-height: 24px;
+  padding: 0;
   border: none;
-  background-color: $card;
+  outline: none;
+  box-shadow: none;
+  background: none;
   color: $fg;
+  font-family: $font;
+  font-size: 9px;
+  letter-spacing: 8px;
+  caret-color: $cyan;
+
+  > text > placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 3px;
+    font-size: 10px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
 }
 
-.login-entry:focus {
-  background-color: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 0 0 2px $accent-bg;
+.login-go {
+  min-width: 22px;
+  min-height: 20px;
+  padding: 0 0 2px 0;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 9999px;
+  background: none;
+  box-shadow: none;
+  color: $cyan;
+
+  &:hover {
+    background-color: rgba(95, 212, 255, 0.15);
+  }
 }
 
-.login-entry.shake {
-  animation: shake 0.4s ease-in-out;
+.login-status {
+  color: $dim;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  transition: opacity 200ms ease;
+
+  &.error {
+    color: $error;
+  }
 }
 
 @keyframes shake {
-  0% { margin-left: 0px; }
-  20% { margin-left: 12px; }
-  40% { margin-left: -12px; }
-  60% { margin-left: 12px; }
-  80% { margin-left: -12px; }
-  100% { margin-left: 0px; }
+  0% { transform: translateX(0); }
+  20% { transform: translateX(10px); }
+  40% { transform: translateX(-10px); }
+  60% { transform: translateX(7px); }
+  80% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
 }
 
-.login-hint {
-  color: $muted;
-  font-size: 12px;
-  margin-top: 10px;
+// ---- bottom bar ---------------------------------------------------------------
+
+.bottom-row {
+  padding: 0 2px 8px 2px;
 }
 
-.login-hint.error {
-  color: $error;
+.session-dot {
+  min-width: 5px;
+  min-height: 5px;
+  border-radius: 9999px;
+  background-color: $cyan;
+}
+
+.session-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.power-btn {
+  padding: 2px 4px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  box-shadow: none;
+  color: $fg;
+  font-family: $font;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+
+  &:hover {
+    color: $cyan;
+  }
+
+  &.armed {
+    color: $error;
+  }
+}
+
+.bottom-line {
+  min-height: 1px;
+  background-color: $line;
 }

@@ -1,6 +1,14 @@
 // Lock screen configuration.
-import GLib from "gi://GLib?version=2.0"
+import GLib from "gi://GLib"
 
-// Absolute path to a wallpaper image. Empty string = keep the gradient.
-// e.g. `${GLib.get_home_dir()}/.config/wallpaper.jpg`
-export const WALLPAPER = ``
+// Background: a video (looped, muted; anything GStreamer decodes) or an
+// image. Set by Nix through the wrapper (lockWallpaper in default.nix, passed
+// from flake.nix); unset or missing = dark gradient.
+export const WALLPAPER = GLib.getenv("LOCK_WALLPAPER") ?? ""
+
+// Pause the video after this long without input (saves battery while the
+// screen sits locked); any key or pointer motion resumes it.
+export const IDLE_PAUSE_SECONDS = 180
+
+// PAM service to authenticate against. Must exist in /etc/pam.d.
+export const PAM_SERVICE = "swaylock"

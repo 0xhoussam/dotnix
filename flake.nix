@@ -73,7 +73,11 @@
       ];
     };
 
-    components = import ./flakes/components { inherit pkgs; ags = inputs.ags; };
+    components = import ./flakes/components {
+      inherit pkgs;
+      ags = inputs.ags;
+      lockWallpaper = ./assets/wallpapers/lock-katana-forest.mp4;
+    };
     eshot = import ./flakes/eshot { inherit pkgs; };
     zenbones = import ./flakes/zenbones-mono-flake { inherit pkgs; };
 
