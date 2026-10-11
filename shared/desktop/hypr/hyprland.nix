@@ -13,8 +13,6 @@ let
   lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
   hyprctl = lib.getExe pkgs.hyprland;
   hyprshot = lib.getExe pkgs.hyprshot;
-  awww = lib.getExe pkgs.awww;
-  background = "${self.outPath}/assets/wallpapers/tanjiro.jpg";
   kitty = lib.getExe pkgs.kitty;
   firefox = lib.getExe pkgs.firefox;
   brightnessctl = lib.getExe pkgs.brightnessctl;
@@ -398,16 +396,6 @@ hl.bind(
               { locked = true }
             )
 
-
-            ---------------------------------------------------------------------------
-            -- Startup
-            ---------------------------------------------------------------------------
-
-            hl.on("hyprland.start", function()
-              hl.exec_cmd(
-                "${awww} img --transition-type wipe --transition-angle 30 --transition-step 90 ${background}"
-              )
-            end)
   '';
 
 in
@@ -424,7 +412,6 @@ in
     pkgs.playerctl
     pkgs.hyprshot
     pkgs.brightnessctl
-    pkgs.awww
     pkgs.wireplumber
   ];
 

@@ -3,7 +3,7 @@
   imports = [
     ./hyprland.nix
     ./wofi.nix
-    ./awww.nix
+    ./mpvpaper.nix
     ./hyprsunset.nix
     ./sherlock.nix
   ];
