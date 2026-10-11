@@ -14,12 +14,15 @@ window.ScreenCorner {
   background-color: transparent;
 }
 
+// The window itself is transparent: while autohidden it stays full height
+// with only the bar body painted, and the body slides out of view.
 window.Bar {
-  background-color: $bar-bg;
+  background-color: transparent;
   color: $fg;
   font-size: 13px;
 
-  > centerbox {
+  .bar-body {
+    background-color: $bar-bg;
     padding: 0 10px;
   }
 

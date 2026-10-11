@@ -9,6 +9,15 @@ export const config = {
   spacing: 8, // gap between modules in a section
   screenCornerRadius: 14, // concave screen-corner rounding in px (0 disables)
 
+  // Hide the bar until the pointer reaches the screen edge. While enabled the
+  // bar floats over windows instead of reserving space.
+  autohide: {
+    enabled: true,
+    revealZone: 4, // px strip at the edge that reveals the bar on hover
+    hideDelay: 500, // ms with nothing holding the bar before it hides
+    transition: 200, // slide animation in ms
+  },
+
   modules: {
     start: ["logo", "workspaces", "systray"],
     center: ["clock"],
