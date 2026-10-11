@@ -310,7 +310,7 @@ hl.bind(
 
             hl.bind(
               mod .. " + SHIFT + CTRL + L",
-              hl.dsp.exec_cmd("${lock} && ${hyprctl} dispatch dpms off")
+              hl.dsp.exec_cmd("${lock} & sleep 1; ${hyprctl} dispatch 'hl.dsp.dpms({ action = [[off]] })'")
             )
 
 
