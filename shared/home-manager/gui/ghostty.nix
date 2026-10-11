@@ -6,7 +6,7 @@
     enableFishIntegration = true;
     installVimSyntax = true;
     settings = {
-      font-family = "FiraMono Nerd Font";
+      font-family = "Zenbones Proto";
       font-style = "Regular";
       font-size = 17;
       working-directory = "/home/pride/";

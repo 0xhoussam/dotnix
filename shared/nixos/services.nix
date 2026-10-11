@@ -5,7 +5,7 @@
     # gnome.gnome-keyring.enable = true;
     libinput.enable = true;
     earlyoom.enable = true; # Trigger oom early before systems becomes unusable
-    dbus.packages = [ pkgs.gcr ];
+    dbus.packages = [ pkgs.gcr_4 ];
     openssh.enable = true;
     xserver = {
       xkb.layout = "us,ar";

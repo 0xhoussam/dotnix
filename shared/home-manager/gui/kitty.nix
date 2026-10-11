@@ -19,6 +19,7 @@
             window_padding_height 0
             background_blur 10
             placement_strategy top
+            remember_window_size  false
 
             cursor_trail 10
             cursor_trail_start_threshold 0
@@ -70,7 +71,7 @@
             color17 #ff7eb6
 
 
-            font_family      family="Liga SFMono Nerd Font"
+            font_family      family="Zenbones Proto"
             bold_font        auto
             italic_font      auto
             bold_italic_font auto
