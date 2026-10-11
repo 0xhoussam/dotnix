@@ -24,6 +24,7 @@ let
     ++ [
       pkgs.libadwaita
       pkgs.libsoup_3
+      pkgs.libsecret # network agent: agent-owned Wi-Fi/VPN secrets in the keyring
       pkgs.gtk-session-lock
       pkgs.eslint_d
     ];

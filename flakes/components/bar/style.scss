@@ -557,36 +557,6 @@ window.Bar .clock.active {
     }
   }
 
-  .net-password {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-
-    .net-password-label {
-      color: $muted;
-      font-size: 12px;
-    }
-
-    .net-entry {
-      border-radius: 9999px;
-      padding: 6px 12px;
-      background-color: rgba(255, 255, 255, 0.08);
-      color: $fg;
-    }
-
-    .net-connect {
-      padding: 6px 16px;
-      border-radius: 9999px;
-      background-color: $accent;
-      color: $accent-fg;
-      font-weight: bold;
-
-      &:hover {
-        background-color: shade($accent, 1.1);
-      }
-    }
-  }
-
   .net-settings {
     margin-top: 10px;
     padding: 8px 10px;
@@ -920,5 +890,91 @@ window.BtPairing {
         background-color: shade($accent, 1.1);
       }
     }
+  }
+}
+
+// ---- Network popover extras (on top of .net-popover + .bt-popover) -----
+.net-popover {
+  .net-device-title {
+    color: $fg;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 4px 2px 0 2px;
+  }
+
+  .net-unusable {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .net-portal {
+    margin: 0 2px 10px 2px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background-color: rgba(53, 132, 228, 0.22);
+    color: $fg;
+    font-size: 12px;
+  }
+
+  .net-empty-small {
+    color: $muted;
+    font-size: 12px;
+    margin: 0 2px;
+  }
+
+  .net-wifi-actions {
+    margin-top: 2px;
+  }
+
+  .net-info-group {
+    color: $muted;
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 6px;
+  }
+
+  .net-info .bt-info-val {
+    font-size: 11px;
+  }
+
+  .net-copy {
+    margin-top: 4px;
+  }
+}
+
+window.Bar .net-vpn-badge {
+  color: $accent;
+}
+
+// ---- Network secrets / join dialogs (extend the pairing dialog) -------
+window.NetDialog {
+  .net-dialog-note {
+    color: $muted;
+    font-size: 12px;
+  }
+
+  .net-dialog-error {
+    color: #ff7b63;
+    font-size: 12px;
+  }
+
+  .net-field-label {
+    color: $muted;
+    font-size: 12px;
+  }
+
+  .net-entry {
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  .net-select > button {
+    padding: 6px 12px;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: $fg;
+  }
+
+  .net-check-btn {
+    color: $fg;
   }
 }

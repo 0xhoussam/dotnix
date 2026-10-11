@@ -11,6 +11,10 @@ import { startAgent, stopAgent } from "./bar/items/bluetooth/agent"
 import { startObexAgent, stopObexAgent } from "./bar/items/bluetooth/obex"
 import { startRfkillWatch } from "./bar/items/bluetooth/rfkill"
 import { startBluetoothServices, stopBluetoothServices } from "./bar/items/bluetooth/services"
+import SecretsDialog from "./bar/items/network/SecretsDialog"
+import JoinDialog from "./bar/items/network/JoinDialog"
+import { startNetworkAgent, stopNetworkAgent } from "./bar/items/network/agent"
+import { startNetworkServices, stopNetworkServices } from "./bar/items/network/services"
 
 app.start({
   css: style,
@@ -27,6 +31,8 @@ app.start({
       DatePanel(primary)
       NotificationPopups(primary)
       PairingDialog(primary)
+      SecretsDialog(primary)
+      JoinDialog(primary)
     }
 
     // Bluetooth: pairing + OBEX agents, kill-switch watch, notifications,
@@ -35,10 +41,18 @@ app.start({
     startObexAgent()
     startRfkillWatch()
     startBluetoothServices()
+
+    // Network: NetworkManager secret agent (passwords / 802.1X / VPN) and
+    // connection notifications.
+    startNetworkAgent()
+    startNetworkServices()
+
     app.connect("shutdown", () => {
       stopAgent()
       stopObexAgent()
       stopBluetoothServices()
+      stopNetworkAgent()
+      stopNetworkServices()
     })
   },
 })

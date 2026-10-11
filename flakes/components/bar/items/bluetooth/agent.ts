@@ -70,11 +70,12 @@ const impl = {
     else refuse(inv, a)
   },
 
-  DisplayPinCode([path, pin]: [string, string]) {
+  // Sync handlers get their arguments spread; only *Async ones get an array.
+  DisplayPinCode(path: string, pin: string) {
     show({ kind: "show-pin", path, pin })
   },
 
-  DisplayPasskey([path, passkey, entered]: [string, number, number]) {
+  DisplayPasskey(path: string, passkey: number, entered: number) {
     show({ kind: "show-passkey", path, passkey, entered })
   },
 
