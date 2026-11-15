@@ -130,6 +130,13 @@ Pill {
             }
             QsTile {
                 width: parent.tw
+                icon: "video-display-symbolic"; label: "Wallpaper"
+                sub: WallpaperService.frozen ? "Paused (battery)" : WallpaperService.pauseOnBattery ? "Pauses on battery" : "Always playing"
+                active: WallpaperService.pauseOnBattery
+                onClicked: WallpaperService.setPauseOnBattery(!WallpaperService.pauseOnBattery)
+            }
+            QsTile {
+                width: parent.tw
                 icon: QuickService.recording ? "media-playback-stop-symbolic" : "media-record-symbolic"
                 label: QuickService.recording ? "Stop recording" : "Record screen"
                 sub: QuickService.hasRecorder ? (QuickService.recording ? "Saving to ~/Videos" : "wf-recorder") : "wf-recorder not found"

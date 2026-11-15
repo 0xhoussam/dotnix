@@ -54,19 +54,22 @@ This file is the source of truth for the work below. Tick items as they are comm
 
 ### 3. High-value features
 - [x] Quick Settings panel (`bar/items/Settings.qml`, `quick/QuickService.qml`): brightness and keyboard backlight, Wi-Fi / Bluetooth / Do Not Disturb / Night Light (hyprsunset unit) / Caffeine / screen recording tiles, tuned power profiles, screenshots (hyprshot), session menu (lock, suspend, log out, restart, shut down; destructive ones need a second click). `wf-recorder` is now on the shell's PATH (no system install needed). NOT verified live: `tuned-adm profile` without a polkit prompt, recording, logout dispatch.
-- [ ] Battery popup (time remaining, rate, health, power profile).
-- [ ] Workspace window icons (`taskbarIcons`), urgent state, scroll to switch.
-- [ ] Wallpaper power control (pause `mpvpaper` on battery / fullscreen); check `mpvpaper --help` for built-in auto-pause first.
+- [x] Battery popup (charge, state, time left, power draw, energy, health, tuned profile chips).
+- [x] Workspaces: window icons (up to 3 + N) via `Config.taskbarIcons` -> desktop entry -> class, focused pill, urgent tint, scroll to switch (Lua dispatch).
+- [x] Wallpaper power control: `-a FULL` added to the mpvpaper unit (pauses behind fullscreen windows; live after `home-manager switch`); the shell SIGSTOPs mpvpaper on battery (last frame stays) and SIGCONTs on AC; a Quick Settings tile toggles it (`wallpaper.json`).
 
 ### 4. Further features
-- [ ] Now-playing pill in the bar.
+- [x] Now-playing pill (click play/pause, middle next, right opens the date panel).
 - [ ] Notification centre: group by app, scheduled Do Not Disturb, expiry and progress hints, persisted history.
-- [ ] System stats popup (CPU, RAM, temperature, network speed), read only while open.
+- [x] System stats popup (CPU with history, memory, swap, disk, temperature, network); sampled once a second only while open.
 - [ ] Clipboard: search, image preview, delete single entries, pinning.
 - [ ] Screen recording with a bar indicator (no recorder installed yet; needs one added to the config).
 - [ ] Calendar events and weather in the date panel (open question: weather source and location, calendar source).
 - [ ] Lock screen extras (media, battery, layout, notification count via shared state); fingerprint only if `fprintd` is enrolled.
 - [ ] Theming (accent source, optional light mode).
+
+## Answers from the user
+- Weather: wttr.in. Calendar: Google Calendar (no calendar app installed); use the secret iCal address. No fingerprint reader (skip fingerprint on the lock).
 
 ## Open questions for the user
 - Weather: third-party call (wttr.in or open-meteo), needs a location. Which, and where?

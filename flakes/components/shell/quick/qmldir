@@ -1,0 +1,2 @@
+singleton QuickService 1.0 QuickService.qml
+singleton WallpaperService 1.0 WallpaperService.qml

@@ -2,7 +2,8 @@
 let
   wallpaper = ../../../assets/wallpapers/misty-valley.mp4;
   # Silent, looped, cropped to fill; -p pauses playback while the wallpaper
-  # is fully covered to save power.
+  # is hidden (-p), including behind a fullscreen window (-a FULL), to save
+  # power. The shell also freezes it while on battery.
   mpvOptions = "no-audio --really-quiet --loop-file=inf --panscan=1.0 --hwdec=auto";
 in
 {
@@ -16,7 +17,7 @@ in
       After = [ "hyprland-session.target" ];
     };
     Service = {
-      ExecStart = "${lib.getExe pkgs.mpvpaper} -p -o '${mpvOptions}' ALL ${wallpaper}";
+      ExecStart = "${lib.getExe pkgs.mpvpaper} -p -a FULL -o '${mpvOptions}' ALL ${wallpaper}";
       Restart = "on-failure";
       RestartSec = 2;
     };

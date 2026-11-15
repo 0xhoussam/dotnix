@@ -86,7 +86,7 @@ PanelWindow {
         readonly property var registry: ({
             logo: logoC, workspaces: workspacesC, clock: clockC, keyboard: keyboardC,
             network: networkC, bluetooth: bluetoothC, volume: volumeC,
-            battery: batteryC, clipboard: clipboardC, settings: settingsC, systray: systrayC
+            battery: batteryC, media: mediaC, stats: statsC, clipboard: clipboardC, settings: settingsC, systray: systrayC
         })
 
         Component { id: logoC; Logo {} }
@@ -96,6 +96,8 @@ PanelWindow {
         Component { id: volumeC; Volume {} }
         Component { id: batteryC; Battery {} }
         Component { id: bluetoothC; Bluetooth {} }
+        Component { id: mediaC; MediaPill {} }
+        Component { id: statsC; Stats {} }
         Component { id: networkC; Network {} }
         Component { id: clipboardC; Clipboard {} }
         Component { id: settingsC; Settings {} }

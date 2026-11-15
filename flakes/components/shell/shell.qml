@@ -6,8 +6,12 @@ import "widgets"
 import "bluetooth"
 import "network"
 import "audio"
+import "quick"
 
 ShellRoot {
+    // start the wallpaper power control (a singleton is created on first use)
+    Component.onCompleted: WallpaperService.apply()
+
     // Single-instance overlays on the primary screen.
     DatePanel {}
     NotificationPopups {}
