@@ -4,7 +4,11 @@
 //! BlueZ and NetworkManager never wait on a dead UI.
 
 mod bluetooth;
+mod dbus;
+mod obex;
+mod portal;
 mod prompter;
+mod util;
 
 use prompter::{Answer, Prompter};
 use serde_json::Value;
@@ -28,6 +32,7 @@ fn parse_answer(v: &Value) -> Option<(u64, Answer)> {
 #[tokio::main]
 async fn main() {
     let (out_tx, mut out_rx) = mpsc::unbounded_channel::<Value>();
+    let out_tx2 = out_tx.clone();
     let prompter = Prompter::new(out_tx);
 
     tokio::spawn(async move {
@@ -50,6 +55,25 @@ async fn main() {
         });
     }
 
+    // Generic D-Bus proxy, OBEX and the file picker need both buses.
+    let buses = match dbus::Buses::connect().await {
+        Ok(b) => Some(b),
+        Err(e) => {
+            eprintln!("could not connect to the buses: {e}");
+            None
+        }
+    };
+    let obex = buses.as_ref().map(|b| {
+        let o = obex::Obex::new(b.session.clone(), b.system.clone(), prompter.clone(), out_tx2.clone());
+        let run = o.clone();
+        tokio::spawn(async move {
+            if let Err(e) = run.run().await {
+                eprintln!("obex agent stopped: {e}");
+            }
+        });
+        o
+    });
+
     let mut lines = BufReader::new(tokio::io::stdin()).lines();
     while let Ok(Some(line)) = lines.next_line().await {
         match serde_json::from_str::<Value>(&line) {
@@ -58,11 +82,51 @@ async fn main() {
                     prompter.answer(id, a);
                 }
             }
-            Ok(_) => {}
+            Ok(v) => handle_request(v, &buses, &obex, &out_tx2),
             Err(e) => eprintln!("bad input line: {e}"),
         }
     }
     prompter.cancel_current(None);
     // Let the Canceled replies reach BlueZ before the runtime goes away.
     tokio::time::sleep(std::time::Duration::from_millis(300)).await;
+}
+
+/// Requests from the UI: `call` (generic D-Bus), `send`, `pick-send`,
+/// `cancel-transfer`. Each `call` gets exactly one `reply` with the same rid.
+fn handle_request(v: Value, buses: &Option<dbus::Buses>, obex: &Option<obex::Obex>, out: &mpsc::UnboundedSender<Value>) {
+    let (Some(buses), Some(obex)) = (buses.clone(), obex.clone()) else { return };
+    let out = out.clone();
+    match v["type"].as_str() {
+        Some("call") => {
+            tokio::spawn(async move {
+                let rid = v["rid"].clone();
+                let reply = match dbus::call(&buses, &v).await {
+                    Ok(value) => serde_json::json!({"type":"reply","rid":rid,"ok":true,"value":value}),
+                    Err(e) => serde_json::json!({"type":"reply","rid":rid,"ok":false,"error":e}),
+                };
+                let _ = out.send(reply);
+            });
+        }
+        Some("send") => {
+            let address = v["address"].as_str().unwrap_or_default().to_string();
+            let files: Vec<String> =
+                v["files"].as_array().map(|a| a.iter().filter_map(|f| f.as_str().map(String::from)).collect()).unwrap_or_default();
+            tokio::spawn(async move { obex.send(&address, files).await });
+        }
+        Some("pick-send") => {
+            let address = v["address"].as_str().unwrap_or_default().to_string();
+            let title = v["title"].as_str().unwrap_or("Send files").to_string();
+            tokio::spawn(async move {
+                let files = portal::pick_files(&buses.session, &title).await;
+                if !files.is_empty() {
+                    obex.send(&address, files).await;
+                }
+            });
+        }
+        Some("cancel-transfer") => {
+            let path = v["path"].as_str().unwrap_or_default().to_string();
+            tokio::spawn(async move { obex.cancel(&path).await });
+        }
+        _ => {}
+    }
 }

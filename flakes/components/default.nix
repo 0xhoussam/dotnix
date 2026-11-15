@@ -154,6 +154,8 @@ in {
         cp -r . $out/share/qs-shell
         makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/my-shell \
           --add-flags "-p $out/share/qs-shell" \
+          --prefix XDG_DATA_DIRS : ${pkgs.adwaita-icon-theme}/share \
+          --set-default QS_ICON_THEME Adwaita \
           --set-default SHELL_AGENTS ${shellAgents}/bin/shell-agents
         runHook postInstall
       '';

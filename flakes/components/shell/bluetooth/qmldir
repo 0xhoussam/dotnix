@@ -1,2 +1,7 @@
 singleton BtUtil 1.0 BtUtil.qml
+singleton BtService 1.0 BtService.qml
 PairingDialog 1.0 PairingDialog.qml
+Bluetooth 1.0 Bluetooth.qml
+DeviceRow 1.0 DeviceRow.qml
+AdapterSection 1.0 AdapterSection.qml
+BtAudio 1.0 BtAudio.qml

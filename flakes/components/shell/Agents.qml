@@ -19,6 +19,25 @@ Singleton {
 
     // { id, prompt } or null; at most one at a time.
     property var current: null
+    // OBEX transfers: [{ path, direction, name, device, size, transferred, status }]
+    property var transfers: []
+
+    // ---- generic D-Bus calls through the sidecar --------------------------
+    // call("system"|"session", dest, path, iface, method, args, timeoutMs, cb)
+    // cb(ok, value): value is the reply body (array) or an error string.
+    property int ridSeq: 1
+    property var pending: ({})
+    function argS(v) { return { t: "s", v: v } }
+    function argO(v) { return { t: "o", v: v } }
+    function argB(v) { return { t: "b", v: v } }
+    function argV(inner) { return { t: "v", v: inner } }
+    function call(bus, dest, path, iface, method, args, timeoutMs, cb) {
+        const rid = ridSeq++
+        if (cb) pending[rid] = cb
+        proc.write(JSON.stringify({ type: "call", rid: rid, bus: bus, dest: dest, path: path, iface: iface,
+            method: method, args: args || [], timeout_ms: timeoutMs || 30000 }) + "\n")
+    }
+    function send(obj) { proc.write(JSON.stringify(obj) + "\n") }
 
     function answer(kind, extra) {
         if (!current) return
@@ -41,6 +60,12 @@ Singleton {
                 try { m = JSON.parse(line) } catch (e) { console.warn("agents: bad line:", line); return }
                 if (m.type === "prompt") root.current = { id: m.id, prompt: m.prompt }
                 else if (m.type === "prompt-clear" && root.current && root.current.id === m.id) root.current = null
+                else if (m.type === "transfers") root.transfers = m.list
+                else if (m.type === "reply") {
+                    const cb = root.pending[m.rid]
+                    delete root.pending[m.rid]
+                    if (cb) cb(m.ok, m.ok ? m.value : m.error)
+                }
             }
         }
         // The agent is part of the shell: restart if it dies.
