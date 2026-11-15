@@ -24,7 +24,7 @@ Rectangle {
     implicitHeight: 50
     radius: 12
     opacity: enabled ? 1 : 0.5
-    color: active ? Qt.rgba(0.21, 0.52, 0.89, 0.22) : main.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : Qt.rgba(1, 1, 1, 0.05)
+    color: active ? Theme.accentSoft : main.containsMouse ? Theme.surfaceHover : Theme.surface
     Behavior on color { ColorAnimation { duration: 140 } }
     // square off the bottom corners while the details panel is open
     Rectangle { visible: root.open; anchors.bottom: parent.bottom; width: parent.width; height: parent.radius; color: parent.color }
@@ -42,7 +42,7 @@ Rectangle {
         Column {
             anchors.verticalCenter: parent.verticalCenter
             Text { text: root.title; color: Theme.fg; font { pixelSize: Theme.fontSize; bold: true } elide: Text.ElideRight; width: 210 }
-            Text { text: root.status; color: root.isError ? "#ff7b63" : (root.active ? Qt.rgba(1, 1, 1, 0.75) : Theme.muted); font.pixelSize: 11; elide: Text.ElideRight; width: 210 }
+            Text { text: root.status; color: root.isError ? Theme.danger : (root.active ? Theme.textDim : Theme.muted); font.pixelSize: 11; elide: Text.ElideRight; width: 210 }
         }
     }
     Row {

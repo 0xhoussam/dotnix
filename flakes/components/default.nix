@@ -52,6 +52,13 @@ let
     </fontconfig>
   '';
 
+  # Programs the Quickshell shell runs. A systemd user unit has a short PATH
+  # (no /run/current-system/sw/bin), so they are put on the wrapper's PATH.
+  shellTools = pkgs.lib.makeBinPath (with pkgs; [
+    brightnessctl cliphist wl-clipboard wireplumber pipewire tuned util-linux systemd
+    xdg-utils pavucontrol networkmanagerapplet libnotify procps coreutils bash
+  ]);
+
   # D-Bus agents for the Quickshell bar (BlueZ pairing, later OBEX and the
   # NetworkManager secret agent). Pure-Rust D-Bus: no libnm/libsecret.
   shellAgents = pkgs.rustPlatform.buildRustPackage {
@@ -135,6 +142,7 @@ in {
         makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/lock-screen \
           --add-flags "-n -p $out/share/qs-lock" \
           --set FONTCONFIG_FILE ${lockFonts} \
+          --prefix PATH : ${shellTools} \
           --prefix NIXPKGS_QT6_QML_IMPORT_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/qml \
           --prefix QT_PLUGIN_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/plugins${
           pkgs.lib.optionalString (lockWallpaper != null) " \\\n          --set-default LOCK_WALLPAPER ${lockWallpaper}"
@@ -155,12 +163,27 @@ in {
         makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/my-shell \
           --add-flags "-p $out/share/qs-shell" \
           --prefix XDG_DATA_DIRS : ${pkgs.adwaita-icon-theme}/share \
+          --prefix PATH : ${shellTools} \
+          --suffix PATH : /run/current-system/sw/bin \
           --set-default QS_ICON_THEME Adwaita \
           --set-default SHELL_AGENTS ${shellAgents}/bin/shell-agents
         runHook postInstall
       '';
     };
   };
+
+  # qmllint over the Quickshell configs. Warnings are reported, not fatal
+  # (yet): see result/report.txt.
+  checks.${system}.qmllint = pkgs.runCommand "qmllint" {nativeBuildInputs = [pkgs.qt6.qtdeclarative];} ''
+    mkdir -p $out
+    cp -r ${./shell} shell
+    cp -r ${./lockscreen} lockscreen
+    chmod -R u+w shell lockscreen
+    find shell lockscreen -name '*.qml' | sort | xargs qmllint \
+      -I ${pkgs.quickshell}/lib/qt-6/qml -I ${pkgs.qt6.qtmultimedia}/lib/qt-6/qml \
+      -I shell -I lockscreen > $out/report.txt 2>&1 || true
+    echo "qmllint: $(grep -c -E '^(Warning|Error)' $out/report.txt || true) findings"
+  '';
 
   devShells.${system} = {
     default = pkgs.mkShell {

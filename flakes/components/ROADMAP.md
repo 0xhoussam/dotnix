@@ -29,24 +29,28 @@ This file is the source of truth for the work below. Tick items as they are comm
 
 ### 0. Correctness
 - [x] `wait_active` treated "connection not loaded yet" as failure and would delete a new connection; fixed with `wait_status`, tested.
-- [ ] Sidecar stderr visible in the Quickshell log.
-- [ ] Verify `hyprctl dispatch` syntax (Lua) with one workspace click before scroll-to-switch / logout.
+- [x] Sidecar stderr visible in the Quickshell log.
+- [x] `hyprctl dispatch` syntax: legacy `workspace N` FAILS under Hyprland 0.56 Lua config; `hl.dsp.focus({ workspace = N })` works. The workspace dots were broken (Quickshell's `activate()` uses the legacy form); now use the Lua form. Use Lua dispatchers for logout/scroll too.
 - [ ] Check `tuned-adm` works without a polkit prompt, and that acpid (`hosts/bystial/power.nix`) overrides manual profile choices.
 - [ ] Check text entry inside a `PopupWindow` (needed for clipboard search).
-- [ ] Hard dependencies on the wrapper PATH.
+- [x] Hard dependencies on the wrapper PATH (`shellTools` in `default.nix`, plus `/run/current-system/sw/bin` as a suffix). The systemd user PATH has no `/run/current-system/sw/bin`.
 
 ### 1. Cleanup
-- [ ] Theme tokens for the hard-coded colours (so panels are tokenised and light mode is possible).
-- [ ] `PopupCard` component (anchor, focus grab, derived open state instead of the `openPopups` counter) and use it in clipboard, Bluetooth, network, volume.
-- [ ] Date panel uses `Toggle`, not the default Qt `Switch`.
-- [ ] Bluetooth `DeviceRow` uses `ListRow`.
-- [ ] `qmllint` and `cargo test` as flake checks (qmllint warnings non-fatal at first).
-- [ ] README rewritten for Quickshell.
+- [x] Theme tokens for the hard-coded colours (a few one-off alphas remain in Slider/Toggle/Media).
+- [x] `PopupCard` component (anchor, focus grab, derived open state via `UiState.register`) used by clipboard, Bluetooth, network, volume; tray menus register too.
+- [x] Date panel uses `Toggle`, not the default Qt `Switch`.
+- [x] Bluetooth `DeviceRow` uses `ListRow`.
+- [x] `qmllint` flake check (`checks.x86_64-linux.qmllint`); `cargo test` already runs in the `shell-agents` build. The qmllint report is very noisy (~2,900 warnings, mostly unresolved Quickshell types and unqualified access, no errors), so it is not a useful gate yet.
+- [x] README rewritten for Quickshell.
 - [ ] Remove AGS code and the `ags` input: ONLY after an explicit yes, and after the real lock has been used.
 
 ### 2. Foundations
 - [ ] IPC handlers (`IpcHandler`) for date panel, volume panel, quick settings, OSD triggers; check how `qs ipc` selects the instance.
 - [ ] General OSD (volume, brightness, mic mute, caps lock, keyboard layout); brightness OSD triggered from the keybind via IPC, not a sysfs watch.
+
+### Findings while preparing
+- `mpvpaper` is already started with `-p` (auto-pause when hidden). `-a FULL` would also pause on fullscreen windows; that is a one-flag change in the wallpaper unit. Battery handling is separate.
+- The terminal check for text entry in a `PopupWindow`, `tuned-adm` without polkit, and acpid overriding manual profiles are still open (see section 0).
 
 ### 3. High-value features
 - [ ] Quick Settings panel (replaces the Settings stub): brightness, night light, power profile, Do Not Disturb, Wi-Fi and Bluetooth toggles, caffeine, screenshot, power menu.

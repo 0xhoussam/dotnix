@@ -25,7 +25,7 @@ Item {
         }
         Text {
             text: root.dev ? Math.round(root.dev.percentage * 100) + "%" : ""
-            color: Qt.rgba(1, 1, 1, 0.88)
+            color: Theme.textBar
             font.pixelSize: Theme.fontSize
         }
     }

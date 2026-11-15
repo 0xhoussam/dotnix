@@ -78,6 +78,8 @@ Singleton {
                 }
             }
         }
+        // Sidecar warnings and errors (failed registrations, keyring, ...).
+        stderr: SplitParser { onRead: line => console.warn("agents:", line) }
         // The agent is part of the shell: restart if it dies.
         onExited: (code, status) => {
             console.warn("agents: sidecar exited", code, status)

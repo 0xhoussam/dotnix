@@ -77,7 +77,7 @@ Column {
             width: root.width
             height: 28
             radius: 10
-            color: active ? Qt.rgba(0.21, 0.52, 0.89, 0.22) : ma.containsMouse ? Theme.hover : Qt.rgba(1, 1, 1, 0.04)
+            color: active ? Theme.accentSoft : ma.containsMouse ? Theme.hover : Theme.surfaceFaint
             Text { x: 12; anchors.verticalCenter: parent.verticalCenter; text: modelData.label; color: Theme.fg; font.pixelSize: 12; elide: Text.ElideRight; width: parent.width - 40 }
             Text { visible: parent.active; anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter } text: "✓"; color: Theme.accent; font.pixelSize: 12 }
             MouseArea { id: ma; anchors.fill: parent; hoverEnabled: true; onClicked: root.setProfile(modelData.index) }

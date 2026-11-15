@@ -23,7 +23,7 @@ Pill {
     }
     Text {
         text: layout
-        color: Qt.rgba(1, 1, 1, 0.88)
+        color: Theme.textBar
         font.pixelSize: Theme.fontSize
         font.bold: true
     }

@@ -6,9 +6,13 @@ import Quickshell
 Singleton {
     // Date/notification panel open.
     property bool panelOpen: false
-    // Number of open popups (tray menus, clipboard, network, bluetooth).
-    // Holds the autohide bar visible.
-    property int openPopups: 0
+    // Popups register here (PopupCard, tray menus); any one being open keeps
+    // the autohide bar visible. Derived, so a destroyed popup cannot leave
+    // the bar stuck.
+    property var popups: []
+    readonly property bool anyPopupOpen: popups.some(p => p.open)
+    function register(p) { popups = popups.concat([p]) }
+    function unregister(p) { popups = popups.filter(x => x !== p) }
     // Volume panel open (the volume OSD stays quiet while it is).
     property bool volumePanelOpen: false
 

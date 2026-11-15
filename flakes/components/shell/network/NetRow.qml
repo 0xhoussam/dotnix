@@ -95,7 +95,7 @@ Column {
         width: parent.width
         height: root.open ? pcol.implicitHeight + 22 : 0
         radius: 12
-        color: Qt.rgba(1, 1, 1, 0.03)
+        color: Theme.surfaceFaint
         Rectangle { anchors.top: parent.top; width: parent.width; height: parent.radius; color: parent.color }
         Column {
             id: pcol
@@ -132,7 +132,7 @@ Column {
                     Rectangle {
                         required property var modelData
                         width: parent.width; height: 28; radius: 10
-                        color: m.containsMouse ? Theme.hover : Qt.rgba(1, 1, 1, 0.04)
+                        color: m.containsMouse ? Theme.hover : Theme.surfaceFaint
                         Text { x: 12; anchors.verticalCenter: parent.verticalCenter; text: modelData.id; color: Theme.fg; font.pixelSize: 12 }
                         MouseArea { id: m; anchors.fill: parent; hoverEnabled: true; onClicked: root.connect(modelData) }
                     }

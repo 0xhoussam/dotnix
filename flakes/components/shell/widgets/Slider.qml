@@ -23,7 +23,7 @@ Item {
         id: track
         anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
         height: 6; radius: 3
-        color: Qt.rgba(1, 1, 1, 0.14)
+        color: Theme.track
         // level meter behind the fill
         Rectangle {
             visible: root.level >= 0
@@ -35,7 +35,7 @@ Item {
         Rectangle {
             height: parent.height; radius: 3
             width: parent.width * root.frac
-            color: root.value > 1.0001 ? "#f5a524" : Theme.accent
+            color: root.value > 1.0001 ? Theme.warn : Theme.accent
         }
         Rectangle {
             visible: root.marker > root.from && root.marker < root.to

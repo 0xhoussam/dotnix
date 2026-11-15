@@ -18,8 +18,8 @@ Pill {
     property string expanded: ""
     property string powerError: ""
 
-    active: pop.visible
-    onClicked: pop.visible = !pop.visible
+    active: pop.open
+    onClicked: pop.open = !pop.open
 
     function byName(a, b) { return BtService.displayName(a).localeCompare(BtService.displayName(b)) }
     // Re-evaluates when a device's connected / paired / name changes.
@@ -49,205 +49,177 @@ Pill {
     }
     Connections {
         target: root.adapter
-        function onEnabledChanged() { if (root.adapter.enabled && pop.visible) root.startScan() }
+        function onEnabledChanged() { if (root.adapter.enabled && pop.open) root.startScan() }
     }
     function setPower(on) {
         powerError = ""
         if (!adapter) { powerError = "No Bluetooth adapter found"; return }
         if (on) BtService.unblock()
         adapter.enabled = on
-        if (on && pop.visible) startScan()
+        if (on && pop.open) startScan()
     }
 
-    // Close when clicking anywhere else (the bar itself stays interactive).
-    HyprlandFocusGrab {
-        windows: [pop, QsWindow.window]
-        active: pop.visible
-        onCleared: pop.visible = false
-    }
-
-    PopupWindow {
+    PopupCard {
         id: pop
-        anchor.item: root
-        anchor.edges: Edges.Bottom
-        anchor.gravity: Edges.Bottom
-        implicitWidth: 392
-        implicitHeight: card.implicitHeight
-        color: "transparent"
-        onVisibleChanged: {
-            UiState.openPopups += visible ? 1 : -1
-            if (visible) root.startScan(); else root.stopScan()
+        anchorItem: root
+        cardWidth: 392
+        spacing: 8
+        onOpenChanged: if (open) root.startScan(); else root.stopScan()
+
+
+        // header
+        Item {
+            width: parent.width; height: 28
+            Text { text: "Bluetooth"; color: Theme.fg; font { pixelSize: 16; bold: true } anchors.verticalCenter: parent.verticalCenter }
+            Row {
+                anchors { right: parent.right; verticalCenter: parent.verticalCenter }
+                spacing: 8
+                Text {
+                    visible: root.adapter && root.adapter.discovering
+                    text: "⟳"; color: Theme.muted; font.pixelSize: 16
+                    RotationAnimator on rotation { from: 0; to: 360; duration: 900; loops: Animation.Infinite; running: parent.visible }
+                }
+                Rectangle {
+                    visible: root.powered && root.adapter && !root.adapter.discovering
+                    width: 26; height: 26; radius: 13
+                    color: scan.containsMouse ? Theme.hover : "transparent"
+                    Text { anchors.centerIn: parent; text: "↻"; color: Theme.muted; font.pixelSize: 15 }
+                    MouseArea { id: scan; anchors.fill: parent; hoverEnabled: true; onClicked: root.startScan() }
+                }
+                Toggle { anchors.verticalCenter: undefined; checked: root.powered; enabled: !BtService.rfHard; onToggled: v => root.setPower(v) }
+            }
         }
 
         Rectangle {
-            id: card
+            visible: BtService.rfHard || root.powerError !== ""
+            width: parent.width; height: visible ? bannerText.implicitHeight + 16 : 0; radius: 10
+            color: Qt.rgba(0.88, 0.11, 0.14, 0.18)
+            Text {
+                id: bannerText
+                anchors { fill: parent; margins: 8 }
+                wrapMode: Text.Wrap; color: Theme.fg; font.pixelSize: 12
+                text: BtService.rfHard ? "Bluetooth is blocked by a hardware switch or airplane mode." : root.powerError
+            }
+        }
+
+        Column {
+            visible: root.powered
             width: parent.width
-            implicitHeight: col.implicitHeight + 24
-            radius: 16
-            color: Theme.popoverBg
-            border.color: Qt.rgba(1, 1, 1, 0.07)
+            spacing: 8
 
+            AdapterSection { width: parent.width }
+
+            // transfers
             Column {
-                id: col
-                x: 16; y: 12
-                width: parent.width - 32
-                spacing: 8
-
-                // header
-                Item {
-                    width: parent.width; height: 28
-                    Text { text: "Bluetooth"; color: Theme.fg; font { pixelSize: 16; bold: true } anchors.verticalCenter: parent.verticalCenter }
-                    Row {
-                        anchors { right: parent.right; verticalCenter: parent.verticalCenter }
-                        spacing: 8
-                        Text {
-                            visible: root.adapter && root.adapter.discovering
-                            text: "⟳"; color: Theme.muted; font.pixelSize: 16
-                            RotationAnimator on rotation { from: 0; to: 360; duration: 900; loops: Animation.Infinite; running: parent.visible }
+                visible: Agents.transfers.length > 0
+                width: parent.width
+                spacing: 6
+                Text { text: "Transfers"; color: Theme.muted; font { pixelSize: 12; bold: true } }
+                Repeater {
+                    model: Agents.transfers
+                    Rectangle {
+                        required property var modelData
+                        width: parent.width; height: 52; radius: 12
+                        color: Theme.surface
+                        Column {
+                            anchors { left: parent.left; leftMargin: 12; right: cancelBtn.left; rightMargin: 8; verticalCenter: parent.verticalCenter }
+                            spacing: 4
+                            Text {
+                                width: parent.width; elide: Text.ElideRight; color: Theme.fg; font.pixelSize: 12
+                                text: (modelData.direction === "in" ? "↓ " : "↑ ") + modelData.name + " · " + modelData.device +
+                                      (modelData.size ? " · " + BtUtil.formatBytes(modelData.transferred) + " / " + BtUtil.formatBytes(modelData.size) : "")
+                            }
+                            Rectangle {
+                                width: parent.width; height: 4; radius: 2; color: Qt.rgba(1, 1, 1, 0.1)
+                                Rectangle { height: parent.height; radius: 2; color: Theme.accent; width: modelData.size ? parent.width * modelData.transferred / modelData.size : 0 }
+                            }
                         }
                         Rectangle {
-                            visible: root.powered && root.adapter && !root.adapter.discovering
-                            width: 26; height: 26; radius: 13
-                            color: scan.containsMouse ? Theme.hover : "transparent"
-                            Text { anchors.centerIn: parent; text: "↻"; color: Theme.muted; font.pixelSize: 15 }
-                            MouseArea { id: scan; anchors.fill: parent; hoverEnabled: true; onClicked: root.startScan() }
+                            id: cancelBtn
+                            anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter }
+                            width: 24; height: 24; radius: 12
+                            color: cm.containsMouse ? Theme.hover : "transparent"
+                            Text { anchors.centerIn: parent; text: "✕"; color: Theme.muted; font.pixelSize: 11 }
+                            MouseArea { id: cm; anchors.fill: parent; hoverEnabled: true; onClicked: Agents.send({ type: "cancel-transfer", path: modelData.path }) }
                         }
-                        Toggle { anchors.verticalCenter: undefined; checked: root.powered; enabled: !BtService.rfHard; onToggled: v => root.setPower(v) }
                     }
                 }
+            }
 
-                Rectangle {
-                    visible: BtService.rfHard || root.powerError !== ""
-                    width: parent.width; height: visible ? bannerText.implicitHeight + 16 : 0; radius: 10
-                    color: Qt.rgba(0.88, 0.11, 0.14, 0.18)
-                    Text {
-                        id: bannerText
-                        anchors { fill: parent; margins: 8 }
-                        wrapMode: Text.Wrap; color: Theme.fg; font.pixelSize: 12
-                        text: BtService.rfHard ? "Bluetooth is blocked by a hardware switch or airplane mode." : root.powerError
-                    }
-                }
-
+            Flickable {
+                width: parent.width
+                height: Math.min(list.implicitHeight, 420)
+                contentHeight: list.implicitHeight
+                clip: true
+                boundsBehavior: Flickable.StopAtBounds
                 Column {
-                    visible: root.powered
+                    id: list
                     width: parent.width
-                    spacing: 8
-
-                    AdapterSection { width: parent.width }
-
-                    // transfers
-                    Column {
-                        visible: Agents.transfers.length > 0
+                    spacing: 6
+                    Text {
+                        visible: root.connectedList.length + root.pairedList.length + root.nearbyList.length === 0
+                        width: parent.width; horizontalAlignment: Text.AlignHCenter
+                        topPadding: 20; bottomPadding: 20
+                        text: root.adapter && root.adapter.discovering ? "Searching for devices…" : "No devices found"
+                        color: Theme.muted; font.pixelSize: Theme.fontSize
+                    }
+                    component Section: Column {
+                        property string title
+                        property var items: []
+                        visible: items.length > 0
                         width: parent.width
                         spacing: 6
-                        Text { text: "Transfers"; color: Theme.muted; font { pixelSize: 12; bold: true } }
+                        Text { text: title; color: Theme.muted; font { pixelSize: 12; bold: true } }
                         Repeater {
-                            model: Agents.transfers
-                            Rectangle {
+                            model: items
+                            DeviceRow {
                                 required property var modelData
-                                width: parent.width; height: 52; radius: 12
-                                color: Qt.rgba(1, 1, 1, 0.05)
-                                Column {
-                                    anchors { left: parent.left; leftMargin: 12; right: cancelBtn.left; rightMargin: 8; verticalCenter: parent.verticalCenter }
-                                    spacing: 4
-                                    Text {
-                                        width: parent.width; elide: Text.ElideRight; color: Theme.fg; font.pixelSize: 12
-                                        text: (modelData.direction === "in" ? "↓ " : "↑ ") + modelData.name + " · " + modelData.device +
-                                              (modelData.size ? " · " + BtUtil.formatBytes(modelData.transferred) + " / " + BtUtil.formatBytes(modelData.size) : "")
-                                    }
-                                    Rectangle {
-                                        width: parent.width; height: 4; radius: 2; color: Qt.rgba(1, 1, 1, 0.1)
-                                        Rectangle { height: parent.height; radius: 2; color: Theme.accent; width: modelData.size ? parent.width * modelData.transferred / modelData.size : 0 }
-                                    }
-                                }
-                                Rectangle {
-                                    id: cancelBtn
-                                    anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter }
-                                    width: 24; height: 24; radius: 12
-                                    color: cm.containsMouse ? Theme.hover : "transparent"
-                                    Text { anchors.centerIn: parent; text: "✕"; color: Theme.muted; font.pixelSize: 11 }
-                                    MouseArea { id: cm; anchors.fill: parent; hoverEnabled: true; onClicked: Agents.send({ type: "cancel-transfer", path: modelData.path }) }
-                                }
+                                device: modelData
+                                expandedAddress: root.expanded
+                                onExpandRequested: a => root.expanded = a
                             }
                         }
                     }
-
-                    Flickable {
-                        width: parent.width
-                        height: Math.min(list.implicitHeight, 420)
-                        contentHeight: list.implicitHeight
-                        clip: true
-                        boundsBehavior: Flickable.StopAtBounds
-                        Column {
-                            id: list
-                            width: parent.width
-                            spacing: 6
-                            Text {
-                                visible: root.connectedList.length + root.pairedList.length + root.nearbyList.length === 0
-                                width: parent.width; horizontalAlignment: Text.AlignHCenter
-                                topPadding: 20; bottomPadding: 20
-                                text: root.adapter && root.adapter.discovering ? "Searching for devices…" : "No devices found"
-                                color: Theme.muted; font.pixelSize: Theme.fontSize
-                            }
-                            component Section: Column {
-                                property string title
-                                property var items: []
-                                visible: items.length > 0
-                                width: parent.width
-                                spacing: 6
-                                Text { text: title; color: Theme.muted; font { pixelSize: 12; bold: true } }
-                                Repeater {
-                                    model: items
-                                    DeviceRow {
-                                        required property var modelData
-                                        device: modelData
-                                        expandedAddress: root.expanded
-                                        onExpandRequested: a => root.expanded = a
-                                    }
-                                }
-                            }
-                            Section { title: "Connected"; items: root.connectedList }
-                            Section { title: "My Devices"; items: root.pairedList }
-                            Section { title: "Nearby"; items: root.nearbyList }
-                        }
-                    }
+                    Section { title: "Connected"; items: root.connectedList }
+                    Section { title: "My Devices"; items: root.pairedList }
+                    Section { title: "Nearby"; items: root.nearbyList }
                 }
+            }
+        }
 
-                // options
-                Column {
-                    width: parent.width
-                    property bool open: false
+        // options
+        Column {
+            width: parent.width
+            property bool open: false
+            Rectangle {
+                width: parent.width; height: 34; radius: 10
+                color: om.containsMouse ? Theme.hover : "transparent"
+                Text { x: 10; anchors.verticalCenter: parent.verticalCenter; text: "Options"; color: Theme.accent; font { pixelSize: Theme.fontSize; bold: true } }
+                Text { anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter } text: parent.parent.open ? "▴" : "▾"; color: Theme.accent; font.pixelSize: 12 }
+                MouseArea { id: om; anchors.fill: parent; hoverEnabled: true; onClicked: parent.parent.open = !parent.parent.open }
+            }
+            Column {
+                visible: parent.open
+                width: parent.width
+                spacing: 4
+                topPadding: 4
+                Repeater {
+                    model: [
+                        { key: "notifyConnections", label: "Connection notifications" },
+                        { key: "notifyLowBattery", label: "Low battery warnings" },
+                        { key: "controllerWakelock", label: "Stay awake with game controller" },
+                        { key: "acceptFromTrusted", label: "Auto-accept files from trusted devices" },
+                        { key: "showUnnamed", label: "Show unnamed devices" }
+                    ]
                     Rectangle {
-                        width: parent.width; height: 34; radius: 10
-                        color: om.containsMouse ? Theme.hover : "transparent"
-                        Text { x: 10; anchors.verticalCenter: parent.verticalCenter; text: "Options"; color: Theme.accent; font { pixelSize: Theme.fontSize; bold: true } }
-                        Text { anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter } text: parent.parent.open ? "▴" : "▾"; color: Theme.accent; font.pixelSize: 12 }
-                        MouseArea { id: om; anchors.fill: parent; hoverEnabled: true; onClicked: parent.parent.open = !parent.parent.open }
-                    }
-                    Column {
-                        visible: parent.open
-                        width: parent.width
-                        spacing: 4
-                        topPadding: 4
-                        Repeater {
-                            model: [
-                                { key: "notifyConnections", label: "Connection notifications" },
-                                { key: "notifyLowBattery", label: "Low battery warnings" },
-                                { key: "controllerWakelock", label: "Stay awake with game controller" },
-                                { key: "acceptFromTrusted", label: "Auto-accept files from trusted devices" },
-                                { key: "showUnnamed", label: "Show unnamed devices" }
-                            ]
-                            Rectangle {
-                                required property var modelData
-                                width: parent.width; height: 36; radius: 12
-                                color: Qt.rgba(1, 1, 1, 0.05)
-                                Text { x: 12; anchors.verticalCenter: parent.verticalCenter; text: modelData.label; color: Theme.fg; font.pixelSize: Theme.fontSize }
-                                Toggle {
-                                    anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
-                                    checked: BtService.settings[modelData.key]
-                                    onToggled: v => { const p = {}; p[modelData.key] = v; BtService.update(p) }
-                                }
-                            }
+                        required property var modelData
+                        width: parent.width; height: 36; radius: 12
+                        color: Theme.surface
+                        Text { x: 12; anchors.verticalCenter: parent.verticalCenter; text: modelData.label; color: Theme.fg; font.pixelSize: Theme.fontSize }
+                        Toggle {
+                            anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
+                            checked: BtService.settings[modelData.key]
+                            onToggled: v => { const p = {}; p[modelData.key] = v; BtService.update(p) }
                         }
                     }
                 }

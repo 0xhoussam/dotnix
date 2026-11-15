@@ -1,51 +1,71 @@
 # components
 
-AGS (Astal/GTK) UI components for my Linux dotfiles.
+The desktop shell for my Hyprland setup: a bar with panels, notifications, an
+on-screen display and a lock screen. Built with
+[Quickshell](https://quickshell.org/) (QML) and a small Rust sidecar, via Nix.
 
-Built with [AGS](https://aylur.github.io/ags/) via Nix flakes.
+The previous AGS (Astal/GTK) implementation is still in this directory
+(`app.tsx`, `bar/`, `lock/`) but is no longer used. See `MIGRATION.md` for how
+the port went, `VOLUME-PANEL.md` for the volume panel design and
+`ROADMAP.md` for the follow-up work and its checklist.
 
 ## Contents
 
-| Path        | GTK | Description                                          |
-| ----------- | --- | ---------------------------------------------------- |
-| `app.tsx`   | 4   | Top bar (example).                                   |
-| `lock/`     | 4   | Secure lock screen (`ext-session-lock-v1` + PAM).    |
+| Path          | Output (`nix build .#…`)  | Description |
+| ------------- | ------------------------- | ----------- |
+| `shell/`      | `qs-shell` (`my-shell`)   | Bar, panels, notifications, OSD (Quickshell QML). |
+| `lockscreen/` | `qs-lock` (`lock-screen`) | Lock screen on `ext-session-lock-v1` with PAM. |
+| `agents/`     | `shell-agents`            | Rust sidecar: BlueZ pairing agent, OBEX, NetworkManager model and secret agent, generic D-Bus proxy. |
 
-Both are GTK 4; the lock uses `Gtk4SessionLock` from `gtk4-layer-shell`.
-They are independent processes.
+`shell/` is organised by feature: `bar/` (bar and its items), `widgets/`
+(shared UI: `PopupCard`, `ListRow`, `Toggle`, `Chip`, `Slider`, notifications,
+date panel), `audio/`, `bluetooth/`, `network/`, plus the singletons `Theme`,
+`Config`, `UiState`, `Notifs` and `Agents`.
 
-### Lock screen
+The sidecar talks to the QML side with JSON lines on stdio and is started and
+supervised by `shell/Agents.qml`. It exits (cancelling pending prompts) when
+the shell exits.
 
-- Portable across Wayland compositors (Hyprland, Sway, niri, KDE, …) via the
-  `ext-session-lock-v1` protocol — the compositor blanks all outputs, no bypass.
-- PAM authentication via `AstalAuth` (service in `lock/config.ts`, default
-  `swaylock`).
-- Live wallpaper: `lockWallpaper` argument of `default.nix` (set in the
-  top-level `flake.nix`), baked into the wrapper as `LOCK_WALLPAPER`. Video
-  is looped, muted, decoded once for all monitors (VA-API hardware decode)
-  and paused after `IDLE_PAUSE_SECONDS` without input; images work too.
-- Orbitron HUD: clock + date top-left, password underline bottom-right
-  (caps-lock / PAM messages, fail-shake), session name and Restart /
-  Shut down (click twice) on the bottom line.
+## Run
+
+```sh
+nix run .#qs-shell                     # the bar (needs the sidecar's agent slots free)
+SHELL_AGENTS_OFF=1 nix run .#qs-shell  # no sidecar: safe next to another bar
+SHELL_AGENTS_SKIP=bluetooth,obex,secrets nix run .#qs-shell   # network model only
+LOCK_PREVIEW=1 nix run .#qs-lock       # lock screen design preview (no locking)
+```
+
+The user unit is `quickshell-bar` (`shared/desktop/hypr/shell.nix`). The lock
+screen is started by hypridle and the Hyprland keybinds.
+
+> The real lock screen locks the session. Escape hatch: switch to a TTY
+> (Ctrl+Alt+F2), `pkill -f lock-screen`, switch back. In preview mode
+> Ctrl+Escape quits. `LOCK_WALLPAPER=/path/to/video.mp4` overrides the
+> wallpaper.
 
 ## Develop
 
 ```sh
-nix develop                 # enter dev shell (ags CLI + libraries)
-
-ags run .                   # run the bar
-ags run lock                # run the lock screen
+nix develop                              # quickshell, qmlls and the AGS shell
+cargo test --manifest-path agents/Cargo.toml
+nix build .#checks.x86_64-linux.qmllint  # lint report (warnings are not fatal yet)
 ```
 
-> The lock screen really locks the session. To work on the design without
-> locking: `LOCK_PREVIEW=1 lock-screen` (Ctrl+Escape quits;
-> `LOCK_WALLPAPER=/path/to/video.mp4` overrides the wallpaper). Escape hatch
-> for a real lock: switch to a TTY (Ctrl+Alt+F2), `pkill -f lock-screen`,
-> switch back.
+Hyprland's config is Lua here: `hyprctl dispatch` takes a Lua dispatcher
+(`hl.dsp.focus({ workspace = 2 })`), not `workspace 2`.
+
+## State and settings
+
+Small JSON files in `~/.config/my-shell/`: `bluetooth.json`, `network.json`,
+`audio.json` (notification and option toggles). The bar's position, size,
+autohide and modules are in `shell/Config.qml` (rebuild to change).
 
 ## Build
 
 ```sh
-nix build .#default         # bar binary
-nix build .#lock            # lock-screen binary
+nix build .#qs-shell .#qs-lock .#shell-agents
 ```
+
+`shell-agents` runs its unit tests during the build. The wrappers put the tools
+the shell runs (`brightnessctl`, `wpctl`, `cliphist`, `tuned-adm`, …) on `PATH`,
+because a systemd user unit's `PATH` is short.

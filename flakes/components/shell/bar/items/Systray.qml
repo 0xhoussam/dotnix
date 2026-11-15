@@ -25,13 +25,19 @@ Row {
                 sourceSize: Qt.size(32, 32)
                 source: cell.modelData.icon
             }
+            // registers with UiState so an open tray menu keeps the bar shown
+            QtObject {
+                id: reg
+                property bool open: menu.visible
+                Component.onCompleted: UiState.register(reg)
+                Component.onDestruction: UiState.unregister(reg)
+            }
             QsMenuAnchor {
                 id: menu
                 menu: cell.modelData.menu
                 anchor.item: cell
                 anchor.edges: Edges.Bottom
                 anchor.gravity: Edges.Bottom
-                onVisibleChanged: UiState.openPopups += visible ? 1 : -1
             }
             MouseArea {
                 id: area

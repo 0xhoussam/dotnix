@@ -43,7 +43,7 @@ Scope {
             anchors.fill: parent
             radius: 28
             color: Qt.rgba(0.14, 0.14, 0.14, 0.94)
-            border.color: Qt.rgba(1, 1, 1, 0.08)
+            border.color: Theme.border
             opacity: root.shown ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 180 } }
             Row {
@@ -58,11 +58,11 @@ Scope {
                 Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     width: parent.width - 20 - 12 - 12 - 40; height: 6; radius: 3
-                    color: Qt.rgba(1, 1, 1, 0.14)
+                    color: Theme.track
                     Rectangle {
                         height: parent.height; radius: 3
                         width: parent.width * Math.min(1, root.m ? 0 : root.v / AudioService.maxVolume)
-                        color: root.v > 1.0001 ? "#f5a524" : Theme.accent
+                        color: root.v > 1.0001 ? Theme.warn : Theme.accent
                     }
                 }
                 Text {

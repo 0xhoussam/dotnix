@@ -14,8 +14,8 @@ Rectangle {
     implicitWidth: row.implicitWidth + padX * 2
     implicitHeight: 28
     radius: height / 2
-    color: confirm ? "#e01b24"
-        : active ? Qt.rgba(0.21, 0.52, 0.89, 0.22)
+    color: confirm ? Theme.dangerBg
+        : active ? Theme.accentSoft
         : ma.containsMouse ? Theme.hover : Theme.card
     Behavior on color { ColorAnimation { duration: 120 } }
     Row {
@@ -26,7 +26,7 @@ Rectangle {
         Text {
             visible: root.label !== ""
             text: root.label
-            color: root.confirm ? "white" : root.destructive ? "#ff7b63" : Theme.fg
+            color: root.confirm ? "white" : root.destructive ? Theme.danger : Theme.fg
             font.pixelSize: 12
             font.bold: true
         }

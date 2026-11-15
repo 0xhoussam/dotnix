@@ -37,7 +37,7 @@ Scope {
             height: row.implicitHeight + 24
             radius: 14
             color: Theme.popoverBg
-            border.color: Qt.rgba(1, 1, 1, 0.07)
+            border.color: Theme.border
             focus: true
             Keys.onEscapePressed: UiState.closePanel()
             MouseArea { anchors.fill: parent } // swallow clicks on the card
@@ -67,14 +67,14 @@ Scope {
                             color: Theme.muted; font.pixelSize: 14
                         }
                     }
-                    Rectangle { Layout.fillWidth: true; height: 1; color: Qt.rgba(1, 1, 1, 0.08) }
+                    Rectangle { Layout.fillWidth: true; height: 1; color: Theme.field }
                     RowLayout {
                         Layout.fillWidth: true
                         Text { Layout.fillWidth: true; text: "Do Not Disturb"; color: Theme.fg; font.bold: true; font.pixelSize: Theme.fontSize }
-                        Switch { checked: Notifs.dnd; onToggled: Notifs.dnd = checked }
+                        Toggle { checked: Notifs.dnd; onToggled: v => Notifs.dnd = v }
                         Rectangle {
                             implicitWidth: clearText.implicitWidth + 28; implicitHeight: 28; radius: 14
-                            color: clearArea.containsMouse ? Theme.hover : Qt.rgba(1, 1, 1, 0.08)
+                            color: clearArea.containsMouse ? Theme.hover : Theme.field
                             Text { id: clearText; anchors.centerIn: parent; text: "Clear"; color: Theme.fg; font.bold: true; font.pixelSize: Theme.fontSize }
                             MouseArea { id: clearArea; anchors.fill: parent; hoverEnabled: true; onClicked: Notifs.clearAll() }
                         }

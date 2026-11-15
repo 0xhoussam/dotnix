@@ -52,7 +52,7 @@ PanelWindow {
         repeat: true
         running: false
         onTriggered: {
-            const held = hover.hovered || UiState.panelOpen || UiState.openPopups > 0
+            const held = hover.hovered || UiState.panelOpen || UiState.anyPopupOpen
             win.idleMs = held ? 0 : win.idleMs + interval
             if (win.idleMs >= Config.hideDelay) {
                 running = false

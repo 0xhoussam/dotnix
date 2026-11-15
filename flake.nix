@@ -158,6 +158,12 @@
       }
     );
 
+    checks = {
+      x86_64-linux = {
+        inherit (components.checks.x86_64-linux) qmllint;
+      };
+    };
+
     packages = {
       x86_64-linux = {
         ags-shell = components.packages.x86_64-linux.default;

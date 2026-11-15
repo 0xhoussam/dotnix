@@ -55,7 +55,7 @@ Scope {
             implicitHeight: col.implicitHeight + 40
             radius: 18
             color: Theme.popoverBg
-            border.color: Qt.rgba(1, 1, 1, 0.07)
+            border.color: Theme.border
             focus: true
             Keys.onEscapePressed: root.shown = false
 
@@ -67,7 +67,7 @@ Scope {
                 Text { text: "Connect to Hidden Network"; color: Theme.fg; font { pixelSize: 16; bold: true } }
                 Text { text: "Network name"; color: Theme.muted; font { pixelSize: 12; bold: true } }
                 Rectangle {
-                    Layout.fillWidth: true; implicitHeight: 38; radius: 19; color: Qt.rgba(1, 1, 1, 0.08)
+                    Layout.fillWidth: true; implicitHeight: 38; radius: 19; color: Theme.field
                     TextInput {
                         id: ssid
                         anchors { fill: parent; leftMargin: 14; rightMargin: 14 }
@@ -91,7 +91,7 @@ Scope {
                     spacing: 4
                     Text { text: "Password"; color: Theme.muted; font { pixelSize: 12; bold: true } }
                     Rectangle {
-                        Layout.fillWidth: true; implicitHeight: 38; radius: 19; color: Qt.rgba(1, 1, 1, 0.08)
+                        Layout.fillWidth: true; implicitHeight: 38; radius: 19; color: Theme.field
                         TextInput {
                             id: pw
                             anchors { fill: parent; leftMargin: 14; rightMargin: 14 }
@@ -102,7 +102,7 @@ Scope {
                         }
                     }
                 }
-                Text { Layout.fillWidth: true; visible: root.error !== ""; text: root.error; color: "#ff7b63"; font.pixelSize: 12; wrapMode: Text.Wrap }
+                Text { Layout.fillWidth: true; visible: root.error !== ""; text: root.error; color: Theme.danger; font.pixelSize: 12; wrapMode: Text.Wrap }
 
                 RowLayout {
                     Layout.fillWidth: true

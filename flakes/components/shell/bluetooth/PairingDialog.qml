@@ -60,7 +60,7 @@ Scope {
             implicitHeight: col.implicitHeight + 40
             radius: 18
             color: Theme.popoverBg
-            border.color: Qt.rgba(1, 1, 1, 0.07)
+            border.color: Theme.border
             focus: true
             Keys.onEscapePressed: Agents.reject()
 
@@ -95,7 +95,7 @@ Scope {
                 Text {
                     Layout.fillWidth: true
                     text: root.prompt ? root.message(root.prompt, card.devName) : ""
-                    color: Qt.rgba(1, 1, 1, 0.85)
+                    color: Theme.textSoft
                     wrapMode: Text.Wrap
                     font.pixelSize: Theme.fontSize
                 }
@@ -123,7 +123,7 @@ Scope {
                     Layout.fillWidth: true
                     implicitHeight: 40
                     radius: 20
-                    color: Qt.rgba(1, 1, 1, 0.08)
+                    color: Theme.field
                     TextInput {
                         id: field
                         anchors { fill: parent; leftMargin: 14; rightMargin: 14 }

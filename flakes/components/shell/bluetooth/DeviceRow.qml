@@ -57,43 +57,17 @@ Column {
     spacing: 0
     width: parent ? parent.width : 340
 
-    Rectangle {
+    ListRow {
         width: parent.width
-        height: 50
-        radius: 12
-        color: root.device.connected ? Qt.rgba(0.21, 0.52, 0.89, 0.22) : main.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : Qt.rgba(1, 1, 1, 0.05)
-        Behavior on color { ColorAnimation { duration: 140 } }
-        // square off the bottom corners while the details panel is open
-        Rectangle { visible: root.open; anchors.bottom: parent.bottom; width: parent.width; height: parent.radius; color: parent.color }
-
-        MouseArea { id: main; anchors { fill: parent; rightMargin: 40 } hoverEnabled: true; onClicked: root.primary() }
-        Row {
-            anchors { left: parent.left; leftMargin: 12; verticalCenter: parent.verticalCenter }
-            spacing: 10
-            Image { layer.enabled: true; layer.effect: Tint {}
-                anchors.verticalCenter: parent.verticalCenter
-                width: 18; height: 18; sourceSize: Qt.size(36, 36)
-                source: Quickshell.iconPath((root.device.icon ? root.device.icon + "-symbolic" : "bluetooth-symbolic"), true)
-            }
-            Column {
-                anchors.verticalCenter: parent.verticalCenter
-                Text { text: BtService.displayName(root.device); color: Theme.fg; font { pixelSize: Theme.fontSize; bold: true } elide: Text.ElideRight; width: 230 }
-                Text { text: root.status; color: root.error ? "#ff7b63" : (root.device.connected ? Qt.rgba(1, 1, 1, 0.75) : Theme.muted); font.pixelSize: 11; elide: Text.ElideRight; width: 230 }
-            }
-        }
-        Text {
-            visible: root.busy !== "" || root.connecting
-            anchors { right: parent.right; rightMargin: 44; verticalCenter: parent.verticalCenter }
-            text: "⟳"; color: Theme.muted; font.pixelSize: 16
-            RotationAnimator on rotation { from: 0; to: 360; duration: 900; loops: Animation.Infinite; running: parent.visible }
-        }
-        Rectangle {
-            anchors { right: parent.right; rightMargin: 6; verticalCenter: parent.verticalCenter }
-            width: 28; height: 28; radius: 14
-            color: chev.containsMouse ? Theme.hover : "transparent"
-            Text { anchors.centerIn: parent; text: root.open ? "▴" : "▾"; color: Theme.muted; font.pixelSize: 12 }
-            MouseArea { id: chev; anchors.fill: parent; hoverEnabled: true; onClicked: root.expandRequested(root.open ? "" : root.device.address) }
-        }
+        icon: root.device.icon ? root.device.icon + "-symbolic" : "bluetooth-symbolic"
+        title: BtService.displayName(root.device)
+        status: root.status
+        active: root.device.connected
+        isError: root.error !== ""
+        working: root.busy !== "" || root.connecting
+        open: root.open
+        onClicked: root.primary()
+        onExpandClicked: root.expandRequested(root.open ? "" : root.device.address)
     }
 
     // ---- details panel
@@ -102,7 +76,7 @@ Column {
         visible: root.open
         width: parent.width
         height: root.open ? pcol.implicitHeight + 22 : 0
-        color: Qt.rgba(1, 1, 1, 0.03)
+        color: Theme.surfaceFaint
         radius: 12
         Rectangle { anchors.top: parent.top; width: parent.width; height: parent.radius; color: parent.color }
 
@@ -134,7 +108,7 @@ Column {
             // rename
             Rectangle {
                 width: parent.width; height: 32; radius: 16
-                color: Qt.rgba(1, 1, 1, 0.08)
+                color: Theme.field
                 TextInput {
                     id: rename
                     anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
@@ -156,7 +130,7 @@ Column {
                     property bool checked
                     signal toggled(bool v)
                     width: parent.width; height: 44; radius: 12
-                    color: Qt.rgba(1, 1, 1, 0.04)
+                    color: Theme.surfaceFaint
                     Column {
                         anchors { left: parent.left; leftMargin: 12; verticalCenter: parent.verticalCenter }
                         Text { text: label; color: Theme.fg; font.pixelSize: Theme.fontSize }

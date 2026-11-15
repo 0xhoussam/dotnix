@@ -33,7 +33,7 @@ Column {
         width: parent.width
         height: 52
         radius: 12
-        color: Qt.rgba(1, 1, 1, 0.05)
+        color: Theme.surface
 
         // local countdown; BlueZ flips Discoverable back off when it expires
         property int remaining: 0

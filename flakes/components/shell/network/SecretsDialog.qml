@@ -44,7 +44,7 @@ Scope {
             implicitHeight: col.implicitHeight + 40
             radius: 18
             color: Theme.popoverBg
-            border.color: Qt.rgba(1, 1, 1, 0.07)
+            border.color: Theme.border
             focus: true
             Keys.onEscapePressed: Agents.reject()
 
@@ -71,12 +71,12 @@ Scope {
                     Layout.fillWidth: true
                     visible: root.prompt && root.prompt.note
                     text: root.prompt && root.prompt.note ? root.prompt.note : ""
-                    color: "#ff7b63"; font.pixelSize: 12; wrapMode: Text.Wrap
+                    color: Theme.danger; font.pixelSize: 12; wrapMode: Text.Wrap
                 }
                 Text {
                     Layout.fillWidth: true
                     text: root.prompt ? root.prompt.message : ""
-                    color: Qt.rgba(1, 1, 1, 0.85); font.pixelSize: Theme.fontSize; wrapMode: Text.Wrap
+                    color: Theme.textSoft; font.pixelSize: Theme.fontSize; wrapMode: Text.Wrap
                 }
 
                 Repeater {
@@ -91,7 +91,7 @@ Scope {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 38; radius: 19
-                            color: Qt.rgba(1, 1, 1, 0.08)
+                            color: Theme.field
                             TextInput {
                                 id: input
                                 anchors { fill: parent; leftMargin: 14; rightMargin: 14 }
@@ -107,7 +107,7 @@ Scope {
                         Text {
                             visible: root.tried && !!root.error(modelData)
                             text: root.error(modelData) || ""
-                            color: "#ff7b63"; font.pixelSize: 11; wrapMode: Text.Wrap
+                            color: Theme.danger; font.pixelSize: 11; wrapMode: Text.Wrap
                             Layout.fillWidth: true
                         }
                     }

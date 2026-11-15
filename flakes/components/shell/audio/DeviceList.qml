@@ -13,7 +13,7 @@ Column {
 
     Rectangle {
         width: parent.width; height: 32; radius: 10
-        color: hm.containsMouse ? Theme.hover : Qt.rgba(1, 1, 1, 0.05)
+        color: hm.containsMouse ? Theme.hover : Theme.surface
         Text {
             x: 12; width: parent.width - 48; anchors.verticalCenter: parent.verticalCenter
             text: root.current ? AudioService.deviceName(root.current) : "No device"
@@ -28,7 +28,7 @@ Column {
             required property var modelData
             readonly property bool isCurrent: modelData === root.current
             width: root.width; height: 30; radius: 10
-            color: isCurrent ? Qt.rgba(0.21, 0.52, 0.89, 0.22) : dm.containsMouse ? Theme.hover : Qt.rgba(1, 1, 1, 0.04)
+            color: isCurrent ? Theme.accentSoft : dm.containsMouse ? Theme.hover : Theme.surfaceFaint
             Text { x: 12; width: parent.width - 40; anchors.verticalCenter: parent.verticalCenter; text: AudioService.deviceName(modelData); color: Theme.fg; font.pixelSize: 12; elide: Text.ElideRight }
             Text { visible: parent.isCurrent; anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter } text: "✓"; color: Theme.accent; font.pixelSize: 12 }
             MouseArea { id: dm; anchors.fill: parent; hoverEnabled: true; onClicked: { root.picked(modelData); root.open = false } }

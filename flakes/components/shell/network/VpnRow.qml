@@ -41,7 +41,7 @@ Column {
         width: parent.width
         height: root.open ? pcol.implicitHeight + 22 : 0
         radius: 12
-        color: Qt.rgba(1, 1, 1, 0.03)
+        color: Theme.surfaceFaint
         Column {
             id: pcol
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: 12; topMargin: 10 }

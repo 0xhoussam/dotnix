@@ -15,7 +15,7 @@ Rectangle {
     radius: 12
     color: toast ? Theme.popoverBg : Theme.card
     border.width: n.urgency === NotificationUrgency.Critical ? 1 : (toast ? 1 : 0)
-    border.color: n.urgency === NotificationUrgency.Critical ? Qt.rgba(1, 0.48, 0.39, 0.6) : Qt.rgba(1, 1, 1, 0.08)
+    border.color: n.urgency === NotificationUrgency.Critical ? Qt.rgba(1, 0.48, 0.39, 0.6) : Theme.field
 
     function iconSrc(v) {
         if (!v) return ""
@@ -101,7 +101,7 @@ Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 28
                     radius: 8
-                    color: actArea.containsMouse ? Theme.hover : Qt.rgba(1, 1, 1, 0.08)
+                    color: actArea.containsMouse ? Theme.hover : Theme.field
                     Text { anchors.centerIn: parent; text: modelData.text; color: Theme.fg; font.pixelSize: Theme.fontSize }
                     MouseArea { id: actArea; anchors.fill: parent; hoverEnabled: true; onClicked: modelData.invoke() }
                 }

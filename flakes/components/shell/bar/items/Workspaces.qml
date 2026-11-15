@@ -28,7 +28,8 @@ Row {
                 id: area
                 anchors { fill: parent; margins: -3 }
                 hoverEnabled: true
-                onClicked: dot.modelData.activate()
+                // Hyprland's config is Lua: legacy `workspace N` dispatches fail here.
+                onClicked: Hyprland.dispatch("hl.dsp.focus({ workspace = " + dot.modelData.id + " })")
             }
         }
     }
