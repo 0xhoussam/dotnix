@@ -1,13 +1,5 @@
 {
   description = "A simple NixOS flake";
-  nixConfig = {
-    extra-substituters = [
-      "https://cache.xinux.uz"
-    ];
-    extra-trusted-public-keys = [
-      "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0="
-    ];
-  };
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
@@ -42,6 +34,17 @@
     };
     claude-code = {
       url = "github:sadjow/claude-code-nix";
+    };
+    claude-desktop = {
+      url = "github:aaddrick/claude-desktop-debian";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };

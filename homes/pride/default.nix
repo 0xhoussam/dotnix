@@ -17,6 +17,7 @@
     ./env.nix
     ./ssh.nix
     ./nix.nix
+    ./zen.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
