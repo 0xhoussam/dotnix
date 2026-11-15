@@ -92,6 +92,7 @@ in
   # follows the palette; `home-manager switch` recolours it live.
   xdg.configFile."my-shell/stylix.json".text = builtins.toJSON {
     polarity = config.stylix.polarity;
+    font.sans = config.stylix.fonts.sansSerif.name;
     colors = lib.genAttrs (map (n: "base0${n}") [ "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "A" "B" "C" "D" "E" "F" ])
       (name: config.lib.stylix.colors.${name});
   };

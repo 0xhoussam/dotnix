@@ -13,9 +13,9 @@ Item {
         anchors.fill: parent
         visible: !root.path
         gradient: Gradient {
-            GradientStop { position: 0; color: "#1d2a3a" }
-            GradientStop { position: 0.55; color: "#0f141c" }
-            GradientStop { position: 1; color: "#07090d" }
+            GradientStop { position: 0; color: Theme.gradTop }
+            GradientStop { position: 0.55; color: Theme.gradMid }
+            GradientStop { position: 1; color: Theme.gradBottom }
         }
     }
     Image {

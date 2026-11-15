@@ -8,7 +8,7 @@ Column {
     Text {
         text: Qt.formatTime(clock.date, "HH:mm")
         color: Theme.fg
-        font { family: Theme.font; pixelSize: 92; weight: Font.Black; letterSpacing: 2 }
+        font { family: Theme.font; pixelSize: 92; weight: Font.Black; letterSpacing: 2 * Theme.ls }
     }
     Row {
         leftPadding: 4
@@ -17,7 +17,7 @@ Column {
         Text {
             text: Qt.formatDate(clock.date, "dddd · MMMM d").toUpperCase()
             color: Theme.cyan
-            font { family: Theme.font; pixelSize: 13; weight: Font.Black; letterSpacing: 3 }
+            font { family: Theme.font; pixelSize: 13; weight: Font.Black; letterSpacing: 3 * Theme.ls }
         }
     }
 }

@@ -40,7 +40,7 @@ Column {
         anchors.right: parent.right
         text: Session.user.toUpperCase()
         color: Theme.fg
-        font { family: Theme.font; pixelSize: 15; weight: Font.Black; letterSpacing: 2 }
+        font { family: Theme.font; pixelSize: 15; weight: Font.Black; letterSpacing: 2 * Theme.ls }
     }
 
     Item {
@@ -64,7 +64,7 @@ Column {
             focus: true
             color: Theme.fg
             cursorDelegate: Rectangle { width: 1; color: Theme.cyan }
-            font { family: Theme.font; pixelSize: 9; letterSpacing: 8 }
+            font { family: Theme.font; pixelSize: 9; letterSpacing: 8 * Theme.ls }
             Component.onCompleted: forceActiveFocus()
             onTextChanged: root.error = ""
             onAccepted: auth.attempt(text)
@@ -74,7 +74,7 @@ Column {
                 visible: !field.text
                 text: "PASSWORD"
                 color: Theme.dim
-                font { family: Theme.font; pixelSize: 10; letterSpacing: 3 }
+                font { family: Theme.font; pixelSize: 10; letterSpacing: 3 * Theme.ls }
             }
         }
         Text {
@@ -85,7 +85,7 @@ Column {
             font { pixelSize: 16; bold: true }
             MouseArea { anchors.fill: parent; enabled: !auth.busy; onClicked: auth.attempt(field.text) }
         }
-        Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: Qt.rgba(1, 1, 1, 0.75) }
+        Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: Theme.fieldLine }
     }
 
     Text {
@@ -94,6 +94,6 @@ Column {
         opacity: root.status ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         color: root.error ? Theme.error : Theme.dim
-        font { family: Theme.font; pixelSize: 10; weight: Font.Bold; letterSpacing: 2 }
+        font { family: Theme.font; pixelSize: 10; weight: Font.Bold; letterSpacing: 2 * Theme.ls }
     }
 }

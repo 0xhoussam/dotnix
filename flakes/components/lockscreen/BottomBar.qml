@@ -15,7 +15,7 @@ Column {
         property bool armed: false
         text: armed ? "CONFIRM " + label + "?" : label
         color: armed ? Theme.error : (ma.containsMouse ? Theme.cyan : Theme.fg)
-        font { family: Theme.font; pixelSize: 11; weight: Font.Bold; letterSpacing: 2 }
+        font { family: Theme.font; pixelSize: 11; weight: Font.Bold; letterSpacing: 2 * Theme.ls }
         Process { id: proc; command: btn.command }
         Timer { id: disarm; interval: 4000; onTriggered: btn.armed = false }
         MouseArea {
@@ -39,7 +39,7 @@ Column {
             spacing: 10
             width: parent.width - restart.width - shutdown.width - 48
             Rectangle { width: 5; height: 5; radius: 3; color: Theme.cyan; anchors.verticalCenter: parent.verticalCenter }
-            Text { text: session.toUpperCase(); color: Theme.fg; font { family: Theme.font; pixelSize: 11; weight: Font.Bold; letterSpacing: 2 } }
+            Text { text: session.toUpperCase(); color: Theme.fg; font { family: Theme.font; pixelSize: 11; weight: Font.Bold; letterSpacing: 2 * Theme.ls } }
         }
         PowerButton { id: restart; label: "RESTART"; command: ["systemctl", "reboot"] }
         PowerButton { id: shutdown; label: "SHUT DOWN"; command: ["systemctl", "poweroff"] }

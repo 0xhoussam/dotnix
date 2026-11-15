@@ -20,7 +20,7 @@ ShellRoot {
                 // earlier makes the compositor report "lockscreen died".
                 onLockedChanged: if (!locked) Qt.callLater(Qt.quit)
                 WlSessionLockSurface {
-                    color: "#0b0d12"
+                    color: Theme.bg
                     LockSurface { anchors.fill: parent }
                 }
             }
@@ -41,7 +41,7 @@ ShellRoot {
             PanelWindow {
                 required property var modelData
                 screen: modelData
-                color: "#0b0d12"
+                color: Theme.bg
                 exclusionMode: ExclusionMode.Ignore
                 WlrLayershell.layer: WlrLayer.Overlay
                 WlrLayershell.namespace: "lock-preview"

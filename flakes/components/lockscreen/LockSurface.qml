@@ -12,7 +12,7 @@ Item {
     HoverHandler { onPointChanged: Session.noteInput() }
     Keys.onPressed: event => { Session.noteInput(); event.accepted = false }
 
-    Rectangle { anchors.fill: parent; color: "#0b0d12" }
+    Rectangle { anchors.fill: parent; color: Theme.bg }
     Background { anchors.fill: parent }
     // darken the edges where the text sits, keep the middle clean
     Rectangle {
