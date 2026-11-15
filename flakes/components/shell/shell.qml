@@ -4,6 +4,7 @@ import "bar"
 import "widgets"
 import "bluetooth"
 import "network"
+import "audio"
 
 ShellRoot {
     // Single-instance overlays on the primary screen.
@@ -11,6 +12,7 @@ ShellRoot {
     NotificationPopups {}
     PairingDialog {}
     SecretsDialog {}
+    VolumeOsd {}
 
     Variants {
         model: Quickshell.screens

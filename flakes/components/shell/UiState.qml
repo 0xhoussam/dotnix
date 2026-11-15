@@ -9,6 +9,8 @@ Singleton {
     // Number of open popups (tray menus, clipboard, network, bluetooth).
     // Holds the autohide bar visible.
     property int openPopups: 0
+    // Volume panel open (the volume OSD stays quiet while it is).
+    property bool volumePanelOpen: false
 
     function togglePanel() { panelOpen = !panelOpen }
     function closePanel() { panelOpen = false }
