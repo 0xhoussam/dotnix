@@ -4,10 +4,10 @@ The desktop shell for my Hyprland setup: a bar with panels, notifications, an
 on-screen display and a lock screen. Built with
 [Quickshell](https://quickshell.org/) (QML) and a small Rust sidecar, via Nix.
 
-The previous AGS (Astal/GTK) implementation is still in this directory
-(`app.tsx`, `bar/`, `lock/`) but is no longer used. See `MIGRATION.md` for how
-the port went, `VOLUME-PANEL.md` for the volume panel design and
-`ROADMAP.md` for the follow-up work and its checklist.
+The previous AGS (Astal/GTK) implementation was removed after the port; it is
+in git history. See `docs/MIGRATION.md` for how the port went,
+`docs/VOLUME-PANEL.md` for the volume panel design and `docs/ROADMAP.md` for
+the follow-up work and its checklist.
 
 ## Contents
 
@@ -46,7 +46,7 @@ screen is started by hypridle and the Hyprland keybinds.
 ## Develop
 
 ```sh
-nix develop                              # quickshell, qmlls and the AGS shell
+nix develop                              # quickshell, qmlls and qmllint
 cargo test --manifest-path agents/Cargo.toml
 nix build .#checks.x86_64-linux.qmllint  # lint report (warnings are not fatal yet)
 ```

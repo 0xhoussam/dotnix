@@ -1,48 +1,12 @@
 {
   pkgs,
-  ags,
   # video (or image) for the lock screen background; null = dark gradient
   lockWallpaper ? null,
   ...
 }:
 let
   system = "x86_64-linux";
-  pname = "my-shell";
-  entry = "app.tsx";
-
-  astalPackages = with ags.packages.${system}; [
-    io
-    astal4
-    astal3
-    auth
-    hyprland
-    network
-    bluetooth
-    battery
-    wireplumber
-    notifd
-    mpris
-    tray
-  ];
-
-  extraPackages =
-    astalPackages
-    ++ [
-      pkgs.libadwaita
-      pkgs.libsoup_3
-      pkgs.libsecret # network agent: agent-owned Wi-Fi/VPN secrets in the keyring
-      pkgs.eslint_d
-    ];
-  # Lock screen extras: GStreamer for the video wallpaper (Gtk.MediaFile;
-  # va = hardware decode, libav = software fallback) and its HUD font,
-  # added on top of the system fontconfig.
-  lockPackages = with pkgs.gst_all_1; [
-    gstreamer
-    gst-plugins-base
-    gst-plugins-good
-    gst-plugins-bad
-    gst-libav
-  ];
+  # HUD font for the lock screen, added on top of the system fontconfig.
   lockFonts = pkgs.writeText "lock-fonts.conf" ''
     <?xml version="1.0"?>
     <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
@@ -71,64 +35,7 @@ let
 in {
   packages.${system} = rec {
     shell-agents = shellAgents;
-    default = pkgs.stdenv.mkDerivation {
-      name = pname;
-      src = ./.;
-
-      nativeBuildInputs = with pkgs; [
-        wrapGAppsHook3
-        gobject-introspection
-        ags.packages.${system}.default
-      ];
-
-      buildInputs = extraPackages ++ [pkgs.gjs];
-
-      installPhase = ''
-        runHook preInstall
-
-        mkdir -p $out/bin
-        mkdir -p $out/share
-        cp -r * $out/share
-        ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
-
-        runHook postInstall
-      '';
-    };
-
-    lock = pkgs.stdenv.mkDerivation {
-      name = "lock-screen";
-      src = ./.;
-
-      nativeBuildInputs = with pkgs; [
-        wrapGAppsHook3
-        gobject-introspection
-        ags.packages.${system}.default
-      ];
-
-      buildInputs = extraPackages ++ lockPackages ++ [pkgs.gjs];
-
-      # --set-default so `LOCK_WALLPAPER=... lock-screen` can still override it
-      preFixup =
-        ''
-          gappsWrapperArgs+=(--set FONTCONFIG_FILE ${lockFonts})
-        ''
-        + pkgs.lib.optionalString (lockWallpaper != null) ''
-          gappsWrapperArgs+=(--set-default LOCK_WALLPAPER ${lockWallpaper})
-        '';
-
-      installPhase = ''
-        runHook preInstall
-
-        mkdir -p $out/bin
-        mkdir -p $out/share
-        cp -r * $out/share
-        ags bundle lock/app.tsx $out/bin/lock-screen -d "SRC='$out/share'"
-
-        runHook postInstall
-      '';
-    };
-    # Quickshell port (see MIGRATION.md). Built alongside the AGS outputs;
-    # nothing in the system config points at it until the cutover.
+    default = qs-shell;
     qs-lock = pkgs.stdenvNoCC.mkDerivation {
       name = "qs-lock";
       src = ./lockscreen;
@@ -195,9 +102,6 @@ in {
       buildInputs = [
         pkgs.quickshell
         pkgs.kdePackages.qtdeclarative # qmlls, qmllint
-        (ags.packages.${system}.default.override {
-          inherit extraPackages;
-        })
       ];
     };
   };

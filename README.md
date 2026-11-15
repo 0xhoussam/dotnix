@@ -1,25 +1,42 @@
 # dotnix
 
-This is my not overly engineerd nix flake for managing my machines and keeping my sanity.
+A not overly engineered Nix flake for my machine and my sanity. Take what you like.
 
-Explore the reposity take what you like.
+## Layout
+
+| Path | What |
+| ---- | ---- |
+| `hosts/bystial` | NixOS configuration of the laptop. |
+| `homes/pride` | Home Manager configuration (standalone). |
+| `shared/` | Modules shared by the host and the home, such as the Hyprland desktop. |
+| `flakes/components` | The desktop shell: Quickshell bar and lock screen plus a Rust D-Bus sidecar. See its README. |
+| `flakes/eshot`, `flakes/zenbones-mono-flake` | Small local packages. |
+| `docs/` | Design notes and plans. |
+| `assets/` | Wallpapers. |
 
 ## Hardware
 
+| Hostname  | CPU / GPU | OS  |
+| --------- | --------- | --- |
+| `bystial` | see `hosts/bystial/hardware-configuration.nix` | NixOS |
 
-| Hostname | Brand                    | CPU             | RAM  | GPU                    | OS  |
-| -------- | ------------------------ | --------------- | ---- | ---------------------- | --- |
-| `project`| -_-                      |  Intel i7-5500U | 16Gb | AMD ATI Radeon R7 M265 | Nix |
+## Usage
 
-## Sofware
+```sh
+sudo nixos-rebuild switch --flake .#bystial
+home-manager switch --flake .#pride
+nix run .#qs-shell        # try the shell without switching (from flakes/components)
+```
 
-System wide config is managed through nix and nix modules everything else is managed through home-manager. Some configurations still not yet ported to nix. (some of them will never like neovim).
+## Software
 
-- Terminal: [Alacritty](https://github.com/alacritty/alacritty)
-- Terminal multiplexer: [Zellij](https://github.com/zellij-org/zellij)
+System config lives in Nix modules; user config in Home Manager. A few things
+are not ported (Neovim, for one).
+
+- Terminal: Alacritty, with Zellij
 - Shell: zsh
 - Editor: Neovim
-- Desktop: Hyprland
+- Desktop: Hyprland with a custom Quickshell shell
 - Browser: Zen
-- Development environments: [Devenv](https://github.com/cachix/devenv) + [Direnv](https://github.com/nix-community/nix-direnv)
-
+- Theming: Stylix
+- Dev environments: Devenv + Direnv

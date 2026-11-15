@@ -15,10 +15,6 @@
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
       flake = false;
     };
-    ags = {
-      url = "github:aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,7 +49,6 @@
       self,
       nixpkgs,
       home-manager,
-      ags,
       ...
     }@inputs:
   let
@@ -82,7 +77,6 @@
 
     components = import ./flakes/components {
       inherit pkgs;
-      ags = inputs.ags;
       lockWallpaper = ./assets/wallpapers/lock-katana-forest.mp4;
     };
     eshot = import ./flakes/eshot { inherit pkgs; };
@@ -103,35 +97,26 @@
         }
       );
 
-  in
-  {
-    nixosConfigurations = {
-      bystial = lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs self;
-        };
-        modules = [
-          ./hosts/bystial
-        ];
-      };
+    mkHost = name: lib.nixosSystem {
+      inherit system;
+      specialArgs = { inherit inputs self; };
+      modules = [ ./hosts/${name} ];
     };
 
-    homeConfigurations = {
-      pride = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          inputs.stylix.homeModules.stylix
-          ./homes/pride
-        ];
-        extraSpecialArgs = {
-          inherit inputs self;
-          components = components;
-          eshot = eshot;
-          zenbones = zenbones;
-        };
+    mkHome = modules: home-manager.lib.homeManagerConfiguration {
+      inherit pkgs modules;
+      extraSpecialArgs = {
+        inherit inputs self components eshot zenbones;
       };
     };
+  in
+  {
+    nixosConfigurations.bystial = mkHost "bystial";
+
+    homeConfigurations.pride = mkHome [
+      inputs.stylix.homeModules.stylix
+      ./homes/pride
+    ];
 
     devShells = forEachSupportedSystem (
       { pkgs }:
@@ -153,8 +138,7 @@
 
     packages = {
       x86_64-linux = {
-        ags-shell = components.packages.x86_64-linux.default;
-        ags-lock = components.packages.x86_64-linux.lock;
+        default = components.packages.x86_64-linux.qs-shell;
         qs-shell = components.packages.x86_64-linux.qs-shell;
         qs-lock = components.packages.x86_64-linux.qs-lock;
         shell-agents = components.packages.x86_64-linux.shell-agents;
