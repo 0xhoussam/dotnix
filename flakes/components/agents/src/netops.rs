@@ -55,6 +55,26 @@ pub fn device_reason_text(r: u64) -> &'static str {
     }
 }
 
+#[derive(Debug, PartialEq)]
+pub enum Wait {
+    Pending,
+    Done,
+    Failed,
+}
+
+/// Activation progress from the active connection's state (NM_ACTIVE_CONNECTION_STATE:
+/// 1 activating, 2 activated, 3 deactivating, 4 deactivated). `seen`: the
+/// object has been in the store at least once.
+pub fn wait_status(seen: bool, state: Option<u64>) -> Wait {
+    match state {
+        Some(2) => Wait::Done,
+        Some(3) | Some(4) => Wait::Failed,
+        Some(_) => Wait::Pending,
+        None if seen => Wait::Failed, // it appeared and is gone again
+        None => Wait::Pending,        // not loaded yet
+    }
+}
+
 impl Nm {
     async fn call<B>(&self, p: &str, iface: &str, method: &str, body: &B) -> Result<zbus::Message, String>
     where
@@ -64,19 +84,20 @@ impl Nm {
     }
 
     /// Wait until active connection `ac` is activated; Err(reason) otherwise.
+    /// The store learns about a fresh active connection a moment after
+    /// ActivateConnection returns, so "not there yet" is pending until it
+    /// has been seen once.
     async fn wait_active(&self, ac: &str, dev: Option<&str>) -> Result<(), String> {
         let deadline = tokio::time::Instant::now() + Duration::from_secs(90);
+        let mut seen = false;
         loop {
             let notified = self.changed.notified();
-            {
-                let snap = self.snapshot_raw(ac, dev);
-                match snap {
-                    (Some(2), _) => return Ok(()),
-                    (Some(4), reason) | (None, reason) => {
-                        return Err(device_reason_text(reason).to_string());
-                    }
-                    _ => {}
-                }
+            let (state, reason) = self.snapshot_raw(ac, dev);
+            seen |= state.is_some();
+            match wait_status(seen, state) {
+                Wait::Done => return Ok(()),
+                Wait::Failed => return Err(device_reason_text(reason).to_string()),
+                Wait::Pending => {}
             }
             if tokio::time::timeout_at(deadline, notified).await.is_err() {
                 return Err("Connection timed out".into());
@@ -189,6 +210,15 @@ pub fn build_settings(j: &Json) -> Result<HashMap<String, HashMap<String, zbus::
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn activation_waits_for_the_object_to_appear() {
+        assert_eq!(wait_status(false, None), Wait::Pending); // right after ActivateConnection
+        assert_eq!(wait_status(true, Some(1)), Wait::Pending);
+        assert_eq!(wait_status(true, Some(2)), Wait::Done);
+        assert_eq!(wait_status(true, Some(4)), Wait::Failed);
+        assert_eq!(wait_status(true, None), Wait::Failed); // gone after being seen
+    }
 
     #[test]
     fn settings_conversion() {
