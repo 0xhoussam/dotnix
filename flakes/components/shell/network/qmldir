@@ -1,0 +1,10 @@
+singleton NetService 1.0 NetService.qml
+singleton Validate 1.0 Validate.qml
+OpState 1.0 OpState.qml
+NetRow 1.0 NetRow.qml
+DeviceCard 1.0 DeviceCard.qml
+VpnRow 1.0 VpnRow.qml
+InfoBlock 1.0 InfoBlock.qml
+SecretsDialog 1.0 SecretsDialog.qml
+JoinDialog 1.0 JoinDialog.qml
+Network 1.0 Network.qml

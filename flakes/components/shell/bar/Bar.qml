@@ -5,6 +5,7 @@ import Quickshell.Wayland
 import ".."
 import "items"
 import "../bluetooth"
+import "../network"
 
 // Port of bar/app.tsx. The window keeps the full bar height while hidden
 // (resizing a layer surface on the fly is unreliable); hiding only slides
@@ -84,7 +85,7 @@ PanelWindow {
         // Module registry: name -> component.
         readonly property var registry: ({
             logo: logoC, workspaces: workspacesC, clock: clockC, keyboard: keyboardC,
-            network: placeholderC, bluetooth: bluetoothC, volume: volumeC,
+            network: networkC, bluetooth: bluetoothC, volume: volumeC,
             battery: batteryC, clipboard: clipboardC, settings: settingsC, systray: systrayC
         })
 
@@ -95,10 +96,10 @@ PanelWindow {
         Component { id: volumeC; Volume {} }
         Component { id: batteryC; Battery {} }
         Component { id: bluetoothC; Bluetooth {} }
+        Component { id: networkC; Network {} }
         Component { id: clipboardC; Clipboard {} }
         Component { id: settingsC; Settings {} }
         Component { id: systrayC; Systray {} }
-        Component { id: placeholderC; Item {} } // network: phase 6
 
         component Section: Row {
             id: sec

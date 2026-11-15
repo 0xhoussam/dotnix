@@ -5,9 +5,13 @@
 
 mod bluetooth;
 mod dbus;
+mod keyring;
+mod netops;
+mod nm;
 mod obex;
 mod portal;
 mod prompter;
+mod secrets;
 mod util;
 
 use prompter::{Answer, Prompter};
@@ -24,6 +28,13 @@ fn parse_answer(v: &Value) -> Option<(u64, Answer)> {
         "always" => Answer::Always,
         "text" => Answer::Text(v.get("text")?.as_str()?.to_string()),
         "number" => Answer::Number(u32::try_from(v.get("number")?.as_u64()?).ok()?),
+        "fields" => Answer::Fields(
+            v.get("fields")?
+                .as_object()?
+                .iter()
+                .filter_map(|(k, v)| v.as_str().map(|s| (k.clone(), s.to_string())))
+                .collect(),
+        ),
         _ => return None,
     };
     Some((id, answer))
@@ -46,7 +57,14 @@ async fn main() {
         }
     });
 
-    {
+    // SHELL_AGENTS_SKIP=bluetooth,obex,... leaves parts out (safe live tests
+    // next to the old bar, which owns the same agent slots).
+    let skip: Vec<String> = std::env::var("SHELL_AGENTS_SKIP")
+        .map(|v| v.split(',').map(|s| s.trim().to_string()).collect())
+        .unwrap_or_default();
+    let on = |name: &str| !skip.iter().any(|s| s == name);
+
+    if on("bluetooth") {
         let p = prompter.clone();
         tokio::spawn(async move {
             if let Err(e) = bluetooth::run(p).await {
@@ -65,14 +83,46 @@ async fn main() {
     };
     let obex = buses.as_ref().map(|b| {
         let o = obex::Obex::new(b.session.clone(), b.system.clone(), prompter.clone(), out_tx2.clone());
-        let run = o.clone();
-        tokio::spawn(async move {
-            if let Err(e) = run.run().await {
-                eprintln!("obex agent stopped: {e}");
-            }
-        });
+        if on("obex") {
+            let run = o.clone();
+            tokio::spawn(async move {
+                if let Err(e) = run.run().await {
+                    eprintln!("obex agent stopped: {e}");
+                }
+            });
+        }
         o
     });
+
+    if let (true, Some(b)) = (on("secrets"), buses.as_ref()) {
+        let (sys, ses, p) = (b.system.clone(), b.session.clone(), prompter.clone());
+        tokio::spawn(async move {
+            if let Err(e) = secrets::run(sys, ses, p).await {
+                eprintln!("network secret agent stopped: {e}");
+            }
+        });
+    }
+
+    // NetworkManager model: snapshots to the UI on every (debounced) change.
+    let mut nm_handle: Option<std::sync::Arc<nm::Nm>> = None;
+    if let (true, Some(b)) = (on("network"), buses.as_ref()) {
+        let nm = std::sync::Arc::new(nm::Nm::new(b.system.clone()));
+        nm_handle = Some(nm.clone());
+        let w = nm.clone();
+        tokio::spawn(async move {
+            if let Err(e) = w.watch().await {
+                eprintln!("network watch stopped: {e}");
+            }
+        });
+        let out = out_tx2.clone();
+        tokio::spawn(async move {
+            loop {
+                nm.changed.notified().await;
+                tokio::time::sleep(std::time::Duration::from_millis(300)).await;
+                let _ = out.send(nm.snapshot());
+            }
+        });
+    }
 
     let mut lines = BufReader::new(tokio::io::stdin()).lines();
     while let Ok(Some(line)) = lines.next_line().await {
@@ -82,7 +132,7 @@ async fn main() {
                     prompter.answer(id, a);
                 }
             }
-            Ok(v) => handle_request(v, &buses, &obex, &out_tx2),
+            Ok(v) => handle_request(v, &buses, &obex, &nm_handle, &out_tx2),
             Err(e) => eprintln!("bad input line: {e}"),
         }
     }
@@ -93,7 +143,27 @@ async fn main() {
 
 /// Requests from the UI: `call` (generic D-Bus), `send`, `pick-send`,
 /// `cancel-transfer`. Each `call` gets exactly one `reply` with the same rid.
-fn handle_request(v: Value, buses: &Option<dbus::Buses>, obex: &Option<obex::Obex>, out: &mpsc::UnboundedSender<Value>) {
+fn handle_request(
+    v: Value,
+    buses: &Option<dbus::Buses>,
+    obex: &Option<obex::Obex>,
+    nm: &Option<std::sync::Arc<nm::Nm>>,
+    out: &mpsc::UnboundedSender<Value>,
+) {
+    if v["type"] == "net" {
+        if let Some(nm) = nm.clone() {
+            let out = out.clone();
+            tokio::spawn(async move {
+                let rid = v["rid"].clone();
+                let reply = match nm.net_op(&v).await {
+                    Ok(value) => serde_json::json!({"type":"reply","rid":rid,"ok":true,"value":value}),
+                    Err(e) => serde_json::json!({"type":"reply","rid":rid,"ok":false,"error":e}),
+                };
+                let _ = out.send(reply);
+            });
+        }
+        return;
+    }
     let (Some(buses), Some(obex)) = (buses.clone(), obex.clone()) else { return };
     let out = out.clone();
     match v["type"].as_str() {

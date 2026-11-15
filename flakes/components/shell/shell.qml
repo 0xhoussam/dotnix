@@ -3,12 +3,14 @@ import Quickshell
 import "bar"
 import "widgets"
 import "bluetooth"
+import "network"
 
 ShellRoot {
     // Single-instance overlays on the primary screen.
     DatePanel {}
     NotificationPopups {}
     PairingDialog {}
+    SecretsDialog {}
 
     Variants {
         model: Quickshell.screens

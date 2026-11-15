@@ -1,14 +1,16 @@
 # Migration plan: AGS (Astal/GTK4) to Quickshell
 
-Status: option A (Rust sidecar) chosen. Phases 1-4 implemented in `shell/`. Phase 5 started: `agents/` is a Rust crate (`shell-agents`, pure-Rust D-Bus via zbus, no libnm/libsecret) with the shared one-at-a-time prompter and the BlueZ pairing agent. `shell/Agents.qml` bridges it over JSON lines on stdio; `shell/bluetooth/PairingDialog.qml` renders the prompts.
+Status: everything is ported except the items under "Deferred" below. AGS is still the live shell and lock; nothing in the system config points at the Quickshell outputs yet (phase 8, the cutover and removal of AGS, is not done).
 
-Verified: `cargo test` (prompter semantics); the agent against a private D-Bus daemon (confirm, reject, passkey, and UI-gone mid-prompt replies `Canceled`); the dialog renders from a fake sidecar. Not verified: registration with the real bluetoothd (needs `ags-bar` stopped, since the default agent slot is exclusive), the Bluetooth panel (not written), OBEX, anything in phase 6.
+Ported and built: bar with autohide, screen corners, simple items, notifications, date panel, media, lock screen (`.#qs-lock`), Bluetooth (panel, pairing agent, OBEX, notifications, wakelock, auto-connect, audio profiles via pactl), network (panel, Wi-Fi list, wired/mobile/Bluetooth devices, VPN, hidden-network join, secrets dialog, notifications). The Rust sidecar `agents/` (`.#shell-agents`) owns every D-Bus agent and the NetworkManager model.
 
-Findings from the Quickshell v0.3.2 type pages: `Quickshell.Bluetooth` covers adapters and devices (pair, connect, forget, trusted, battery, icon, wake) but no agent or OBEX. `Quickshell.Networking` has devices, `WifiNetwork.connectWithPsk`, `NMSettings`, and no 802.1X, VPN, hotspot or secret agent, so the network sidecar will own the whole model, not only the secret agent.
+Verified: `cargo test` (prompter, generic D-Bus argument conversion, NM snapshot grouping and security classification, secret prompt construction, flag and VPN-dialog protocol parsing, settings conversion); the BlueZ agent against a private D-Bus daemon; the NM model read live against the real system bus; panels render from live data (Bluetooth panel with the adapter off, network panel with real Wi-Fi data). Lock preview with PAM login.
 
-Phase 7 (lock screen) implemented in `lockscreen/`, built as `.#qs-lock` (`lock-screen` wrapper: single-instance via `qs -n`, Orbitron via FONTCONFIG_FILE, QtMultimedia added to the Qt paths). `LOCK_PREVIEW=1` ran with the video wallpaper and a PAM login that succeeded. NOT tested: the real `WlSessionLock` path (lock, wrong password, suspend/resume, kill and relaunch, hypridle path). Differences from AGS: caps lock is read from the keyboard LED in sysfs, and with several monitors each surface decodes its own copy of the video.
+NOT verified (needs hands on the live session): the real `WlSessionLock` path; registering the agents with the real bluetoothd, obexd and NetworkManager (they take the exclusive agent slots from `ags-bar`, so stop it first); any network or Bluetooth action (connect, join, forget, VPN, pair, send/receive); the keyring (Secret Service) read and write; text input inside popups; autohide, tray menu, clipboard popup, notification delivery.
 
-Test without hijacking the live agents: `SHELL_AGENTS_OFF=1 my-shell`.
+Deferred (not ported): hotspot create/stop UI (a running hotspot is shown and can be stopped), the 802.1X / WEP join form (those networks open nm-connection-editor), the "Wi-Fi Networks Available" notification, the captive-portal notification action (the in-panel Sign In banner works), VPN failure reason text, per-user connection permissions when the user lacks system rights.
+
+Test without hijacking the live agents: `SHELL_AGENTS_SKIP=bluetooth,obex,secrets` (network model only), or `SHELL_AGENTS_OFF=1` (no sidecar).
 
 Deviation from the plan: no new flake input. nixpkgs already ships `quickshell` 0.3.2, so `default.nix` uses `pkgs.quickshell` and `flake.nix` only gained the `qs-shell` package entry. The `State` singleton is named `UiState` because `State` clashes with the QtQuick type.
 

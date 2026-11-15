@@ -15,6 +15,8 @@ pub enum Answer {
     Reject,
     Text(String),
     Number(u32),
+    /// Filled-in form (network secrets): key -> value.
+    Fields(std::collections::HashMap<String, String>),
     Yes,
     /// "Yes, and trust the device".
     Always,
