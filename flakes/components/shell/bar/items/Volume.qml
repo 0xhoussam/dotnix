@@ -51,6 +51,8 @@ Pill {
     PopupCard {
         id: pop
         anchorItem: root
+        barWindow: QsWindow.window
+        name: "volume"
         cardWidth: 372
         spacing: 10
         onOpenChanged: UiState.volumePanelOpen = open

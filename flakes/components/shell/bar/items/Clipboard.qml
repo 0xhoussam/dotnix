@@ -37,6 +37,8 @@ Pill {
     PopupCard {
         id: pop
         anchorItem: root
+        barWindow: QsWindow.window
+        name: "clipboard"
         cardWidth: 384
         spacing: 10
         onOpenChanged: if (open) list.running = true

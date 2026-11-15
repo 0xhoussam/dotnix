@@ -11,6 +11,8 @@
 let
   playerctl = lib.getExe pkgs.playerctl;
   lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.qs-lock}/bin/lock-screen";
+  # `shell-ctl shell osd brightness`, `shell-ctl shell toggle volume`, ... talk to the running bar
+  shellCtl = "${components.packages.${pkgs.stdenv.hostPlatform.system}.qs-shell}/bin/shell-ctl";
   hyprctl = lib.getExe pkgs.hyprland;
   hyprshot = lib.getExe pkgs.hyprshot;
   kitty = lib.getExe pkgs.kitty;
@@ -340,13 +342,13 @@ hl.bind(
 
             hl.bind(
               "XF86MonBrightnessUp",
-              hl.dsp.exec_cmd("${brightnessctl} set 10%+"),
+              hl.dsp.exec_cmd("${brightnessctl} set 10%+ && ${shellCtl} shell osd brightness"),
               { repeating = true }
             )
 
             hl.bind(
               "XF86MonBrightnessDown",
-              hl.dsp.exec_cmd("${brightnessctl} set 10%-"),
+              hl.dsp.exec_cmd("${brightnessctl} set 10%- && ${shellCtl} shell osd brightness"),
               { repeating = true }
             )
 

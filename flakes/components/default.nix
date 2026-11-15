@@ -57,6 +57,7 @@ let
   shellTools = pkgs.lib.makeBinPath (with pkgs; [
     brightnessctl cliphist wl-clipboard wireplumber pipewire tuned util-linux systemd
     xdg-utils pavucontrol networkmanagerapplet libnotify procps coreutils bash
+    hyprshot wf-recorder hyprland
   ]);
 
   # D-Bus agents for the Quickshell bar (BlueZ pairing, later OBEX and the
@@ -68,7 +69,7 @@ let
     cargoLock.lockFile = ./agents/Cargo.lock;
   };
 in {
-  packages.${system} = {
+  packages.${system} = rec {
     shell-agents = shellAgents;
     default = pkgs.stdenv.mkDerivation {
       name = pname;
@@ -166,7 +167,11 @@ in {
           --prefix PATH : ${shellTools} \
           --suffix PATH : /run/current-system/sw/bin \
           --set-default QS_ICON_THEME Adwaita \
-          --set-default SHELL_AGENTS ${shellAgents}/bin/shell-agents
+          --set-default SHELL_AGENTS ${shellAgents}/bin/shell-agents \
+          --set-default SHELL_LOCK_CMD ${qs-lock}/bin/lock-screen
+        # `shell-ctl toggle volume`, `shell-ctl osd brightness`, ... (IpcHandler "shell")
+        makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/shell-ctl \
+          --add-flags "ipc --path $out/share/qs-shell call"
         runHook postInstall
       '';
     };

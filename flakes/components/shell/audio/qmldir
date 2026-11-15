@@ -2,4 +2,3 @@ singleton AudioService 1.0 AudioService.qml
 VolumeRow 1.0 VolumeRow.qml
 DeviceList 1.0 DeviceList.qml
 AppRow 1.0 AppRow.qml
-VolumeOsd 1.0 VolumeOsd.qml

@@ -82,6 +82,8 @@ Pill {
     PopupCard {
         id: pop
         anchorItem: root
+        barWindow: QsWindow.window
+        name: "network"
         cardWidth: 392
         spacing: 8
         onOpenChanged: if (open) root.scan()

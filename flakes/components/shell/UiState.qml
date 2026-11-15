@@ -16,6 +16,11 @@ Singleton {
     // Volume panel open (the volume OSD stays quiet while it is).
     property bool volumePanelOpen: false
 
+    // IPC / keybind request to toggle a bar panel by name ("volume", "quick", ...);
+    // only the bar on the focused monitor reacts.
+    signal panelRequested(string name)
+    function requestPanel(name) { panelRequested(name) }
+
     function togglePanel() { panelOpen = !panelOpen }
     function closePanel() { panelOpen = false }
 }

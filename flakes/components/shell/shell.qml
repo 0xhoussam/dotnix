@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import "bar"
 import "widgets"
 import "bluetooth"
@@ -12,7 +13,19 @@ ShellRoot {
     NotificationPopups {}
     PairingDialog {}
     SecretsDialog {}
-    VolumeOsd {}
+    Osd { id: osdOverlay }
+
+    // `shell-ctl toggle volume`, `shell-ctl osd brightness`, ... (see README)
+    IpcHandler {
+        target: "shell"
+        function toggle(name: string): void {
+            if (name === "date") UiState.togglePanel()
+            else UiState.requestPanel(name)
+        }
+        function osd(kind: string): void {
+            if (kind === "brightness") osdOverlay.brightness()
+        }
+    }
 
     Variants {
         model: Quickshell.screens

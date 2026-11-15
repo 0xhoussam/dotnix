@@ -11,20 +11,32 @@ import ".."
 Scope {
     id: root
     property Item anchorItem
+    // the bar window hosting the anchor (`barWindow: QsWindow.window` at the use site)
+    property var barWindow: null
+    // name for IPC toggling (`shell-ctl toggle <name>`)
+    property string name: ""
     property int cardWidth: 392
     property int pad: 16
     property alias spacing: col.spacing
     property bool open: false
     readonly property real contentWidth: cardWidth - 2 * pad
     default property alias content: col.data
-    // the bar window stays interactive while the popup is open
-    property var extraGrabWindows: []
+
+    Connections {
+        target: UiState
+        function onPanelRequested(n) {
+            if (!root.name || n !== root.name) return
+            const mon = Hyprland.focusedMonitor
+            const scr = root.barWindow ? root.barWindow.screen : null
+            if (!mon || !scr || mon.name === scr.name) root.open = !root.open
+        }
+    }
 
     Component.onCompleted: UiState.register(root)
     Component.onDestruction: UiState.unregister(root)
 
     HyprlandFocusGrab {
-        windows: [pop, QsWindow.window].concat(root.extraGrabWindows)
+        windows: root.barWindow ? [pop, root.barWindow] : [pop]
         active: root.open
         onCleared: root.open = false
     }
