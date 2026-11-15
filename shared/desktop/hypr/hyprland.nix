@@ -9,6 +9,9 @@
 }:
 
 let
+  # Border colour: the Stylix accent when Stylix is enabled for this user, else the old blue.
+  borderActive =
+    if (config.stylix.enable or false) then "0xff${config.lib.stylix.colors.base0D}" else "0xff1c71d8";
   playerctl = lib.getExe pkgs.playerctl;
   lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.qs-lock}/bin/lock-screen";
   # `shell-ctl shell osd brightness`, `shell-ctl shell toggle volume`, ... talk to the running bar
@@ -100,7 +103,7 @@ let
 
                 border_size = 2,
 
-                ["col.active_border"] = "0xff1c71d8",
+                ["col.active_border"] = "${borderActive}",
                 ["col.inactive_border"] = "0",
 
                 layout = "scrolling",
