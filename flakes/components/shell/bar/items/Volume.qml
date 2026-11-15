@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.Pipewire
 import "../.."
+import "../../widgets"
 
 // Default-speaker volume. Click toggles mute, scroll adjusts level.
 Pill {
@@ -22,7 +23,7 @@ Pill {
 
     Row {
         spacing: 5
-        Image {
+        Image { layer.enabled: true; layer.effect: Tint {}
             anchors.verticalCenter: parent.verticalCenter
             width: 16; height: 16
             sourceSize: Qt.size(32, 32)
@@ -32,7 +33,7 @@ Pill {
         }
         Text {
             text: Math.round(root.vol * 100) + "%"
-            color: Theme.muted
+            color: Qt.rgba(1, 1, 1, 0.88)
             font.pixelSize: Theme.fontSize
         }
     }

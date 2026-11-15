@@ -1,8 +1,10 @@
 import QtQuick
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 import "../.."
+import "../../widgets"
 
 // Clipboard history via cliphist. Click the icon to open the list; click an
 // entry to copy it back (wl-copy). Clear wipes history.
@@ -11,7 +13,7 @@ Pill {
     active: pop.visible
     onClicked: pop.visible = !pop.visible
 
-    Image {
+    Image { layer.enabled: true; layer.effect: Tint {}
         width: 16; height: 16
         sourceSize: Qt.size(32, 32)
         source: Quickshell.iconPath("edit-paste-symbolic", true)
@@ -33,6 +35,13 @@ Pill {
     }
     Process { id: decode; property string clipId; command: ["bash", "-c", "printf '%s' \"$1\" | cliphist decode | wl-copy", "_", clipId] }
     Process { id: wipe; command: ["cliphist", "wipe"]; onExited: list.running = true }
+
+    // Close when clicking anywhere else (the bar itself stays interactive).
+    HyprlandFocusGrab {
+        windows: [pop, QsWindow.window]
+        active: pop.visible
+        onCleared: pop.visible = false
+    }
 
     PopupWindow {
         id: pop

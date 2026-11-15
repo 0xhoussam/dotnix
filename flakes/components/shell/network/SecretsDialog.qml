@@ -55,7 +55,7 @@ Scope {
 
                 RowLayout {
                     spacing: 12
-                    Image {
+                    Image { layer.enabled: true; layer.effect: Tint {}
                         Layout.preferredWidth: 32; Layout.preferredHeight: 32
                         sourceSize: Qt.size(64, 64)
                         source: Quickshell.iconPath(root.prompt ? root.prompt.icon : "dialog-password-symbolic", true)

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Bluetooth
 import "../bar/items"
 import "../widgets"
@@ -28,7 +29,7 @@ Pill {
         .filter(d => !d.paired && !d.connected && (BtService.settings.showUnnamed || d.name))
         .sort(byName).slice(0, 25)
 
-    Image {
+    Image { layer.enabled: true; layer.effect: Tint {}
         width: 16; height: 16; sourceSize: Qt.size(32, 32)
         source: Quickshell.iconPath(BtService.rfHard || !root.powered ? "bluetooth-disabled-symbolic"
             : root.anyConnected ? "bluetooth-active-symbolic" : "bluetooth-symbolic", true)
@@ -56,6 +57,13 @@ Pill {
         if (on) BtService.unblock()
         adapter.enabled = on
         if (on && pop.visible) startScan()
+    }
+
+    // Close when clicking anywhere else (the bar itself stays interactive).
+    HyprlandFocusGrab {
+        windows: [pop, QsWindow.window]
+        active: pop.visible
+        onCleared: pop.visible = false
     }
 
     PopupWindow {

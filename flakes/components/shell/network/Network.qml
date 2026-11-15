@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Hyprland
 import "../bar/items"
 import "../widgets"
 import ".."
@@ -24,11 +25,11 @@ Pill {
 
     Row {
         spacing: 2
-        Image {
+        Image { layer.enabled: true; layer.effect: Tint {}
             width: 16; height: 16; sourceSize: Qt.size(32, 32)
             source: Quickshell.iconPath(root.n ? root.n.icon : "network-error-symbolic", true)
         }
-        Image {
+        Image { layer.enabled: true; layer.effect: Tint {}
             visible: root.n && root.n.vpnActive
             anchors.bottom: parent.bottom
             width: 11; height: 11; sourceSize: Qt.size(22, 22)
@@ -76,6 +77,13 @@ Pill {
     Connections {
         target: Agents
         function onCurrentChanged() { if (Agents.current && Agents.current.prompt.kind === "secrets") pop.visible = false }
+    }
+
+    // Close when clicking anywhere else (the bar itself stays interactive).
+    HyprlandFocusGrab {
+        windows: [pop, QsWindow.window]
+        active: pop.visible
+        onCleared: pop.visible = false
     }
 
     PopupWindow {

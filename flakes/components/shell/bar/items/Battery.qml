@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.UPower
 import "../.."
+import "../../widgets"
 
 // Battery icon + percentage. Hidden when no battery present.
 Item {
@@ -16,7 +17,7 @@ Item {
         id: row
         anchors.centerIn: parent
         spacing: 4
-        Image {
+        Image { layer.enabled: true; layer.effect: Tint {}
             anchors.verticalCenter: parent.verticalCenter
             width: 16; height: 16
             sourceSize: Qt.size(32, 32)
@@ -24,7 +25,7 @@ Item {
         }
         Text {
             text: root.dev ? Math.round(root.dev.percentage * 100) + "%" : ""
-            color: Theme.muted
+            color: Qt.rgba(1, 1, 1, 0.88)
             font.pixelSize: Theme.fontSize
         }
     }

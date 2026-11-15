@@ -70,7 +70,7 @@ Column {
         Row {
             anchors { left: parent.left; leftMargin: 12; verticalCenter: parent.verticalCenter }
             spacing: 10
-            Image {
+            Image { layer.enabled: true; layer.effect: Tint {}
                 anchors.verticalCenter: parent.verticalCenter
                 width: 18; height: 18; sourceSize: Qt.size(36, 36)
                 source: Quickshell.iconPath((root.device.icon ? root.device.icon + "-symbolic" : "bluetooth-symbolic"), true)

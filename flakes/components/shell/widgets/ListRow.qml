@@ -34,7 +34,7 @@ Rectangle {
     Row {
         anchors { left: parent.left; leftMargin: 12; verticalCenter: parent.verticalCenter }
         spacing: 10
-        Image {
+        Image { layer.enabled: true; layer.effect: Tint {}
             anchors.verticalCenter: parent.verticalCenter
             width: 17; height: 17; sourceSize: Qt.size(34, 34)
             source: root.icon ? Quickshell.iconPath(root.icon, true) : ""
@@ -53,7 +53,7 @@ Rectangle {
             text: "⟳"; color: Theme.muted; font.pixelSize: 16
             RotationAnimator on rotation { from: 0; to: 360; duration: 900; loops: Animation.Infinite; running: parent.visible }
         }
-        Image {
+        Image { layer.enabled: true; layer.effect: Tint {}
             visible: root.secured
             anchors.verticalCenter: parent.verticalCenter
             width: 13; height: 13; sourceSize: Qt.size(26, 26)

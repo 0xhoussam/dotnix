@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 import ".."
+import "../widgets"
 
 // Centered overlay that renders the pending agent prompt (pairing PIN /
 // passkey / confirmation, service authorization). Port of PairingDialog.tsx.
@@ -79,7 +80,7 @@ Scope {
 
                 RowLayout {
                     spacing: 12
-                    Image {
+                    Image { layer.enabled: true; layer.effect: Tint {}
                         Layout.preferredWidth: 32; Layout.preferredHeight: 32
                         sourceSize: Qt.size(64, 64)
                         source: Quickshell.iconPath(card.dev ? BtUtil.deviceIcon(card.dev) : "bluetooth-active-symbolic", true)

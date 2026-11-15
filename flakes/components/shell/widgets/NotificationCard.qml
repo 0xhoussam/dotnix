@@ -49,7 +49,7 @@ Rectangle {
                 Layout.preferredWidth: 18; Layout.preferredHeight: 18
                 radius: 9
                 color: closeArea.containsMouse ? Theme.hover : "transparent"
-                Image {
+                Image { layer.enabled: true; layer.effect: Tint {}
                     anchors.centerIn: parent
                     width: 14; height: 14
                     sourceSize: Qt.size(28, 28)
