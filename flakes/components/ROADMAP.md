@@ -66,7 +66,7 @@ This file is the source of truth for the work below. Tick items as they are comm
 - [ ] Screen recording with a bar indicator (no recorder installed yet; needs one added to the config).
 - [x] Weather (wttr.in by IP, `~/.config/my-shell/weather.txt` overrides the place) and Google Calendar events (secret iCal address in `~/.config/my-shell/calendar.url`; the Rust sidecar fetches with curl and expands recurring events; today + 2 days). Needs the user to paste the calendar address. Fixed the empty month grid.
 - [ ] Lock screen extras (media, battery, layout, notification count via shared state); fingerprint only if `fprintd` is enrolled.
-- [x] Theming: dark / light and six accent colours (Quick Settings, `theme.json`), all colours are `Theme` tokens. Accent from the wallpaper is NOT done (needs a colour-extraction tool). The lock screen keeps its own dark HUD.
+- [x] Theming (see also `/STYLIX-PLAN.md`: adopting Stylix system-wide, with a Quickshell bridge in its phase 4): dark / light and six accent colours (Quick Settings, `theme.json`), all colours are `Theme` tokens. Accent from the wallpaper is NOT done (needs a colour-extraction tool). The lock screen keeps its own dark HUD.
 
 ## Answers from the user
 - Weather: wttr.in. Calendar: Google Calendar (no calendar app installed); use the secret iCal address. No fingerprint reader (skip fingerprint on the lock).
