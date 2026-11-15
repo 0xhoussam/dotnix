@@ -4,6 +4,7 @@
 //! BlueZ and NetworkManager never wait on a dead UI.
 
 mod bluetooth;
+mod calendar;
 mod dbus;
 mod keyring;
 mod netops;
@@ -150,6 +151,18 @@ fn handle_request(
     nm: &Option<std::sync::Arc<nm::Nm>>,
     out: &mpsc::UnboundedSender<Value>,
 ) {
+    if v["type"] == "calendar" {
+        let out = out.clone();
+        tokio::spawn(async move {
+            let rid = v["rid"].clone();
+            let reply = match calendar::events_json().await {
+                Ok(value) => serde_json::json!({"type":"reply","rid":rid,"ok":true,"value":value}),
+                Err(e) => serde_json::json!({"type":"reply","rid":rid,"ok":false,"error":e}),
+            };
+            let _ = out.send(reply);
+        });
+        return;
+    }
     if v["type"] == "net" {
         if let Some(nm) = nm.clone() {
             let out = out.clone();

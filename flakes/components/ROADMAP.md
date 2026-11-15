@@ -60,11 +60,11 @@ This file is the source of truth for the work below. Tick items as they are comm
 
 ### 4. Further features
 - [x] Now-playing pill (click play/pause, middle next, right opens the date panel).
-- [ ] Notification centre: group by app, scheduled Do Not Disturb, expiry and progress hints, persisted history.
+- [x] Notification centre: grouped by app (collapse, clear group), quiet hours (toasts held back; steppers in the panel), sender timeouts honoured, progress hint bar, history kept across restarts (`~/.local/state/my-shell/notifications.json`, mode 0600, 200 entries / 14 days) and DND persisted (`notifications.json` in config).
 - [x] System stats popup (CPU with history, memory, swap, disk, temperature, network); sampled once a second only while open.
 - [ ] Clipboard: search, image preview, delete single entries, pinning.
 - [ ] Screen recording with a bar indicator (no recorder installed yet; needs one added to the config).
-- [ ] Calendar events and weather in the date panel (open question: weather source and location, calendar source).
+- [x] Weather (wttr.in by IP, `~/.config/my-shell/weather.txt` overrides the place) and Google Calendar events (secret iCal address in `~/.config/my-shell/calendar.url`; the Rust sidecar fetches with curl and expands recurring events; today + 2 days). Needs the user to paste the calendar address. Fixed the empty month grid.
 - [ ] Lock screen extras (media, battery, layout, notification count via shared state); fingerprint only if `fprintd` is enrolled.
 - [ ] Theming (accent source, optional light mode).
 

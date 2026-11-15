@@ -112,8 +112,8 @@ Pill {
             QsTile {
                 width: parent.tw
                 icon: Notifs.dnd ? "notifications-disabled-symbolic" : "preferences-system-notifications-symbolic"
-                label: "Do Not Disturb"; sub: Notifs.dnd ? "On" : "Off"
-                active: Notifs.dnd
+                label: "Do Not Disturb"; sub: Notifs.dnd ? "On" : Notifs.inQuietHours ? "Quiet hours" : "Off"
+                active: Notifs.quiet
                 onClicked: Notifs.dnd = !Notifs.dnd
             }
             QsTile {

@@ -33,7 +33,11 @@ Rectangle {
             Image {
                 Layout.preferredWidth: 16; Layout.preferredHeight: 16
                 sourceSize: Qt.size(32, 32)
-                source: card.iconSrc(card.n.appIcon || card.n.desktopEntry || "dialog-information-symbolic")
+                readonly property string name: card.n.appIcon || card.n.desktopEntry || "dialog-information-symbolic"
+                // symbolic icons are dark grey: recolor them like the bar's
+                layer.enabled: name.endsWith("symbolic")
+                layer.effect: Tint {}
+                source: card.iconSrc(name)
             }
             Text {
                 text: card.n.appName || "Notification"
@@ -42,7 +46,7 @@ Rectangle {
             Text {
                 Layout.fillWidth: true
                 Layout.leftMargin: 6
-                text: Qt.formatDateTime(Notifs.arrived[card.n.id] || new Date(), "HH:mm")
+                text: Qt.formatDateTime(card.n.time ? new Date(card.n.time) : (Notifs.arrived[card.n.id] || new Date()), "HH:mm")
                 color: Theme.faint; font.pixelSize: 12
             }
             Rectangle {
@@ -55,7 +59,7 @@ Rectangle {
                     sourceSize: Qt.size(28, 28)
                     source: Quickshell.iconPath("window-close-symbolic", true)
                 }
-                MouseArea { id: closeArea; anchors.fill: parent; hoverEnabled: true; onClicked: card.n.dismiss() }
+                MouseArea { id: closeArea; anchors.fill: parent; hoverEnabled: true; onClicked: Notifs.dismiss(card.n) }
             }
         }
 
@@ -87,6 +91,14 @@ Rectangle {
                     wrapMode: Text.Wrap
                 }
             }
+        }
+
+        // progress hint (volume-style notifications)
+        Rectangle {
+            readonly property var prog: card.n.hints && card.n.hints["value"] !== undefined ? Number(card.n.hints["value"]) : -1
+            visible: prog >= 0
+            Layout.fillWidth: true; Layout.preferredHeight: 5; radius: 3; color: Theme.track
+            Rectangle { height: parent.height; radius: 3; width: parent.width * Math.max(0, Math.min(100, parent.prog)) / 100; color: Theme.accent }
         }
 
         RowLayout {

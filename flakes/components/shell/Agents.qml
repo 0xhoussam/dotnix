@@ -46,6 +46,12 @@ Singleton {
         proc.write(JSON.stringify(Object.assign({ type: "net", rid: rid, op: op }, params || {})) + "\n")
     }
     function fields(values) { answer("fields", { fields: values }) }
+    // calendar events (sidecar fetches the user's secret iCal address)
+    function calendar(cb) {
+        const rid = ridSeq++
+        pending[rid] = cb
+        proc.write(JSON.stringify({ type: "calendar", rid: rid }) + "\n")
+    }
     function send(obj) { proc.write(JSON.stringify(obj) + "\n") }
 
     function answer(kind, extra) {

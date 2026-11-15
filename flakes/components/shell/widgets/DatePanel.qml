@@ -20,7 +20,7 @@ Scope {
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
         anchors { top: true; bottom: true; left: true; right: true }
 
-        onVisibleChanged: if (visible) { panel.opacity = 0; panel.y = -12; open.start() }
+        onVisibleChanged: if (visible) { panel.opacity = 0; panel.y = -12; open.start(); InfoService.refresh() }
         ParallelAnimation {
             id: open
             NumberAnimation { target: panel; property: "opacity"; to: 1; duration: 220 }
@@ -53,18 +53,47 @@ Scope {
                     Layout.alignment: Qt.AlignTop
                     spacing: 10
                     Media { Layout.fillWidth: true }
-                    ListView {
+                    Flickable {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 420
+                        contentHeight: groupsCol.implicitHeight
                         clip: true
-                        spacing: 8
-                        model: Notifs.list
-                        delegate: NotificationCard { required property var modelData; n: modelData }
-                        Text {
-                            anchors.centerIn: parent
-                            visible: Notifs.list.length === 0
-                            text: "No Notifications"
-                            color: Theme.muted; font.pixelSize: 14
+                        boundsBehavior: Flickable.StopAtBounds
+                        Column {
+                            id: groupsCol
+                            width: parent.width
+                            spacing: 10
+                            Text {
+                                visible: Notifs.items.length === 0
+                                width: parent.width; horizontalAlignment: Text.AlignHCenter; topPadding: 170
+                                text: "No Notifications"
+                                color: Theme.muted; font.pixelSize: 14
+                            }
+                            Repeater {
+                                model: Notifs.groups
+                                Column {
+                                    id: grp
+                                    required property var modelData
+                                    width: groupsCol.width
+                                    spacing: 6
+                                    readonly property bool folded: !!Notifs.collapsed[modelData.app]
+                                    // group header: app, count, collapse, clear
+                                    Item {
+                                        width: parent.width; height: 24
+                                        MouseArea { anchors.fill: parent; onClicked: Notifs.toggleGroup(grp.modelData.app) }
+                                        Text { x: 2; anchors.verticalCenter: parent.verticalCenter; text: (grp.folded ? "▸ " : "▾ ") + grp.modelData.app + "  ·  " + grp.modelData.items.length; color: Theme.muted; font { pixelSize: 12; bold: true } }
+                                        Text {
+                                            anchors { right: parent.right; rightMargin: 4; verticalCenter: parent.verticalCenter }
+                                            text: "Clear"; color: Theme.muted; font.pixelSize: 11
+                                            MouseArea { anchors { fill: parent; margins: -4 } onClicked: Notifs.clearGroup(grp.modelData.app) }
+                                        }
+                                    }
+                                    Repeater {
+                                        model: grp.folded ? grp.modelData.items.slice(0, 1) : grp.modelData.items
+                                        NotificationCard { required property var modelData; n: modelData }
+                                    }
+                                }
+                            }
                         }
                     }
                     Rectangle { Layout.fillWidth: true; height: 1; color: Theme.field }
@@ -75,9 +104,32 @@ Scope {
                         Rectangle {
                             implicitWidth: clearText.implicitWidth + 28; implicitHeight: 28; radius: 14
                             color: clearArea.containsMouse ? Theme.hover : Theme.field
-                            Text { id: clearText; anchors.centerIn: parent; text: "Clear"; color: Theme.fg; font.bold: true; font.pixelSize: Theme.fontSize }
+                            Text { id: clearText; anchors.centerIn: parent; text: "Clear all"; color: Theme.fg; font.bold: true; font.pixelSize: Theme.fontSize }
                             MouseArea { id: clearArea; anchors.fill: parent; hoverEnabled: true; onClicked: Notifs.clearAll() }
                         }
+                    }
+                    // quiet hours: toasts are held back between the two times
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 6
+                        Text { text: "Quiet hours"; color: Theme.fg; font.pixelSize: 12; Layout.fillWidth: true }
+                        component Step: Rectangle {
+                            id: step
+                            property string sign: "−"
+                            signal clicked()
+                            implicitWidth: 22; implicitHeight: 22; radius: 11
+                            color: sm.containsMouse ? Theme.hover : Theme.field
+                            Text { anchors.centerIn: parent; text: step.sign; color: Theme.fg; font.pixelSize: 12 }
+                            MouseArea { id: sm; anchors.fill: parent; hoverEnabled: true; onClicked: step.clicked() }
+                        }
+                        Step { sign: "−"; onClicked: Notifs.quietStart = (Notifs.quietStart + 1410) % 1440 }
+                        Text { text: Notifs.clockText(Notifs.quietStart); color: Theme.fg; font { pixelSize: 12; family: "monospace" } }
+                        Step { sign: "+"; onClicked: Notifs.quietStart = (Notifs.quietStart + 30) % 1440 }
+                        Text { text: "→"; color: Theme.muted; font.pixelSize: 12 }
+                        Step { sign: "−"; onClicked: Notifs.quietEnd = (Notifs.quietEnd + 1410) % 1440 }
+                        Text { text: Notifs.clockText(Notifs.quietEnd); color: Theme.fg; font { pixelSize: 12; family: "monospace" } }
+                        Step { sign: "+"; onClicked: Notifs.quietEnd = (Notifs.quietEnd + 30) % 1440 }
+                        Toggle { checked: Notifs.quietEnabled; onToggled: v => Notifs.quietEnabled = v }
                     }
                 }
 
@@ -99,11 +151,13 @@ Scope {
                         DayOfWeekRow { Layout.fillWidth: true; locale: Qt.locale(); delegate: Text { required property string shortName; text: shortName; color: Theme.muted; horizontalAlignment: Text.AlignHCenter; font.pixelSize: 12 } }
                         MonthGrid {
                             Layout.fillWidth: true
+                            Layout.preferredHeight: 6 * 30
                             month: clock.date.getMonth()
                             year: clock.date.getFullYear()
                             locale: Qt.locale()
                             delegate: Rectangle {
                                 required property var model
+                                implicitWidth: 36
                                 implicitHeight: 28
                                 radius: 14
                                 color: model.today ? Theme.accent : "transparent"
@@ -117,6 +171,56 @@ Scope {
                         }
                     }
 
+                    // ---- weather
+                    Rectangle {
+                        visible: InfoService.weather !== null || InfoService.weatherError !== ""
+                        Layout.fillWidth: true
+                        implicitHeight: wcol.implicitHeight + 24
+                        radius: 12; color: Theme.card
+                        Column {
+                            id: wcol
+                            anchors { fill: parent; margins: 12 }
+                            spacing: 8
+                            Row {
+                                visible: InfoService.weather !== null
+                                spacing: 12
+                                Image {
+                                    layer.enabled: true; layer.effect: Tint {}
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: 36; height: 36; sourceSize: Qt.size(72, 72)
+                                    source: InfoService.weather ? Quickshell.iconPath(InfoService.iconFor(InfoService.weather.code), true) : ""
+                                }
+                                Column {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    Text { text: InfoService.weather ? InfoService.weather.temp + "°C  " + InfoService.weather.desc : ""; color: Theme.fg; font { pixelSize: 15; bold: true } }
+                                    Text { text: InfoService.weather ? (InfoService.weather.area ? InfoService.weather.area + " · " : "") + "feels " + InfoService.weather.feels + "° · " + InfoService.weather.humidity + "% · " + InfoService.weather.wind + " km/h" : ""; color: Theme.muted; font.pixelSize: 11 }
+                                }
+                            }
+                            Row {
+                                visible: InfoService.weather !== null
+                                spacing: 0
+                                Repeater {
+                                    model: InfoService.weather ? InfoService.weather.days : []
+                                    Column {
+                                        required property var modelData
+                                        width: (wcol.width) / 3
+                                        spacing: 2
+                                        Text { anchors.horizontalCenter: parent.horizontalCenter; text: Qt.formatDate(new Date(modelData.date + "T12:00:00"), "ddd"); color: Theme.muted; font.pixelSize: 11 }
+                                        Image {
+                                            layer.enabled: true; layer.effect: Tint {}
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                            width: 20; height: 20; sourceSize: Qt.size(40, 40)
+                                            source: Quickshell.iconPath(InfoService.iconFor(modelData.code), true)
+                                        }
+                                        Text { anchors.horizontalCenter: parent.horizontalCenter; text: modelData.max + "° / " + modelData.min + "°"; color: Theme.fg; font.pixelSize: 11 }
+                                    }
+                                }
+                            }
+                            Text { visible: InfoService.weather === null; text: InfoService.weatherError; color: Theme.muted; font.pixelSize: 12 }
+                        }
+                    }
+
+                    // ---- calendar events (today and the next two days)
                     Rectangle {
                         Layout.fillWidth: true
                         implicitHeight: events.implicitHeight + 24
@@ -124,8 +228,35 @@ Scope {
                         Column {
                             id: events
                             anchors { fill: parent; margins: 12 }
-                            Text { text: "Today"; color: Theme.fg; font.bold: true; font.pixelSize: Theme.fontSize }
-                            Text { text: "No Events"; color: Theme.muted; font.italic: true; font.pixelSize: Theme.fontSize }
+                            spacing: 4
+                            Text { text: "Events"; color: Theme.fg; font.bold: true; font.pixelSize: Theme.fontSize }
+                            Text {
+                                visible: InfoService.calendarState === "not-configured"
+                                width: parent.width; wrapMode: Text.Wrap
+                                text: "Add your Google Calendar's secret iCal address to ~/.config/my-shell/calendar.url (Calendar settings → Integrate calendar → Secret address in iCal format)."
+                                color: Theme.muted; font.pixelSize: 11
+                            }
+                            Text { visible: InfoService.calendarState === "error"; width: parent.width; wrapMode: Text.Wrap; text: InfoService.calendarError; color: Theme.danger; font.pixelSize: 11 }
+                            Text { visible: InfoService.calendarState === "loading" && InfoService.events.length === 0; text: "Loading…"; color: Theme.muted; font.pixelSize: 12 }
+                            Text { visible: InfoService.calendarState === "ok" && InfoService.events.length === 0; text: "No events in the next three days"; color: Theme.muted; font { italic: true; pixelSize: 12 } }
+                            Repeater {
+                                model: InfoService.events.slice(0, 8)
+                                Column {
+                                    required property var modelData
+                                    required property int index
+                                    width: events.width
+                                    readonly property date start: new Date(modelData.start)
+                                    readonly property string day: Qt.formatDate(start, "yyyyMMdd") === Qt.formatDate(new Date(), "yyyyMMdd") ? "Today"
+                                        : Qt.formatDate(start, "ddd d MMM")
+                                    readonly property string prevDay: index > 0 ? (Qt.formatDate(new Date(InfoService.events[index - 1].start), "yyyyMMdd") === Qt.formatDate(new Date(), "yyyyMMdd") ? "Today" : Qt.formatDate(new Date(InfoService.events[index - 1].start), "ddd d MMM")) : ""
+                                    Text { visible: parent.day !== parent.prevDay; text: parent.day; color: Theme.muted; font { pixelSize: 11; bold: true } topPadding: 4 }
+                                    Row {
+                                        spacing: 8
+                                        Text { text: modelData.allDay ? "All day" : Qt.formatTime(parent.parent.start, "HH:mm"); color: Theme.accent; font { pixelSize: 12; family: "monospace" } width: 52 }
+                                        Text { text: modelData.title; color: Theme.fg; font.pixelSize: 12; elide: Text.ElideRight; width: events.width - 60 }
+                                    }
+                                }
+                            }
                         }
                     }
 
