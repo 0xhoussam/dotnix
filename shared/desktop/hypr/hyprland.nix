@@ -40,6 +40,9 @@ in
     configType = "lua";
     systemd.variables = [ "--all" ];
     systemd.enableXdgAutostart = true;
+    # Never written: hyprland.lua below replaces the generated file. A non-empty
+    # value only silences Home Manager's "no configuration" warning.
+    extraConfig = "-- see hyprland.lua";
   };
 
   # Replaces the file Home Manager would generate. Startup and shutdown hooks
