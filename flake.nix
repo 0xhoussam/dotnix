@@ -4,12 +4,14 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     kvlibadwaita = {
       url = "github:MOIS3Y/KvLibadwaita"; # or replace to fork owner
     };
     hyprcursor = {
       url = "github:hyprwm/hyprcursor";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     sf-mono-liga-src = {
       url = "github:shaunsingh/SFMono-Nerd-Font-Ligaturized";
@@ -117,6 +119,8 @@
       inputs.stylix.homeModules.stylix
       ./homes/pride
     ];
+
+    formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt);
 
     devShells = forEachSupportedSystem (
       { pkgs }:
