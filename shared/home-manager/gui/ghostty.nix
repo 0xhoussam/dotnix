@@ -9,6 +9,7 @@
       font-family = "Zenbones Proto";
       font-style = "Regular";
       font-size = 17;
+      adjust-cell-width = "10%";
       working-directory = "/home/pride/";
       window-inherit-working-directory = false;
       "gtk-tabs-location" = "hidden";

@@ -24,8 +24,11 @@
     wireshark
     papers
     helix
+    lutris
+        wine
 
     zoom-us
+    proton-vpn
 
     devenv
     tokei
@@ -58,6 +61,8 @@
     wl-clipboard
     zip
     zoxide
+    yt-dlp
+    ffmpeg
     (writeShellScriptBin "reload-failed-services" ''
       systemctl --user list-units --failed | grep -Po '([A-Za-z-0-9]+.service)' | xargs systemctl --user restart
     '')

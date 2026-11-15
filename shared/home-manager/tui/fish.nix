@@ -11,6 +11,7 @@
       m = "make -j 4";
       bctl = "bluetoothctl";
       g = "git";
+      k = "kubectl";
     };
 
     shellInitLast = # fish
