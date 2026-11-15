@@ -51,8 +51,18 @@ let
       <dir>${pkgs.orbitron}/share/fonts</dir>
     </fontconfig>
   '';
+
+  # D-Bus agents for the Quickshell bar (BlueZ pairing, later OBEX and the
+  # NetworkManager secret agent). Pure-Rust D-Bus: no libnm/libsecret.
+  shellAgents = pkgs.rustPlatform.buildRustPackage {
+    pname = "shell-agents";
+    version = "0.1.0";
+    src = ./agents;
+    cargoLock.lockFile = ./agents/Cargo.lock;
+  };
 in {
   packages.${system} = {
+    shell-agents = shellAgents;
     default = pkgs.stdenv.mkDerivation {
       name = pname;
       src = ./.;
@@ -109,11 +119,30 @@ in {
         runHook postInstall
       '';
     };
+    # Quickshell port (see MIGRATION.md). Built alongside the AGS outputs;
+    # nothing in the system config points at it until the cutover.
+    qs-shell = pkgs.stdenvNoCC.mkDerivation {
+      name = "qs-shell";
+      src = ./shell;
+      nativeBuildInputs = [pkgs.makeWrapper];
+      dontBuild = true;
+      installPhase = ''
+        runHook preInstall
+        mkdir -p $out/share/qs-shell $out/bin
+        cp -r . $out/share/qs-shell
+        makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/my-shell \
+          --add-flags "-p $out/share/qs-shell" \
+          --set-default SHELL_AGENTS ${shellAgents}/bin/shell-agents
+        runHook postInstall
+      '';
+    };
   };
 
   devShells.${system} = {
     default = pkgs.mkShell {
       buildInputs = [
+        pkgs.quickshell
+        pkgs.kdePackages.qtdeclarative # qmlls, qmllint
         (ags.packages.${system}.default.override {
           inherit extraPackages;
         })

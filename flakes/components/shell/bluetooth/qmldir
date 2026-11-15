@@ -1,0 +1,2 @@
+singleton BtUtil 1.0 BtUtil.qml
+PairingDialog 1.0 PairingDialog.qml
