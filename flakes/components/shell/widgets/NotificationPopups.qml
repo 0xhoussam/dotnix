@@ -28,6 +28,8 @@ Scope {
                     n: modelData.n
                     extra: modelData.extra
                     toast: true
+                    // click the stack: open the panel with the whole group
+                    onMoreClicked: UiState.panelOpen = true
                 }
             }
         }
