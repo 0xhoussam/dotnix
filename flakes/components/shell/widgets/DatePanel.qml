@@ -76,7 +76,7 @@ Scope {
                                     required property var modelData
                                     width: groupsCol.width
                                     spacing: 6
-                                    readonly property bool folded: !!Notifs.collapsed[modelData.app]
+                                    readonly property bool folded: modelData.items.length > 1 && !Notifs.expanded[modelData.app]
                                     // group header: app, count, collapse, clear
                                     Item {
                                         width: parent.width; height: 24
@@ -90,7 +90,13 @@ Scope {
                                     }
                                     Repeater {
                                         model: grp.folded ? grp.modelData.items.slice(0, 1) : grp.modelData.items
-                                        NotificationCard { required property var modelData; n: modelData }
+                                        NotificationCard {
+                                            required property var modelData
+                                            required property int index
+                                            n: modelData
+                                            // folded: the newest card says how many more it hides
+                                            extra: grp.folded && index === 0 ? grp.modelData.items.length - 1 : 0
+                                        }
                                     }
                                 }
                             }

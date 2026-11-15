@@ -9,6 +9,8 @@ Rectangle {
     id: card
     required property var n
     property bool toast: false
+    // other notifications from the same app folded behind this one
+    property int extra: 0
 
     implicitWidth: toast ? 360 : 380
     implicitHeight: col.implicitHeight + 20
@@ -91,6 +93,12 @@ Rectangle {
                     wrapMode: Text.Wrap
                 }
             }
+        }
+
+        Text {
+            visible: card.extra > 0
+            text: "+" + card.extra + " more from " + (card.n.appName || "this app")
+            color: Theme.muted; font.pixelSize: 11
         }
 
         // progress hint (volume-style notifications)

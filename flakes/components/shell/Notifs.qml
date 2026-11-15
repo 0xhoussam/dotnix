@@ -71,8 +71,9 @@ Singleton {
         }
         return order
     }
-    property var collapsed: ({})
-    function toggleGroup(app) { const c = Object.assign({}, collapsed); c[app] = !c[app]; collapsed = c }
+    // Groups with several notifications start folded to the newest one.
+    property var expanded: ({})
+    function toggleGroup(app) { const c = Object.assign({}, expanded); c[app] = !c[app]; expanded = c }
 
     FileView {
         path: root.stateDir + "/notifications.json"
@@ -108,6 +109,16 @@ Singleton {
 
     // ---- toasts -------------------------------------------------------------------------------
     property var toasts: []
+    // Toasts folded per app: the newest toast of each app plus how many more it has.
+    readonly property var toastGroups: {
+        const seen = {}, out = []
+        for (const n of toasts) {
+            const k = n.appName || "Notification"
+            if (seen[k] === undefined) { seen[k] = out.length; out.push({ n: n, extra: 0 }) }
+            else out[seen[k]].extra++
+        }
+        return out
+    }
     function removeToast(id) { toasts = toasts.filter(n => n.id !== id) }
     function toastMs(n) {
         // expireTimeout: a positive value is the sender's wish (seconds; senders using ms are > 60)

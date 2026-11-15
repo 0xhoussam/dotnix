@@ -22,10 +22,11 @@ Scope {
             x: 10; y: 8
             spacing: 8
             Repeater {
-                model: Notifs.toasts
+                model: Notifs.toastGroups
                 NotificationCard {
                     required property var modelData
-                    n: modelData
+                    n: modelData.n
+                    extra: modelData.extra
                     toast: true
                 }
             }
