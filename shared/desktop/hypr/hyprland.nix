@@ -1,51 +1,21 @@
 {
-  inputs,
-  pkgs,
-  lib,
-  self,
   config,
+  pkgs,
   components,
   ...
 }:
 
 let
+  shellPkgs = components.packages.${pkgs.stdenv.hostPlatform.system};
+
   # Border colour: the Stylix accent when Stylix is enabled for this user, else the old blue.
   borderActive =
     if (config.stylix.enable or false) then "0xff${config.lib.stylix.colors.base0D}" else "0xff1c71d8";
-  playerctl = lib.getExe pkgs.playerctl;
-  lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.qs-lock}/bin/lock-screen";
-  # `shell-ctl shell osd brightness`, `shell-ctl shell toggle volume`, ... talk to the running bar
-  shellCtl = "${components.packages.${pkgs.stdenv.hostPlatform.system}.qs-shell}/bin/shell-ctl";
-  hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-  hyprshot = lib.getExe pkgs.hyprshot;
-  kitty = lib.getExe pkgs.kitty;
-  firefox = lib.getExe pkgs.firefox;
-  brightnessctl = lib.getExe pkgs.brightnessctl;
-  wpctl = "${pkgs.wireplumber}/bin/wpctl";
 
-  # The real config is hyprland-live.lua, read straight from the checkout so
-  # edits apply with `hyprctl reload` and no rebuild. Only store paths and the
-  # accent colour are generated here. If the checkout is missing, the copy in
-  # the store is used instead.
-  hyprlandLua = /* lua */ ''
-    NIX = {
-      borderActive = "${borderActive}";
-      brightnessctl = "${brightnessctl}";
-      firefox = "${firefox}";
-      hyprctl = "${hyprctl}";
-      hyprshot = "${hyprshot}";
-      kitty = "${kitty}";
-      lock = "${lock}";
-      playerctl = "${playerctl}";
-      shellCtl = "${shellCtl}";
-      wpctl = "${wpctl}";
-    }
-    local live = os.getenv("HOME") .. "/dotnix/shared/desktop/hypr/hyprland-live.lua"
-    local f = io.open(live)
-    if f then f:close() else live = "${./hyprland-live.lua}" end
-    dofile(live)
-  '';
-
+  # The config itself is hand written (hyprland.lua next to this file) and
+  # symlinked straight from the checkout, so edits apply with `hyprctl reload`
+  # and no rebuild. Only the Stylix colour is generated.
+  checkout = "${config.home.homeDirectory}/dotnix/shared/desktop/hypr";
 in
 {
   imports = [
@@ -56,27 +26,29 @@ in
     ./anyrun.nix
   ];
 
+  # Programs the config calls by name.
   home.packages = [
     pkgs.playerctl
     pkgs.hyprshot
     pkgs.brightnessctl
     pkgs.wireplumber
+    shellPkgs.qs-shell # shell-ctl
+    shellPkgs.qs-lock # lock-screen
   ];
 
   wayland.windowManager.hyprland = {
     enable = true;
-
-    # Hyprland >= 0.55 uses Lua.
     configType = "lua";
-
     systemd.variables = [ "--all" ];
     systemd.enableXdgAutostart = true;
-
-    # IMPORTANT:
-    # Do not use `settings` for this Lua configuration.
-    #
-    # Home Manager's Lua settings generation has had issues with
-    # Hyprland's new Lua configuration format.
-    extraConfig = hyprlandLua;
   };
+
+  # Replaces the file Home Manager would generate. Startup and shutdown hooks
+  # live in hyprland.lua.
+  xdg.configFile."hypr/hyprland.lua".source = pkgs.lib.mkForce (
+    config.lib.file.mkOutOfStoreSymlink "${checkout}/hyprland.lua"
+  );
+  xdg.configFile."hypr/nix.lua".text = ''
+    return { borderActive = "${borderActive}" }
+  '';
 }
