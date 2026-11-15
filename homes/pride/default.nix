@@ -13,6 +13,7 @@
     ./pkgs.nix
     ./xdg.nix
     ./theme.nix
+    ./stylix.nix
     ./env.nix
     ./ssh.nix
     ./nix.nix

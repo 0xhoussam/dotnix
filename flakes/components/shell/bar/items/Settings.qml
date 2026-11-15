@@ -174,7 +174,14 @@ Pill {
             width: parent.width
             spacing: 4
             Text { text: "Appearance"; color: Theme.muted; font { pixelSize: 12; bold: true } }
+            Text {
+                visible: Theme.followsSystem
+                width: parent.width; wrapMode: Text.Wrap
+                text: "Colours follow the system theme (Stylix). Change them in the Nix config."
+                color: Theme.faint; font.pixelSize: 11
+            }
             Row {
+                visible: !Theme.followsSystem
                 spacing: 6
                 Chip { label: "Dark"; active: Theme.dark; onClicked: Theme.setDark(true) }
                 Chip { label: "Light"; active: !Theme.dark; onClicked: Theme.setDark(false) }

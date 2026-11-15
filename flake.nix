@@ -27,6 +27,10 @@
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
     };
@@ -123,6 +127,7 @@
       pride = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
+          inputs.stylix.homeModules.stylix
           ./homes/pride
         ];
         extraSpecialArgs = {

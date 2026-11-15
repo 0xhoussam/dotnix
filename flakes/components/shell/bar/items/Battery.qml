@@ -67,7 +67,7 @@ Pill {
             Rectangle {
                 height: parent.height; radius: 4
                 width: parent.width * (root.dev ? root.dev.percentage : 0)
-                color: root.charging ? "#57c26b" : (root.dev && root.dev.percentage < 0.15 ? Theme.danger : Theme.accent)
+                color: root.charging ? Theme.success : (root.dev && root.dev.percentage < 0.15 ? Theme.danger : Theme.accent)
             }
         }
         Column {

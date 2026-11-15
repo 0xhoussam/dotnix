@@ -1,46 +1,12 @@
-{ inputs, pkgs, config, ... }:
+{ pkgs, ... }:
 {
-  imports = [
-    inputs.kvlibadwaita.homeManagerModule
-  ];
+  # Colours, fonts, the GTK theme and the Qt style come from Stylix
+  # (homes/pride/stylix.nix). What stays here: the icon theme and dconf.
   gtk = {
     enable = true;
-    theme = {
-      name = "adw-gtk3";
-      package = pkgs.adw-gtk3;
-    };
-    gtk4.theme = config.gtk.theme;
-
     iconTheme = {
       name = "Numix-Circle";
       package = pkgs.numix-icon-theme-circle;
-    };
-
-    font = {
-      name = "SFProDisplay Nerd Font";
-      size = 11;
-      package = inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd;
-    };
-
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
-    };
-
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
-    };
-  };
-  xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
-    [General]
-    theme=KvLibadwaitaDark
-  '';
-  qt = {
-    enable = true;
-    platformTheme.name = "qtct";
-    style.name = "kvantum";
-    kvlibadwaita = {
-      enable = true;
-      auto = false;
     };
   };
 
