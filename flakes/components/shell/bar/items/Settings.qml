@@ -169,38 +169,6 @@ Pill {
             Text { width: parent.width; text: "Resets when the charger is plugged or unplugged."; color: Theme.faint; font.pixelSize: 11 }
         }
 
-        // ---- appearance
-        Column {
-            width: parent.width
-            spacing: 4
-            Text { text: "Appearance"; color: Theme.muted; font { pixelSize: 12; bold: true } }
-            Text {
-                visible: Theme.followsSystem
-                width: parent.width; wrapMode: Text.Wrap
-                text: "Colours follow the system theme (Stylix). Change them in the Nix config."
-                color: Theme.faint; font.pixelSize: 11
-            }
-            Row {
-                visible: !Theme.followsSystem
-                spacing: 6
-                Chip { label: "Dark"; active: Theme.dark; onClicked: Theme.setDark(true) }
-                Chip { label: "Light"; active: !Theme.dark; onClicked: Theme.setDark(false) }
-                Item { width: 8; height: 1 }
-                Repeater {
-                    model: Object.keys(Theme.accents)
-                    Rectangle {
-                        required property string modelData
-                        width: 24; height: 24; radius: 12
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: Theme.accents[modelData]
-                        border.width: Theme.accentName === modelData ? 2 : 0
-                        border.color: Theme.fg
-                        MouseArea { anchors.fill: parent; onClicked: Theme.setAccent(modelData) }
-                    }
-                }
-            }
-        }
-
         // ---- screenshots
         Column {
             width: parent.width
@@ -229,6 +197,8 @@ Pill {
                     property bool needsConfirm: true
                     label: armed ? "Confirm " + text0 + "?" : text0
                     property string text0
+                    property string iconName
+                    icon: iconName
                     destructive: needsConfirm
                     confirm: armed
                     Timer { id: disarm; interval: 4000; onTriggered: pc.armed = false }
@@ -239,11 +209,11 @@ Pill {
                         action()
                     }
                 }
-                PowerChip { text0: "Lock"; needsConfirm: false; action: () => QuickService.lock() }
-                PowerChip { text0: "Suspend"; needsConfirm: false; action: () => QuickService.suspend() }
-                PowerChip { text0: "Log out"; action: () => QuickService.logout() }
-                PowerChip { text0: "Restart"; action: () => QuickService.reboot() }
-                PowerChip { text0: "Shut down"; action: () => QuickService.poweroff() }
+                PowerChip { text0: "Lock"; iconName: "system-lock-screen-symbolic"; needsConfirm: false; action: () => QuickService.lock() }
+                PowerChip { text0: "Suspend"; iconName: "system-suspend-symbolic"; needsConfirm: false; action: () => QuickService.suspend() }
+                PowerChip { text0: "Log out"; iconName: "system-log-out-symbolic"; action: () => QuickService.logout() }
+                PowerChip { text0: "Restart"; iconName: "system-reboot-symbolic"; action: () => QuickService.reboot() }
+                PowerChip { text0: "Shut down"; iconName: "system-shutdown-symbolic"; action: () => QuickService.poweroff() }
             }
         }
     }

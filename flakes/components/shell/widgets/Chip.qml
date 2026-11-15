@@ -1,10 +1,12 @@
 import QtQuick
+import Quickshell
 import ".."
 
 // Rounded text/icon button used across the panels.
 Rectangle {
     id: root
     property string label: ""
+    property string icon: ""
     property bool active: false
     property bool destructive: false
     property bool confirm: false
@@ -22,6 +24,13 @@ Rectangle {
         id: row
         anchors.centerIn: parent
         spacing: 6
+        Image {
+            visible: root.icon !== ""
+            anchors.verticalCenter: parent.verticalCenter
+            width: 14; height: 14; sourceSize: Qt.size(28, 28)
+            source: root.icon ? Quickshell.iconPath(root.icon, true) : ""
+            layer.enabled: true; layer.effect: Tint {}
+        }
         Item { id: extra; width: childrenRect.width; height: childrenRect.height; anchors.verticalCenter: parent.verticalCenter; visible: children.length > 0 }
         Text {
             visible: root.label !== ""

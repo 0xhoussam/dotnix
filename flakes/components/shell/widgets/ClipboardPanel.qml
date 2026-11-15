@@ -111,16 +111,16 @@ Scope {
             MouseArea { anchors.fill: parent } // swallow clicks on the card
 
             ColumnLayout {
-                anchors { fill: parent; margins: 14 }
-                spacing: 10
+                anchors { fill: parent; margins: 16 }
+                spacing: 12
 
                 RowLayout {
                     spacing: 8
                     Rectangle {
-                        Layout.fillWidth: true; implicitHeight: 40; radius: 20; color: Theme.field
+                        Layout.fillWidth: true; implicitHeight: 44; radius: 22; color: Theme.field
                         TextInput {
                             id: search
-                            anchors { fill: parent; leftMargin: 16; rightMargin: 16 }
+                            anchors { fill: parent; leftMargin: 18; rightMargin: 18 }
                             verticalAlignment: TextInput.AlignVCenter
                             color: Theme.fg; font.pixelSize: 15
                             focus: root.open
@@ -130,7 +130,12 @@ Scope {
                             Keys.onUpPressed: root.current = Math.max(root.current - 1, 0)
                             Keys.onReturnPressed: root.activate(root.flat[root.current])
                             Keys.onDeletePressed: { const it = root.flat[root.current]; if (it) it.kind === "pin" ? root.unpin(it.pin) : root.remove(it.entry) }
-                            Text { visible: !search.text; text: "Search clipboard…"; color: Theme.faint; font: search.font }
+                        }
+                        Text {
+                            visible: !search.text
+                            anchors { fill: search }
+                            verticalAlignment: Text.AlignVCenter
+                            text: "Search clipboard…"; color: Theme.faint; font: search.font
                         }
                     }
                     Chip { label: "Clear all"; destructive: true; onClicked: wipeProc.exec(["cliphist", "wipe"]) }
@@ -151,7 +156,7 @@ Scope {
                         readonly property bool isPin: modelData.kind === "pin"
                         readonly property var e: modelData.entry
                         width: ListView.view.width
-                        height: !isPin && e.image ? 96 : 40
+                        height: !isPin && e.image ? 88 : 44
                         radius: 12
                         color: index === root.current ? Theme.accentSoft : hov.containsMouse ? Theme.surfaceHover : Theme.surface
                         Behavior on color { ColorAnimation { duration: 90 } }
@@ -159,30 +164,33 @@ Scope {
                         // thumbnail for images (decoded lazily into tmpfs)
                         Process {
                             id: thumb
+                            property bool ready: false
                             running: !row.isPin && row.e.image
+                            onExited: code => ready = code === 0
                             command: ["bash", "-c", 'mkdir -p "$1" && [ -f "$2" ] || cliphist decode "$3" > "$2"', "_", root.cacheDir, root.cacheDir + "/" + row.e.id + "." + row.e.ext, row.e.id]
                         }
                         Image {
-                            visible: !row.isPin && row.e.image && thumb.running === false
-                            anchors { left: parent.left; leftMargin: 8; verticalCenter: parent.verticalCenter }
-                            width: 100; height: 80; fillMode: Image.PreserveAspectFit; asynchronous: true
-                            source: visible ? "file://" + root.cacheDir + "/" + row.e.id + "." + row.e.ext : ""
+                            visible: thumb.ready
+                            anchors { left: parent.left; leftMargin: 12; verticalCenter: parent.verticalCenter }
+                            width: 96; height: 68; fillMode: Image.PreserveAspectFit; asynchronous: true; cache: false
+                            sourceSize.height: 136
+                            source: thumb.ready ? "file://" + root.cacheDir + "/" + row.e.id + "." + row.e.ext : ""
                         }
                         Text {
                             visible: row.isPin || !row.e.image
-                            anchors { left: parent.left; leftMargin: 14; right: actions.left; rightMargin: 8; verticalCenter: parent.verticalCenter }
+                            anchors { left: parent.left; leftMargin: 18; right: actions.left; rightMargin: 10; verticalCenter: parent.verticalCenter }
                             text: (row.isPin ? "★  " : "") + (row.isPin ? row.modelData.pin.text : row.e.preview).replace(/\s+/g, " ")
                             elide: Text.ElideRight; color: Theme.fg; font.pixelSize: Theme.fontSize
                         }
                         Text {
                             visible: !row.isPin && row.e.image
-                            anchors { left: parent.left; leftMargin: 120; verticalCenter: parent.verticalCenter }
-                            text: "Image"; color: Theme.muted; font.pixelSize: 12
+                            anchors { left: parent.left; leftMargin: 124; verticalCenter: parent.verticalCenter }
+                            text: row.e.preview.replace(/^\[\[ binary data /, "Image · ").replace(/ \]\]$/, ""); color: Theme.muted; font.pixelSize: 12
                         }
-                        MouseArea { id: hov; anchors { fill: parent; rightMargin: 80 } hoverEnabled: true; onEntered: root.current = row.index; onClicked: root.activate(row.modelData) }
+                        MouseArea { id: hov; anchors { fill: parent; rightMargin: 84 } hoverEnabled: true; onEntered: root.current = row.index; onClicked: root.activate(row.modelData) }
                         Row {
                             id: actions
-                            anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
+                            anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
                             spacing: 4
                             opacity: hov.containsMouse || actionsHover.hovered || row.index === root.current ? 1 : 0.35
                             HoverHandler { id: actionsHover }
@@ -206,7 +214,7 @@ Scope {
                         color: Theme.muted; font.pixelSize: 14
                     }
                 }
-                Text { text: "Enter copy · Delete remove · ☆ pin · Esc close"; color: Theme.faint; font.pixelSize: 11 }
+                Text { Layout.topMargin: 2; text: "Enter copy · Delete remove · ☆ pin · Esc close"; color: Theme.faint; font.pixelSize: 11 }
             }
         }
     }
