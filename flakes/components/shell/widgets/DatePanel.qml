@@ -88,15 +88,16 @@ Scope {
                                             MouseArea { anchors { fill: parent; margins: -4 } onClicked: Notifs.clearGroup(grp.modelData.app) }
                                         }
                                     }
+                                    // folded: the newest card with the rest stacked behind it
+                                    NotificationStack {
+                                        visible: grp.folded
+                                        n: grp.modelData.items[0]
+                                        extra: grp.modelData.items.length - 1
+                                        onMoreClicked: Notifs.toggleGroup(grp.modelData.app)
+                                    }
                                     Repeater {
-                                        model: grp.folded ? grp.modelData.items.slice(0, 1) : grp.modelData.items
-                                        NotificationCard {
-                                            required property var modelData
-                                            required property int index
-                                            n: modelData
-                                            // folded: the newest card says how many more it hides
-                                            extra: grp.folded && index === 0 ? grp.modelData.items.length - 1 : 0
-                                        }
+                                        model: grp.folded ? [] : grp.modelData.items
+                                        NotificationCard { required property var modelData; n: modelData }
                                     }
                                 }
                             }

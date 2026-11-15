@@ -23,7 +23,7 @@ Scope {
             spacing: 8
             Repeater {
                 model: Notifs.toastGroups
-                NotificationCard {
+                NotificationStack {
                     required property var modelData
                     n: modelData.n
                     extra: modelData.extra

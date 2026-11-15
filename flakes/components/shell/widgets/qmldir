@@ -5,6 +5,7 @@ ListRow 1.0 ListRow.qml
 Media 1.0 Media.qml
 NotificationCard 1.0 NotificationCard.qml
 NotificationPopups 1.0 NotificationPopups.qml
+NotificationStack 1.0 NotificationStack.qml
 Osd 1.0 Osd.qml
 PopupCard 1.0 PopupCard.qml
 QsTile 1.0 QsTile.qml
