@@ -163,6 +163,7 @@
         ags-shell = components.packages.x86_64-linux.default;
         ags-lock = components.packages.x86_64-linux.lock;
         qs-shell = components.packages.x86_64-linux.qs-shell;
+        qs-lock = components.packages.x86_64-linux.qs-lock;
         shell-agents = components.packages.x86_64-linux.shell-agents;
         eshot = eshot.packages.x86_64-linux.default;
         inherit (zenbones.packages.x86_64-linux) zenbones-mono zenbones-brainy zenbones-prose zenbones-proto zenbones-slab;

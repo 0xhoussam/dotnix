@@ -121,6 +121,28 @@ in {
     };
     # Quickshell port (see MIGRATION.md). Built alongside the AGS outputs;
     # nothing in the system config points at it until the cutover.
+    qs-lock = pkgs.stdenvNoCC.mkDerivation {
+      name = "qs-lock";
+      src = ./lockscreen;
+      nativeBuildInputs = [pkgs.makeWrapper];
+      dontBuild = true;
+      # -n: a second launch exits instead of locking twice.
+      # --set-default so `LOCK_WALLPAPER=... lock-screen` can still override it.
+      installPhase = ''
+        runHook preInstall
+        mkdir -p $out/share/qs-lock $out/bin
+        cp -r . $out/share/qs-lock
+        makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/lock-screen \
+          --add-flags "-n -p $out/share/qs-lock" \
+          --set FONTCONFIG_FILE ${lockFonts} \
+          --prefix NIXPKGS_QT6_QML_IMPORT_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/qml \
+          --prefix QT_PLUGIN_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/plugins${
+          pkgs.lib.optionalString (lockWallpaper != null) " \\\n          --set-default LOCK_WALLPAPER ${lockWallpaper}"
+        }
+        runHook postInstall
+      '';
+    };
+
     qs-shell = pkgs.stdenvNoCC.mkDerivation {
       name = "qs-shell";
       src = ./shell;

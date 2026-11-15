@@ -6,6 +6,8 @@ Verified: `cargo test` (prompter semantics); the agent against a private D-Bus d
 
 Findings from the Quickshell v0.3.2 type pages: `Quickshell.Bluetooth` covers adapters and devices (pair, connect, forget, trusted, battery, icon, wake) but no agent or OBEX. `Quickshell.Networking` has devices, `WifiNetwork.connectWithPsk`, `NMSettings`, and no 802.1X, VPN, hotspot or secret agent, so the network sidecar will own the whole model, not only the secret agent.
 
+Phase 7 (lock screen) implemented in `lockscreen/`, built as `.#qs-lock` (`lock-screen` wrapper: single-instance via `qs -n`, Orbitron via FONTCONFIG_FILE, QtMultimedia added to the Qt paths). `LOCK_PREVIEW=1` ran with the video wallpaper and a PAM login that succeeded. NOT tested: the real `WlSessionLock` path (lock, wrong password, suspend/resume, kill and relaunch, hypridle path). Differences from AGS: caps lock is read from the keyboard LED in sysfs, and with several monitors each surface decodes its own copy of the video.
+
 Test without hijacking the live agents: `SHELL_AGENTS_OFF=1 my-shell`.
 
 Deviation from the plan: no new flake input. nixpkgs already ships `quickshell` 0.3.2, so `default.nix` uses `pkgs.quickshell` and `flake.nix` only gained the `qs-shell` package entry. The `State` singleton is named `UiState` because `State` clashes with the QtQuick type.
