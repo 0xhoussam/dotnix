@@ -70,23 +70,19 @@ in
       gtk.enable = true;
       qt.enable = true;
       fontconfig.enable = true;
-      kitty.enable = true;
-      ghostty.enable = true;
-      alacritty.enable = true;
-      alacritty.fonts.enable = false; # keeps its own JetBrainsMono
-      zellij.enable = true;
-      fish.enable = true;
-      bat.enable = true;
-      fzf.enable = true;
       mpv.enable = true;
+
+      # Terminals keep their own colour themes (carbonfox in ghostty and kitty,
+      # libadwaita in zellij, the terminal's palette for bat/fzf/fish), so the
+      # Stylix colours stay out of them. Ghostty still gets the theme fonts.
+      ghostty.enable = true;
+      ghostty.colors.enable = false;
+      # not enabled: kitty, alacritty, zellij, fish, bat, fzf
     };
   };
 
   # The shared modules (also used by other users, who do not have Stylix) set
   # these themselves; here Stylix wins.
-  programs.bat.config.theme = lib.mkForce "base16-stylix";
-  programs.alacritty.settings.window.opacity = lib.mkForce 1.0;
-  programs.ghostty.settings.theme = lib.mkForce "stylix";
 
   # The Quickshell shell reads this (flakes/components/shell/Theme.qml) and
   # follows the palette; `home-manager switch` recolours it live.
