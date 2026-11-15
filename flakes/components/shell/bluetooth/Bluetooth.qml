@@ -95,7 +95,7 @@ Pill {
         Rectangle {
             visible: BtService.rfHard || root.powerError !== ""
             width: parent.width; height: visible ? bannerText.implicitHeight + 16 : 0; radius: 10
-            color: Qt.rgba(0.88, 0.11, 0.14, 0.18)
+            color: Theme.dangerSoft
             Text {
                 id: bannerText
                 anchors { fill: parent; margins: 8 }
@@ -132,7 +132,7 @@ Pill {
                                       (modelData.size ? " · " + BtUtil.formatBytes(modelData.transferred) + " / " + BtUtil.formatBytes(modelData.size) : "")
                             }
                             Rectangle {
-                                width: parent.width; height: 4; radius: 2; color: Qt.rgba(1, 1, 1, 0.1)
+                                width: parent.width; height: 4; radius: 2; color: Theme.track
                                 Rectangle { height: parent.height; radius: 2; color: Theme.accent; width: modelData.size ? parent.width * modelData.transferred / modelData.size : 0 }
                             }
                         }

@@ -169,6 +169,31 @@ Pill {
             Text { width: parent.width; text: "Resets when the charger is plugged or unplugged."; color: Theme.faint; font.pixelSize: 11 }
         }
 
+        // ---- appearance
+        Column {
+            width: parent.width
+            spacing: 4
+            Text { text: "Appearance"; color: Theme.muted; font { pixelSize: 12; bold: true } }
+            Row {
+                spacing: 6
+                Chip { label: "Dark"; active: Theme.dark; onClicked: Theme.setDark(true) }
+                Chip { label: "Light"; active: !Theme.dark; onClicked: Theme.setDark(false) }
+                Item { width: 8; height: 1 }
+                Repeater {
+                    model: Object.keys(Theme.accents)
+                    Rectangle {
+                        required property string modelData
+                        width: 24; height: 24; radius: 12
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: Theme.accents[modelData]
+                        border.width: Theme.accentName === modelData ? 2 : 0
+                        border.color: Theme.fg
+                        MouseArea { anchors.fill: parent; onClicked: Theme.setAccent(modelData) }
+                    }
+                }
+            }
+        }
+
         // ---- screenshots
         Column {
             width: parent.width

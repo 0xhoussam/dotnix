@@ -124,7 +124,7 @@ Pill {
                 : root.hasWifi && !root.n.wifiHw ? "Wi-Fi is disabled by a hardware switch or airplane mode." : ""
             visible: text !== ""
             width: parent.width; height: visible ? Math.max(bt.implicitHeight, 28) + 16 : 0; radius: 10
-            color: Qt.rgba(0.88, 0.11, 0.14, 0.18)
+            color: Theme.dangerSoft
             Text { id: bt; anchors { left: parent.left; leftMargin: 10; right: en.left; rightMargin: 8; verticalCenter: parent.verticalCenter } wrapMode: Text.Wrap; color: Theme.fg; font.pixelSize: 12; text: parent.text }
             Chip { id: en; visible: root.nmRunning && !root.networking; anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter } label: "Enable"; onClicked: NetService.op("set-networking", { on: true }) }
         }

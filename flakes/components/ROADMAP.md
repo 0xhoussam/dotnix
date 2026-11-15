@@ -58,15 +58,15 @@ This file is the source of truth for the work below. Tick items as they are comm
 - [x] Workspaces: window icons (up to 3 + N) via `Config.taskbarIcons` -> desktop entry -> class, focused pill, urgent tint, scroll to switch (Lua dispatch).
 - [x] Wallpaper power control: `-a FULL` added to the mpvpaper unit (pauses behind fullscreen windows; live after `home-manager switch`); the shell SIGSTOPs mpvpaper on battery (last frame stays) and SIGCONTs on AC; a Quick Settings tile toggles it (`wallpaper.json`).
 
-### 4. Further features
+### 4. Further features (notifications now stack the same app's notifications behind the newest card)
 - [x] Now-playing pill (click play/pause, middle next, right opens the date panel).
 - [x] Notification centre: grouped by app (collapse, clear group), quiet hours (toasts held back; steppers in the panel), sender timeouts honoured, progress hint bar, history kept across restarts (`~/.local/state/my-shell/notifications.json`, mode 0600, 200 entries / 14 days) and DND persisted (`notifications.json` in config).
 - [x] System stats popup (CPU with history, memory, swap, disk, temperature, network); sampled once a second only while open.
-- [ ] Clipboard: search, image preview, delete single entries, pinning.
+- [x] Clipboard (`widgets/ClipboardPanel.qml`, a centered layer window with exclusive keyboard focus, opened by the bar icon or `shell-ctl shell toggle clipboard`): search, Up/Down/Enter/Delete/Esc, image thumbnails (decoded into tmpfs, removed on close), delete single entries, pinned text snippets (`~/.local/state/my-shell/clipboard-pins.json`, mode 0600, max 30). Not looked at on screen (it shows the user's clipboard history); no errors on open/close.
 - [ ] Screen recording with a bar indicator (no recorder installed yet; needs one added to the config).
 - [x] Weather (wttr.in by IP, `~/.config/my-shell/weather.txt` overrides the place) and Google Calendar events (secret iCal address in `~/.config/my-shell/calendar.url`; the Rust sidecar fetches with curl and expands recurring events; today + 2 days). Needs the user to paste the calendar address. Fixed the empty month grid.
 - [ ] Lock screen extras (media, battery, layout, notification count via shared state); fingerprint only if `fprintd` is enrolled.
-- [ ] Theming (accent source, optional light mode).
+- [x] Theming: dark / light and six accent colours (Quick Settings, `theme.json`), all colours are `Theme` tokens. Accent from the wallpaper is NOT done (needs a colour-extraction tool). The lock screen keeps its own dark HUD.
 
 ## Answers from the user
 - Weather: wttr.in. Calendar: Google Calendar (no calendar app installed); use the secret iCal address. No fingerprint reader (skip fingerprint on the lock).

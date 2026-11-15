@@ -53,7 +53,7 @@ Column {
                             property bool strong: false
                             signal clicked()
                             width: 24; height: 24; radius: 12
-                            color: ma.containsMouse ? Theme.hover : (strong ? Qt.rgba(1, 1, 1, 0.1) : "transparent")
+                            color: ma.containsMouse ? Theme.hover : (strong ? Theme.field : "transparent")
                             Image { layer.enabled: true; layer.effect: Tint {}
                                 anchors.centerIn: parent
                                 width: 16; height: 16

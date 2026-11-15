@@ -88,8 +88,8 @@ Scope {
             id: card
             anchors.fill: parent
             radius: 28
-            color: Qt.rgba(0.14, 0.14, 0.14, 0.94)
-            border.color: Qt.rgba(1, 1, 1, 0.08)
+            color: Theme.osdBg
+            border.color: Theme.border
             opacity: root.shown ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 180 } }
             Row {

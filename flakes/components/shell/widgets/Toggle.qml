@@ -11,7 +11,7 @@ Rectangle {
     implicitHeight: 22
     radius: 11
     opacity: enabled ? 1 : 0.4
-    color: checked ? Theme.accent : Qt.rgba(1, 1, 1, 0.18)
+    color: checked ? Theme.accent : Theme.toggleOff
     Behavior on color { ColorAnimation { duration: 140 } }
     Rectangle {
         y: 2

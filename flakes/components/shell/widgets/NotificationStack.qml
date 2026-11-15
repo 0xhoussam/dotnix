@@ -27,7 +27,7 @@ Item {
             width: card.width - 16 * (index + 1)
             height: card.height
             radius: 12
-            color: root.toast ? Qt.lighter(Theme.popoverBg, 1.22 - 0.07 * index) : Qt.rgba(1, 1, 1, 0.07 - 0.02 * index)
+            color: root.toast ? Qt.lighter(Theme.popoverBg, 1.22 - 0.07 * index) : Theme.stackLayer
             border.width: 1
             border.color: Theme.border
         }

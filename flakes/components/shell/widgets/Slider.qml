@@ -29,7 +29,7 @@ Item {
             visible: root.level >= 0
             height: parent.height; radius: 3
             width: parent.width * Math.max(0, Math.min(1, root.level))
-            color: Qt.rgba(1, 1, 1, 0.22)
+            color: Theme.trackFill
             Behavior on width { NumberAnimation { duration: 80 } }
         }
         Rectangle {
@@ -41,7 +41,7 @@ Item {
             visible: root.marker > root.from && root.marker < root.to
             x: parent.width * (root.marker - root.from) / (root.to - root.from) - 1
             y: -2; width: 2; height: parent.height + 4
-            color: Qt.rgba(1, 1, 1, 0.5)
+            color: Theme.tick
         }
     }
     Rectangle {

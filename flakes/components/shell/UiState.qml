@@ -15,6 +15,8 @@ Singleton {
     function unregister(p) { popups = popups.filter(x => x !== p) }
     // Volume panel open (the volume OSD stays quiet while it is).
     property bool volumePanelOpen: false
+    // Clipboard overlay (widgets/ClipboardPanel.qml)
+    property bool clipboardOpen: false
 
     // IPC / keybind request to toggle a bar panel by name ("volume", "quick", ...);
     // only the bar on the focused monitor reacts.

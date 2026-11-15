@@ -18,12 +18,14 @@ ShellRoot {
     PairingDialog {}
     SecretsDialog {}
     Osd { id: osdOverlay }
+    ClipboardPanel {}
 
     // `shell-ctl toggle volume`, `shell-ctl osd brightness`, ... (see README)
     IpcHandler {
         target: "shell"
         function toggle(name: string): void {
             if (name === "date") UiState.togglePanel()
+            else if (name === "clipboard") UiState.clipboardOpen = !UiState.clipboardOpen
             else UiState.requestPanel(name)
         }
         function osd(kind: string): void {

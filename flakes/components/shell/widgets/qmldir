@@ -1,5 +1,6 @@
 singleton InfoService 1.0 InfoService.qml
 Chip 1.0 Chip.qml
+ClipboardPanel 1.0 ClipboardPanel.qml
 DatePanel 1.0 DatePanel.qml
 ListRow 1.0 ListRow.qml
 Media 1.0 Media.qml

@@ -121,7 +121,7 @@ Pill {
                     required property real modelData
                     anchors.bottom: parent.bottom
                     width: (pop.contentWidth - 39) / 40; height: Math.max(2, 28 * modelData); radius: 1
-                    color: Qt.rgba(0.21, 0.52, 0.89, 0.55)
+                    color: Theme.accentBar
                 }
             }
         }
