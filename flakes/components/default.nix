@@ -76,6 +76,17 @@ in {
           --set-default QS_ICON_THEME Adwaita \
           --set-default SHELL_AGENTS ${shellAgents}/bin/shell-agents \
           --set-default SHELL_LOCK_CMD ${qs-lock}/bin/lock-screen
+        # Same environment, but the QML is read from the checkout so edits apply
+        # at once (Quickshell reloads on change). Falls back to the store copy.
+        makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/my-shell-live \
+          --run 'dir="''${QS_SHELL_DIR:-$HOME/dotnix/flakes/components/shell}"; [ -d "$dir" ] || dir=@out@/share/qs-shell; set -- -p "$dir" "$@"' \
+          --prefix XDG_DATA_DIRS : ${pkgs.adwaita-icon-theme}/share \
+          --prefix PATH : ${shellTools} \
+          --suffix PATH : /run/current-system/sw/bin \
+          --set-default QS_ICON_THEME Adwaita \
+          --set-default SHELL_AGENTS ${shellAgents}/bin/shell-agents \
+          --set-default SHELL_LOCK_CMD ${qs-lock}/bin/lock-screen
+        substituteInPlace $out/bin/my-shell-live --subst-var out
         # `shell-ctl toggle volume`, `shell-ctl osd brightness`, ... (IpcHandler "shell")
         makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/shell-ctl \
           --add-flags "ipc --path $out/share/qs-shell call"
