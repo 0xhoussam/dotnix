@@ -32,7 +32,6 @@ in
     pkgs.hyprshot
     pkgs.brightnessctl
     pkgs.wireplumber
-    shellPkgs.qs-shell # shell-ctl
     shellPkgs.qs-lock # lock-screen
   ];
 
