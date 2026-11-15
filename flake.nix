@@ -106,15 +106,6 @@
   in
   {
     nixosConfigurations = {
-      project = lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs self;
-        };
-        modules = [
-          ./hosts/dell
-        ];
-      };
       bystial = lib.nixosSystem {
         inherit system;
         specialArgs = {
@@ -132,18 +123,6 @@
         modules = [
           inputs.stylix.homeModules.stylix
           ./homes/pride
-        ];
-        extraSpecialArgs = {
-          inherit inputs self;
-          components = components;
-          eshot = eshot;
-          zenbones = zenbones;
-        };
-      };
-      lubellion = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./homes/lubellion
         ];
         extraSpecialArgs = {
           inherit inputs self;
