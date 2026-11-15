@@ -10,7 +10,7 @@
 
 let
   playerctl = lib.getExe pkgs.playerctl;
-  lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.lock}/bin/lock-screen";
+  lock = "${components.packages.${pkgs.stdenv.hostPlatform.system}.qs-lock}/bin/lock-screen";
   hyprctl = lib.getExe pkgs.hyprland;
   hyprshot = lib.getExe pkgs.hyprshot;
   kitty = lib.getExe pkgs.kitty;
@@ -404,7 +404,7 @@ in
     ./hypridle.nix
     ./env.nix
     ./service.nix
-    ./agsbar.nix
+    ./shell.nix
     ./anyrun.nix
   ];
 
