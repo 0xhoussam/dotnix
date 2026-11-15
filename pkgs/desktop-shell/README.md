@@ -1,4 +1,4 @@
-# components
+# desktop-shell
 
 The desktop shell for my Hyprland setup: a bar with panels, notifications, an
 on-screen display and a lock screen. Built with
@@ -35,7 +35,7 @@ SHELL_AGENTS_SKIP=bluetooth,obex,secrets nix run .#qs-shell   # network model on
 LOCK_PREVIEW=1 nix run .#qs-lock       # lock screen design preview (no locking)
 ```
 
-The user unit is `quickshell-bar` (`shared/desktop/hypr/shell.nix`). The lock
+The user unit is `quickshell-bar` (`shared/desktop/shell/shell.nix`). The lock
 screen is started by hypridle and the Hyprland keybinds.
 
 > The real lock screen locks the session. Escape hatch: switch to a TTY

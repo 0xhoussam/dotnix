@@ -62,7 +62,7 @@ in {
     qs-shell = pkgs.stdenvNoCC.mkDerivation {
       name = "qs-shell";
       src = ./shell;
-      # for the user service, which runs the live checkout (shared/desktop/hypr/shell.nix)
+      # for the user service, which runs the live checkout (shared/desktop/shell/shell.nix)
       passthru = { inherit shellTools shellAgents; lock = qs-lock; };
       nativeBuildInputs = [pkgs.makeWrapper];
       dontBuild = true;

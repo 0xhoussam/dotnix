@@ -9,8 +9,9 @@ A not overly engineered Nix flake for my machine and my sanity. Take what you li
 | `hosts/bystial` | NixOS configuration of the laptop. |
 | `homes/pride` | Home Manager configuration (standalone). |
 | `shared/` | Modules shared by the host and the home, such as the Hyprland desktop. |
-| `flakes/components` | The desktop shell: Quickshell bar and lock screen plus a Rust D-Bus sidecar. See its README. |
-| `flakes/eshot`, `flakes/zenbones-mono-flake` | Small local packages. |
+| `shared/desktop/hyprland`, `shared/desktop/shell` | Hyprland config, and the services around it (bar, wallpaper, launcher, clipboard). |
+| `pkgs/desktop-shell` | The desktop shell: Quickshell bar and lock screen plus a Rust D-Bus sidecar. See its README. |
+| `pkgs/eshot`, `pkgs/zenbones-mono` | Small local packages. |
 | `docs/` | Design notes and plans. |
 | `assets/` | Wallpapers. |
 
@@ -25,7 +26,7 @@ A not overly engineered Nix flake for my machine and my sanity. Take what you li
 ```sh
 sudo nixos-rebuild switch --flake .#bystial
 home-manager switch --flake .#pride
-nix run .#qs-shell        # try the shell without switching (from flakes/components)
+nix run .#qs-shell        # try the shell without switching (from the repo root)
 ```
 
 ## Software

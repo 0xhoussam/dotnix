@@ -8,7 +8,8 @@
 
   imports = [
     ./../../shared/home-manager
-    ./../../shared/desktop/hypr
+    ./../../shared/desktop/hyprland
+    ./../../shared/desktop/shell
     ./fonts.nix
     ./pkgs.nix
     ./xdg.nix

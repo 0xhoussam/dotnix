@@ -58,7 +58,7 @@ Enable each target separately and check it before the next, resolving option con
 - Exit: each enabled target looks right in a running session.
 
 ### Phase 3: Hyprland
-- Take the border colours (and any other colours) from `config.lib.stylix.colors` and write them into the Lua string in `shared/desktop/hypr/hyprland.nix`, replacing `0xff1c71d8`.
+- Take the border colours (and any other colours) from `config.lib.stylix.colors` and write them into the Lua string in `shared/desktop/hyprland/hyprland.nix`, replacing `0xff1c71d8`.
 - Exit: borders follow the scheme.
 
 ### Phase 4: Quickshell bridge

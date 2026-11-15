@@ -77,12 +77,12 @@
       ];
     };
 
-    components = import ./flakes/components {
+    components = import ./pkgs/desktop-shell {
       inherit pkgs;
       lockWallpaper = ./assets/wallpapers/lock-katana-forest.mp4;
     };
-    eshot = import ./flakes/eshot { inherit pkgs; };
-    zenbones = import ./flakes/zenbones-mono-flake { inherit pkgs; };
+    eshot = import ./pkgs/eshot { inherit pkgs; };
+    zenbones = import ./pkgs/zenbones-mono { inherit pkgs; };
 
     supportedSystems = [
       "x86_64-linux"

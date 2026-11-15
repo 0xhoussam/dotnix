@@ -15,15 +15,13 @@ let
   # The config itself is hand written (hyprland.lua next to this file) and
   # symlinked straight from the checkout, so edits apply with `hyprctl reload`
   # and no rebuild. Only the Stylix colour is generated.
-  checkout = "${config.home.homeDirectory}/dotnix/shared/desktop/hypr";
+  checkout = "${config.home.homeDirectory}/dotnix/shared/desktop/hyprland";
 in
 {
   imports = [
     ./hypridle.nix
     ./env.nix
     ./service.nix
-    ./shell.nix
-    ./anyrun.nix
   ];
 
   # Programs the config calls by name.

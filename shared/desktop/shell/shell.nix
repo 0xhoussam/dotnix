@@ -2,7 +2,7 @@
 let
   shellPkgs = components.packages.${pkgs.stdenv.hostPlatform.system};
   bar = shellPkgs.qs-shell;
-  checkout = "${config.home.homeDirectory}/dotnix/flakes/components/shell";
+  checkout = "${config.home.homeDirectory}/dotnix/pkgs/desktop-shell/shell";
 in
 {
   # The QML is read from the checkout through a symlink, so edits apply at once

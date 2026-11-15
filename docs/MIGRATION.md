@@ -82,7 +82,7 @@ Recommendation: A for the agents, with the sidecars exposing state and prompts a
 ## 4. Target layout
 
 ```
-flakes/components/
+pkgs/desktop-shell/
   default.nix            # quickshell build, two outputs kept: default, lock
   shell/
     shell.qml            # entry for the bar shell (replaces app.tsx)
@@ -112,7 +112,7 @@ Each phase ends with something that runs. The new Quickshell outputs are built u
 - Exit: the table in section 2 is verified and the option is chosen.
 
 ### Phase 1: Packaging
-- Add the `quickshell` input to `flake.nix` (follow our `nixpkgs`) and pass it to `./flakes/components` next to `ags` (around lines 18 and 79-81). `flake.nix` does change in this phase.
+- Add the `quickshell` input to `flake.nix` (follow our `nixpkgs`) and pass it to `./pkgs/desktop-shell` next to `ags` (around lines 18 and 79-81). `flake.nix` does change in this phase.
 - Extend `default.nix` with new outputs `qs-shell` and `qs-lock`; leave `default` and `lock` untouched. Keep the `lockWallpaper` argument.
 - The new outputs install wrappers (`my-shell`, `lock-screen`) that run `qs -p <store path>` with `QML_IMPORT_PATH` and the font config (`lockFonts`, Orbitron) set. Keep `LOCK_WALLPAPER` as `--set-default` and keep `LOCK_PREVIEW`.
 - Dev shell: add `qs`, `qmlls`, `qmlformat`, and a `.qmlls.ini`, next to the AGS shell.
@@ -176,7 +176,7 @@ Work:
 
 ### Phase 8: Cutover and cleanup
 - Flip the names: make `default` and `lock` point at the Quickshell builds (or repoint `agsbar.nix`, `hyprland.nix` and `hypridle.nix` at `qs-shell` and `qs-lock`) in one commit, so rollback is a single revert.
-- Rename `shared/desktop/hypr/agsbar.nix` to `shell.nix` and the unit `ags-bar` to `quickshell-bar`. Update the import in `hyprland.nix`.
+- Rename `shared/desktop/hyprland/agsbar.nix` to `shell.nix` and the unit `ags-bar` to `quickshell-bar`. Update the import in `hyprland.nix`.
 - Rename the `ags-shell` and `ags-lock` entries in `flake.nix` (lines 166-167), and drop the `ags` input and its `inputs.ags` pass-through (lines 18 and 81).
 - Delete `app.tsx`, `env.d.ts`, `tsconfig.json`, `lock/tsconfig.json`, all `.tsx`, `.ts` and `.scss`, the `.envrc` if it only loads the AGS dev shell, and update `.gitignore`.
 - Rewrite `README.md` (it still describes AGS and `ags run`) and delete this file.

@@ -84,7 +84,7 @@ in
   # The shared modules (also used by other users, who do not have Stylix) set
   # these themselves; here Stylix wins.
 
-  # The Quickshell shell reads this (flakes/components/shell/Theme.qml) and
+  # The Quickshell shell reads this (pkgs/desktop-shell/shell/Theme.qml) and
   # follows the palette; `home-manager switch` recolours it live.
   xdg.configFile."my-shell/stylix.json".text = builtins.toJSON {
     polarity = config.stylix.polarity;
