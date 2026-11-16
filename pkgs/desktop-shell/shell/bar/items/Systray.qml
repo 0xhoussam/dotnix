@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.SystemTray
 import "../.."
+import "../../motion"
 
 // StatusNotifierItem tray. Left click activates, middle secondary-activates,
 // right click opens the dbusmenu.
@@ -17,7 +18,9 @@ Row {
             width: 16 + 10; height: 16 + 6
             radius: Theme.radius
             color: area.containsMouse ? Theme.hover : "transparent"
-            Behavior on color { ColorAnimation { duration: Theme.animFast } }
+            scale: area.pressed ? 0.88 : 1
+            Behavior on color { CAnim { kind: "fastEffects" } }
+            Behavior on scale { Anim { kind: "fastSpatial" } }
 
             Image {
                 anchors.centerIn: parent

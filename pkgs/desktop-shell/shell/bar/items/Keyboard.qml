@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell.Hyprland
 import "../.."
+import "../../motion"
 
 // Active Hyprland keyboard layout. Hyprland has no current-layout getter;
 // it only emits `activelayout` on change, so seed with a placeholder.
@@ -21,7 +22,7 @@ Pill {
             layout = short(event.data.slice(i + 1))
         }
     }
-    Text {
+    AnimText {
         text: layout
         color: Theme.textBar
         font.pixelSize: Theme.fontSize

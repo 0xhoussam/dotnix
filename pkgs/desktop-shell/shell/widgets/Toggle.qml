@@ -1,5 +1,6 @@
 import QtQuick
 import ".."
+import "../motion"
 
 // Small pill switch.
 Rectangle {
@@ -12,13 +13,13 @@ Rectangle {
     radius: 11
     opacity: enabled ? 1 : 0.4
     color: checked ? Theme.accent : Theme.toggleOff
-    Behavior on color { ColorAnimation { duration: 140 } }
+    Behavior on color { CAnim { kind: "fastEffects" } }
     Rectangle {
         y: 2
         x: root.checked ? parent.width - width - 2 : 2
         width: 18; height: 18; radius: 9
         color: "white"
-        Behavior on x { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+        Behavior on x { Anim { kind: "standard" } }
     }
     MouseArea {
         anchors.fill: parent

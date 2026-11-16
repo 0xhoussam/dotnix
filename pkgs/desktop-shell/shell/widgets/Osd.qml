@@ -5,6 +5,7 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 import "../audio"
 import ".."
+import "../motion"
 
 // Small overlay for transient feedback: output volume / mute, microphone
 // mute, keyboard layout (all automatic) and brightness (triggered over IPC
@@ -91,7 +92,7 @@ Scope {
             color: Theme.osdBg
             border.color: Theme.border
             opacity: root.shown ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 180 } }
+            Behavior on opacity { Anim { kind: "effects" } }
             Row {
                 anchors { fill: parent; leftMargin: 16; rightMargin: 16 }
                 spacing: 12
@@ -110,7 +111,7 @@ Scope {
                         height: parent.height; radius: 3
                         width: parent.width * Math.max(0, Math.min(1, root.value))
                         color: root.boosted ? Theme.warn : Theme.accent
-                        Behavior on width { NumberAnimation { duration: 90 } }
+                        Behavior on width { Anim { kind: "fastEffects" } }
                     }
                 }
                 Text {

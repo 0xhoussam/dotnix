@@ -1,5 +1,6 @@
 import QtQuick
 import ".."
+import "../motion"
 
 // A notification card with the other notifications of the same app stacked
 // behind it (up to two visible edges). Clicking "+N more" emits moreClicked.
@@ -15,6 +16,16 @@ Item {
     implicitHeight: card.implicitHeight + layers * 5
     width: implicitWidth
     height: implicitHeight
+
+    // Toasts slide in from the right edge and fade up.
+    property bool entered: !toast
+    Component.onCompleted: entered = true
+    opacity: entered ? 1 : 0
+    Behavior on opacity { Anim { kind: "effects" } }
+    transform: Translate {
+        x: root.entered ? 0 : 40
+        Behavior on x { Anim { kind: "emphasized" } }
+    }
 
     Repeater {
         model: root.layers

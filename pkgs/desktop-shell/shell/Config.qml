@@ -15,7 +15,10 @@ Singleton {
     readonly property bool autohideEnabled: true
     readonly property int revealZone: 4 // px strip that reveals the bar on hover
     readonly property int hideDelay: 500 // ms with nothing holding the bar
-    readonly property int transition: 200 // slide animation in ms
+
+    // Global motion speed: 1 = normal, 2 = twice as slow, 0.5 = twice as fast,
+    // 0 = no animation.
+    readonly property real animScale: 1.0
 
     readonly property var modulesStart: ["logo", "workspaces", "media", "systray"]
     readonly property var modulesCenter: ["clock"]

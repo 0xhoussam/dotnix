@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.Mpris
 import "../.."
+import "../../motion"
 import "../../widgets"
 
 // Now playing: title and artist in the bar. Click play/pause, middle click
@@ -25,7 +26,7 @@ Pill {
             width: 14; height: 14; sourceSize: Qt.size(28, 28)
             source: Quickshell.iconPath(root.player && root.player.isPlaying ? "media-playback-pause-symbolic" : "media-playback-start-symbolic", true)
         }
-        Text {
+        AnimText {
             anchors.verticalCenter: parent.verticalCenter
             width: Math.min(implicitWidth, 260)
             elide: Text.ElideRight

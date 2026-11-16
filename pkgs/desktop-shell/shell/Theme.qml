@@ -99,4 +99,25 @@ Singleton {
     readonly property int radius: 8
     readonly property int iconSize: 16
     readonly property int animFast: 140
+
+    // Motion tokens, ported from caelestia-dots/shell (Material 3 Expressive).
+    // Curves are cubic-bezier spline control points: c1x,c1y,c2x,c2y,x,y per segment.
+    // "Spatial" curves overshoot (y > 1): use them for position/size/scale.
+    // "Effects" curves do not: use them for opacity and colour.
+    readonly property var curves: ({
+        standard:      [0.2, 0, 0, 1, 1, 1],
+        emphasized:    [0.05, 0, 2/15, 0.06, 1/6, 0.4, 5/24, 0.82, 0.25, 1, 1, 1],
+        fastSpatial:   [0.42, 1.67, 0.21, 0.9, 1, 1],
+        spatial:       [0.38, 1.21, 0.22, 1, 1, 1],
+        slowSpatial:   [0.39, 1.29, 0.35, 0.98, 1, 1],
+        fastEffects:   [0.31, 0.94, 0.34, 1, 1, 1],
+        effects:       [0.34, 0.8, 0.34, 1, 1, 1],
+        slowEffects:   [0.34, 0.88, 0.34, 1, 1, 1]
+    })
+    readonly property real animScale: Config.animScale
+    readonly property var durations: ({
+        standard: 400, emphasized: 400,
+        fastSpatial: 350, spatial: 500, slowSpatial: 650,
+        fastEffects: 150, effects: 200, slowEffects: 300
+    })
 }

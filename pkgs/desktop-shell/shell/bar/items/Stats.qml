@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import "../.."
+import "../../motion"
 import "../../widgets"
 
 // System monitor: CPU, memory, temperature, disk and network speed. Sampled
@@ -107,7 +108,7 @@ Pill {
             Rectangle {
                 width: parent.width; height: 6; radius: 3; color: Theme.track
                 Rectangle { height: parent.height; radius: 3; width: parent.width * Math.max(0, Math.min(1, fraction)); color: tint
-                    Behavior on width { NumberAnimation { duration: 300 } } }
+                    Behavior on width { Anim { kind: "standard" } } }
             }
         }
 

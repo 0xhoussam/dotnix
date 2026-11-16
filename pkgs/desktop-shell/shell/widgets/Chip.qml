@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import ".."
+import "../motion"
 
 // Rounded text/icon button used across the panels.
 Rectangle {
@@ -19,7 +20,7 @@ Rectangle {
     color: confirm ? Theme.dangerBg
         : active ? Theme.accentSoft
         : ma.containsMouse ? Theme.hover : Theme.card
-    Behavior on color { ColorAnimation { duration: 120 } }
+    Behavior on color { CAnim { kind: "fastEffects" } }
     Row {
         id: row
         anchors.centerIn: parent
@@ -40,5 +41,11 @@ Rectangle {
             font.bold: true
         }
     }
-    MouseArea { id: ma; anchors.fill: parent; hoverEnabled: true; onClicked: root.clicked() }
+    Ripple { id: ripple; radius: root.radius }
+    MouseArea {
+        id: ma; anchors.fill: parent; hoverEnabled: true
+        onPressed: mouse => ripple.press(mouse.x, mouse.y)
+        onPressedChanged: ripple.pressed = pressed
+        onClicked: root.clicked()
+    }
 }

@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import ".."
+import "../motion"
 
 // Clipboard history (cliphist) as a centered overlay: search, keyboard
 // navigation (Up/Down, Enter copies, Delete removes, Esc closes), image
@@ -159,7 +160,7 @@ Scope {
                         height: !isPin && e.image ? 88 : 44
                         radius: 12
                         color: index === root.current ? Theme.accentSoft : hov.containsMouse ? Theme.surfaceHover : Theme.surface
-                        Behavior on color { ColorAnimation { duration: 90 } }
+                        Behavior on color { CAnim { kind: "fastEffects" } }
 
                         // thumbnail for images (decoded lazily into tmpfs)
                         Process {

@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import ".."
+import "../motion"
 
 // Transient toast popups, top-right (primary screen only).
 Scope {
@@ -21,6 +22,7 @@ Scope {
             id: list
             x: 10; y: 8
             spacing: 8
+            move: Transition { Anim { properties: "y"; kind: "emphasized" } }
             Repeater {
                 model: Notifs.toastGroups
                 NotificationStack {

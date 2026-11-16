@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.UPower
 import "../.."
+import "../../motion"
 import "../../quick"
 import "../../widgets"
 
@@ -40,7 +41,7 @@ Pill {
             sourceSize: Qt.size(32, 32)
             source: root.dev ? Quickshell.iconPath(root.dev.iconName, true) : ""
         }
-        Text {
+        AnimText {
             anchors.verticalCenter: parent.verticalCenter
             text: root.dev ? Math.round(root.dev.percentage * 100) + "%" : ""
             color: root.dev && root.dev.percentage < 0.15 && !root.charging ? Theme.danger : Theme.textBar

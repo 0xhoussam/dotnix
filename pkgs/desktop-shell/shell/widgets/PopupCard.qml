@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Hyprland
 import ".."
+import "../motion"
 
 // Dropdown under a bar item: anchored popup window, rounded card, content
 // column, and a focus grab so a click anywhere else closes it. Declare the
@@ -43,7 +44,8 @@ Scope {
 
     PopupWindow {
         id: pop
-        visible: root.open
+        // stays mapped until the close animation has finished
+        visible: root.open || card.opacity > 0
         anchor.item: root.anchorItem
         anchor.edges: Edges.Bottom
         anchor.gravity: Edges.Bottom
@@ -55,10 +57,23 @@ Scope {
         Rectangle {
             id: card
             width: parent.width
-            implicitHeight: col.implicitHeight + 24
+            // The window is sized to the target height at once; the card
+            // animates to it, so content that grows or shrinks glides.
+            readonly property real targetHeight: col.implicitHeight + 24
+            implicitHeight: targetHeight
+            height: targetHeight
+            Behavior on height { Anim { kind: "emphasized" } }
             radius: 16
             color: Theme.popoverBg
             border.color: Theme.border
+            // open/close: drop in from the bar, fade, scale from the top edge
+            opacity: root.open ? 1 : 0
+            scale: root.open ? 1 : 0.94
+            transformOrigin: Item.Top
+            transform: Translate { y: root.open ? 0 : -8; Behavior on y { Anim { kind: "emphasized" } } }
+            Behavior on opacity { Anim { kind: "effects" } }
+            Behavior on scale { Anim { kind: "emphasized" } }
+            clip: true
 
             Column {
                 id: col

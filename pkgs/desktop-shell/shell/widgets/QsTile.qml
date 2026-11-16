@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import ".."
+import "../motion"
 
 // Quick-settings toggle tile: icon, label, optional sub-label.
 Rectangle {
@@ -15,7 +16,7 @@ Rectangle {
     radius: 14
     opacity: enabled ? 1 : 0.45
     color: active ? Theme.accentSoft : ma.containsMouse ? Theme.surfaceHover : Theme.surface
-    Behavior on color { ColorAnimation { duration: 120 } }
+    Behavior on color { CAnim { kind: "fastEffects" } }
     Row {
         anchors { left: parent.left; leftMargin: 12; verticalCenter: parent.verticalCenter }
         spacing: 10
@@ -31,5 +32,11 @@ Rectangle {
             Text { visible: text !== ""; text: root.sub; color: Theme.muted; font.pixelSize: 11; elide: Text.ElideRight; width: root.width - 56 }
         }
     }
-    MouseArea { id: ma; anchors.fill: parent; hoverEnabled: true; enabled: root.enabled; onClicked: root.clicked() }
+    Ripple { id: ripple; radius: root.radius }
+    MouseArea {
+        id: ma; anchors.fill: parent; hoverEnabled: true; enabled: root.enabled
+        onPressed: mouse => ripple.press(mouse.x, mouse.y)
+        onPressedChanged: ripple.pressed = pressed
+        onClicked: root.clicked()
+    }
 }

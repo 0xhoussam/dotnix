@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import ".."
+import "../motion"
 
 // Boxed-list row: icon, title, status line, optional spinner / lock / check,
 // and an expand chevron. Shared by the network panel rows.
@@ -25,11 +26,18 @@ Rectangle {
     radius: 12
     opacity: enabled ? 1 : 0.5
     color: active ? Theme.accentSoft : main.containsMouse ? Theme.surfaceHover : Theme.surface
-    Behavior on color { ColorAnimation { duration: 140 } }
+    Behavior on color { CAnim { kind: "fastEffects" } }
     // square off the bottom corners while the details panel is open
     Rectangle { visible: root.open; anchors.bottom: parent.bottom; width: parent.width; height: parent.radius; color: parent.color }
 
-    MouseArea { id: main; anchors { fill: parent; rightMargin: root.expandable || trail.children.length ? 40 : 0 } hoverEnabled: true; enabled: root.enabled; onClicked: root.clicked() }
+    Ripple { id: ripple; radius: root.radius; anchors.rightMargin: root.expandable || trail.children.length ? 40 : 0 }
+    MouseArea {
+        id: main; anchors { fill: parent; rightMargin: root.expandable || trail.children.length ? 40 : 0 }
+        hoverEnabled: true; enabled: root.enabled
+        onPressed: mouse => ripple.press(mouse.x, mouse.y)
+        onPressedChanged: ripple.pressed = pressed
+        onClicked: root.clicked()
+    }
 
     Row {
         anchors { left: parent.left; leftMargin: 12; verticalCenter: parent.verticalCenter }

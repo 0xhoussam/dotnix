@@ -1,5 +1,6 @@
 import QtQuick
 import ".."
+import "../motion"
 
 // Horizontal slider: drag, click to jump, scroll. Writes are throttled to
 // about 30 per second (a final one on release) so PipeWire is not flooded.
@@ -30,7 +31,7 @@ Item {
             height: parent.height; radius: 3
             width: parent.width * Math.max(0, Math.min(1, root.level))
             color: Theme.trackFill
-            Behavior on width { NumberAnimation { duration: 80 } }
+            Behavior on width { Anim { kind: "fastEffects" } }
         }
         Rectangle {
             height: parent.height; radius: 3
@@ -50,7 +51,7 @@ Item {
         width: 14; height: 14; radius: 7
         color: "white"
         scale: area.pressed ? 1.15 : 1
-        Behavior on scale { NumberAnimation { duration: 90 } }
+        Behavior on scale { Anim { kind: "fastSpatial" } }
     }
 
     property real pending: -1

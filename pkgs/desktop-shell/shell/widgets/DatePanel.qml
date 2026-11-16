@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import ".."
+import "../motion"
 
 // GNOME-style shade: notifications (left) + calendar / world clocks (right).
 // Fullscreen transparent overlay; click outside or Escape to close.
@@ -12,7 +13,9 @@ Scope {
     PanelWindow {
         id: win
         screen: Quickshell.screens[0]
-        visible: UiState.panelOpen
+        // stays mapped while the card fades out, but click-through then
+        visible: UiState.panelOpen || panel.opacity > 0
+        mask: UiState.panelOpen ? null : closedMask
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
@@ -20,11 +23,10 @@ Scope {
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
         anchors { top: true; bottom: true; left: true; right: true }
 
-        onVisibleChanged: if (visible) { panel.opacity = 0; panel.y = -12; open.start(); InfoService.refresh() }
-        ParallelAnimation {
-            id: open
-            NumberAnimation { target: panel; property: "opacity"; to: 1; duration: 220 }
-            NumberAnimation { target: panel; property: "y"; to: 6; duration: 220; easing.type: Easing.OutCubic }
+        Region { id: closedMask }
+        Connections {
+            target: UiState
+            function onPanelOpenChanged() { if (UiState.panelOpen) InfoService.refresh() }
         }
 
         MouseArea { anchors.fill: parent; onClicked: UiState.closePanel() }
@@ -32,7 +34,10 @@ Scope {
         Rectangle {
             id: panel
             anchors.horizontalCenter: parent.horizontalCenter
-            y: 6
+            y: UiState.panelOpen ? 6 : -12
+            opacity: UiState.panelOpen ? 1 : 0
+            Behavior on y { Anim { kind: "emphasized" } }
+            Behavior on opacity { Anim { kind: "effects" } }
             width: row.implicitWidth + 24
             height: row.implicitHeight + 24
             radius: 14

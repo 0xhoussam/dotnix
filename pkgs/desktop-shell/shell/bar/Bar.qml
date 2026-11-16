@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import ".."
 import "items"
+import "../motion"
 import "../bluetooth"
 import "../network"
 
@@ -80,7 +81,11 @@ PanelWindow {
         height: Config.size
         y: win.shown ? 0 : (win.bottom ? Config.size : -Config.size)
         color: Theme.barBg
-        Behavior on y { NumberAnimation { duration: Config.transition; easing.type: Easing.OutCubic } }
+        opacity: win.shown ? 1 : 0
+        // Emphasized curve, as caelestia's bar wrapper. Not "spatial": its
+        // overshoot would pull the body past the screen edge and show a gap.
+        Behavior on y { Anim { kind: "emphasized" } }
+        Behavior on opacity { Anim { kind: "effects" } }
 
         // Module registry: name -> component.
         readonly property var registry: ({
