@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
+  # Users with Stylix get their zellij theme from it (homes/pride/stylix.nix);
+  # everyone else keeps libadwaita.
+  useStylix = config.stylix.enable or false;
   zjstatusPluginPath = "https://github.com/dj95/zjstatus/releases/download/v0.20.2/zjstatus.wasm";
 in
 {
@@ -10,6 +13,9 @@ in
     default_shell = "${pkgs.fish}/bin/fish";
     pane_frames = false;
     copy_command = "wl-copy";
+  } // lib.optionalAttrs useStylix {
+    theme = "stylix";
+  } // lib.optionalAttrs (!useStylix) {
     theme = "libadwaita";
     themes.libadwaita = {
       fg = "#fafafa";

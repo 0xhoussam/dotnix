@@ -24,27 +24,32 @@ in
     image = wallpaperFrame;
     polarity = "dark";
 
-    # A fixed palette: libadwaita's dark colours with the GNOME accent set, so
-    # the desktop keeps the look it has today. (Not generated from the image.)
+    # A fixed palette, not generated from the image: Carbonfox, the same
+    # theme the terminal uses (ghostty, shared/home-manager/gui/ghostty.nix).
+    # This is the one place the desktop's colours are defined: GTK, Qt, mpv,
+    # the Hyprland border, the Quickshell bar and the lock screen (both read
+    # ~/.config/my-shell/stylix.json, generated below) and zellij follow it.
+    # Carbonfox has no real yellow or orange (its "yellow" is teal), so those
+    # two slots use IBM Carbon's own, to keep warnings readable.
     base16Scheme = {
-      scheme = "Adwaita Dark";
-      author = "local";
-      base00 = "242424"; # window background
-      base01 = "2d2d2d"; # popovers, raised surfaces
-      base02 = "3d3d3d"; # selection
-      base03 = "5e5c64"; # comments, muted
-      base04 = "9a9996"; # dim text
-      base05 = "deddda"; # text
-      base06 = "f6f5f4";
+      scheme = "Carbonfox";
+      author = "EdenEast/nightfox.nvim, IBM Carbon";
+      base00 = "161616"; # window background
+      base01 = "252525"; # popovers, raised surfaces
+      base02 = "2a2a2a"; # selection
+      base03 = "7b7c7e"; # comments, muted
+      base04 = "a9afbc"; # dim text
+      base05 = "f2f4f8"; # text
+      base06 = "f2f4f8";
       base07 = "ffffff";
-      base08 = "ff7b63"; # red
-      base09 = "ffa348"; # orange
-      base0A = "f8e45c"; # yellow
-      base0B = "8ff0a4"; # green
-      base0C = "93ddc2"; # cyan
-      base0D = "62a0ea"; # blue (accent)
-      base0E = "dc8add"; # purple
-      base0F = "cdab8f"; # brown
+      base08 = "ee5396"; # red
+      base09 = "ff832b"; # orange (Carbon)
+      base0A = "f1c21b"; # yellow (Carbon)
+      base0B = "25be6a"; # green
+      base0C = "33b1ff"; # cyan
+      base0D = "78a9ff"; # blue (accent)
+      base0E = "be95ff"; # purple
+      base0F = "ff7eb6"; # pink
     };
 
     fonts = {
@@ -72,12 +77,14 @@ in
       fontconfig.enable = true;
       mpv.enable = true;
 
-      # Terminals keep their own colour themes (carbonfox in ghostty and kitty,
-      # libadwaita in zellij, the terminal's palette for bat/fzf/fish), so the
-      # Stylix colours stay out of them. Ghostty still gets the theme fonts.
+      # Terminals keep their own colour theme (carbonfox in ghostty and kitty,
+      # the terminal's palette for bat/fzf/fish): it is the same theme as the
+      # scheme above, and the terminal palette has 16 hand-tuned colours.
+      # Ghostty still gets the theme fonts.
       ghostty.enable = true;
       ghostty.colors.enable = false;
-      # not enabled: kitty, alacritty, zellij, fish, bat, fzf
+      zellij.enable = true;
+      # not enabled: kitty, alacritty, fish, bat, fzf
     };
   };
 
