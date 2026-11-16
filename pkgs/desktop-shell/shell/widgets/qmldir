@@ -14,3 +14,9 @@ ScreenCorners 1.0 ScreenCorners.qml
 Slider 1.0 Slider.qml
 Tint 1.0 Tint.qml
 Toggle 1.0 Toggle.qml
+IconBtn 1.0 IconBtn.qml
+Segmented 1.0 Segmented.qml
+SliderRow 1.0 SliderRow.qml
+PowerBtn 1.0 PowerBtn.qml
+AttachedCard 1.0 AttachedCard.qml
+RowBtn 1.0 RowBtn.qml

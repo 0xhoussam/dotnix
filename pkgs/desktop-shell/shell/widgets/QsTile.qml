@@ -13,7 +13,8 @@ Rectangle {
     property bool enabled: true
     signal clicked()
     implicitHeight: 52
-    radius: 14
+    radius: active ? height / 2 : 14
+    Behavior on radius { Anim { kind: "fastSpatial" } }
     opacity: enabled ? 1 : 0.45
     color: active ? Theme.accentSoft : ma.containsMouse ? Theme.surfaceHover : Theme.surface
     Behavior on color { CAnim { kind: "fastEffects" } }

@@ -4,10 +4,11 @@ import Quickshell.Bluetooth
 import "../.."
 import "../../quick"
 import "../../widgets"
+import "../../motion"
 
-// Quick settings: brightness, toggles (Wi-Fi, Bluetooth, Do Not Disturb,
-// night light, caffeine), power profile, screenshots / recording and the
-// power menu.
+// Quick settings: session buttons in the header, brightness card, toggles
+// (Wi-Fi, Bluetooth, Do Not Disturb, night light, caffeine), power profile,
+// screenshots / recording.
 Pill {
     id: root
     active: pop.open
@@ -28,6 +29,8 @@ Pill {
         }
     }
 
+    property string armedName: ""
+    property string hoverName: ""
     readonly property var net: Agents.net
     readonly property var adapter: Bluetooth.defaultAdapter
 
@@ -40,50 +43,73 @@ Pill {
         spacing: 10
         onOpenChanged: if (open) QuickService.refresh()
 
-        Text { text: "Quick Settings"; color: Theme.fg; font { pixelSize: 16; bold: true } }
-
-        // ---- brightness
-        Column {
+        // ---- header: title and the session buttons
+        Item {
             width: parent.width
-            spacing: 4
-            visible: QuickService.brightness >= 0
+            height: 32
+            // Doubles as the hint for the session buttons, so hovering one
+            // never changes the popup's height.
+            Text {
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width - 184 - 12
+                elide: Text.ElideRight
+                text: root.armedName !== "" ? "Confirm " + root.armedName + "?"
+                    : root.hoverName !== "" ? root.hoverName : "Quick Settings"
+                color: root.armedName !== "" ? Theme.danger : root.hoverName !== "" ? Theme.muted : Theme.fg
+                font { pixelSize: root.armedName !== "" || root.hoverName !== "" ? 14 : 16; bold: true }
+            }
             Row {
-                width: parent.width; height: 28
-                Image {
-                    layer.enabled: true; layer.effect: Tint {}
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: 16; height: 16; sourceSize: Qt.size(32, 32)
-                    source: Quickshell.iconPath("display-brightness-symbolic", true)
+                anchors.right: parent.right
+                spacing: 6
+                Repeater {
+                    model: [
+                        { name: "Lock", icon: "system-lock-screen-symbolic,system-lock-screen,lock", confirm: false, run: () => QuickService.lock() },
+                        { name: "Suspend", icon: "system-suspend-symbolic,system-suspend,media-playback-pause-symbolic", confirm: false, run: () => QuickService.suspend() },
+                        { name: "Log out", icon: "system-log-out-symbolic,system-log-out,application-exit-symbolic", confirm: true, run: () => QuickService.logout() },
+                        { name: "Restart", icon: "system-reboot-symbolic,system-reboot,view-refresh-symbolic", confirm: true, run: () => QuickService.reboot() },
+                        { name: "Shut down", icon: "system-shutdown-symbolic,system-shutdown,application-exit", confirm: true, run: () => QuickService.poweroff() }
+                    ]
+                    PowerBtn {
+                        required property var modelData
+                        icon: modelData.icon
+                        label: modelData.name
+                        needsConfirm: modelData.confirm
+                        onArmedChanged: root.armedName = armed ? label : (root.armedName === label ? "" : root.armedName)
+                        onHoveredChanged: root.hoverName = hovered ? label : (root.hoverName === label ? "" : root.hoverName)
+                        onActivated: { pop.open = false; modelData.run() }
+                    }
                 }
-                Slider {
-                    width: parent.width - 16 - 48 - 16
-                    anchors.verticalCenter: parent.verticalCenter
-                    x: 8
+            }
+        }
+        // ---- brightness
+        Rectangle {
+            width: parent.width
+            visible: QuickService.brightness >= 0
+            height: sliders.implicitHeight + 24
+            radius: 14
+            color: Theme.surface
+            Column {
+                id: sliders
+                x: 12; y: 12
+                width: parent.width - 24
+                spacing: 12
+                SliderRow {
+                    width: parent.width
+                    icon: "display-brightness-symbolic"; label: "Display"
+                    valueText: QuickService.brightness + "%"
                     value: QuickService.brightness / 100
                     step: 0.05
                     onMoved: v => QuickService.setBrightness(Math.round(v * 100))
                 }
-                Text { width: 40; anchors.verticalCenter: parent.verticalCenter; horizontalAlignment: Text.AlignRight; text: QuickService.brightness + "%"; color: Theme.fg; font.pixelSize: 12 }
-            }
-            Row {
-                visible: QuickService.kbdBrightness >= 0
-                width: parent.width; height: 28
-                Image {
-                    layer.enabled: true; layer.effect: Tint {}
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: 16; height: 16; sourceSize: Qt.size(32, 32)
-                    source: Quickshell.iconPath("keyboard-brightness-symbolic", true)
-                }
-                Slider {
-                    width: parent.width - 16 - 48 - 16
-                    anchors.verticalCenter: parent.verticalCenter
-                    x: 8
-                    to: 1
-                    step: 0.5
+                SliderRow {
+                    width: parent.width
+                    visible: QuickService.kbdBrightness >= 0
+                    icon: "keyboard-brightness-symbolic"; label: "Keyboard backlight"
+                    valueText: QuickService.kbdBrightness + "%"
+                    to: 1; step: 0.5
                     value: QuickService.kbdBrightness / 100
                     onMoved: v => QuickService.setKbd(Math.round(v * 100))
                 }
-                Text { width: 40; anchors.verticalCenter: parent.verticalCenter; horizontalAlignment: Text.AlignRight; text: QuickService.kbdBrightness + "%"; color: Theme.fg; font.pixelSize: 12 }
             }
         }
 
@@ -149,71 +175,31 @@ Pill {
         // ---- power profile
         Column {
             width: parent.width
-            spacing: 4
+            spacing: 6
             visible: QuickService.profiles.length > 0
-            Text { text: "Power profile"; color: Theme.muted; font { pixelSize: 12; bold: true } }
-            Flow {
+            Text { leftPadding: 4; text: "Power profile"; color: Theme.muted; font { pixelSize: 12; bold: true } }
+            Segmented {
                 width: parent.width
-                spacing: 6
-                Repeater {
-                    model: QuickService.profiles
-                    Chip {
-                        required property string modelData
-                        label: QuickService.profileLabel(modelData)
-                        active: QuickService.profile === modelData
-                        onClicked: QuickService.setProfile(modelData)
-                    }
-                }
+                columns: 2
+                options: QuickService.profiles.map(p => ({ label: QuickService.profileLabel(p), value: p }))
+                current: QuickService.profile
+                onPicked: v => QuickService.setProfile(v)
             }
             Text { visible: QuickService.profileError !== ""; width: parent.width; text: QuickService.profileError; color: Theme.danger; font.pixelSize: 11; wrapMode: Text.Wrap }
-            Text { width: parent.width; text: "Resets when the charger is plugged or unplugged."; color: Theme.faint; font.pixelSize: 11 }
+            Text { leftPadding: 4; width: parent.width; text: "Resets when the charger is plugged or unplugged."; color: Theme.faint; font.pixelSize: 11 }
         }
 
         // ---- screenshots
         Column {
             width: parent.width
-            spacing: 4
-            Text { text: "Screenshot"; color: Theme.muted; font { pixelSize: 12; bold: true } }
+            spacing: 6
+            Text { leftPadding: 4; text: "Screenshot"; color: Theme.muted; font { pixelSize: 12; bold: true } }
             Row {
                 spacing: 6
-                Chip { label: "Region"; onClicked: { pop.open = false; QuickService.screenshot("region") } }
-                Chip { label: "Window"; onClicked: { pop.open = false; QuickService.screenshot("window") } }
-                Chip { label: "Screen"; onClicked: { pop.open = false; QuickService.screenshot("output") } }
-            }
-        }
-
-        // ---- power menu (destructive actions need a second click)
-        Column {
-            width: parent.width
-            spacing: 4
-            Text { text: "Session"; color: Theme.muted; font { pixelSize: 12; bold: true } }
-            Flow {
-                width: parent.width
-                spacing: 6
-                component PowerChip: Chip {
-                    id: pc
-                    property var action
-                    property bool armed: false
-                    property bool needsConfirm: true
-                    label: armed ? "Confirm " + text0 + "?" : text0
-                    property string text0
-                    property string iconName
-                    icon: iconName
-                    destructive: needsConfirm
-                    confirm: armed
-                    Timer { id: disarm; interval: 4000; onTriggered: pc.armed = false }
-                    onClicked: {
-                        if (needsConfirm && !armed) { armed = true; disarm.restart(); return }
-                        armed = false
-                        pop.open = false
-                        action()
-                    }
-                }
-                PowerChip { text0: "Lock"; iconName: "system-lock-screen-symbolic"; needsConfirm: false; action: () => QuickService.lock() }
-                PowerChip { text0: "Suspend"; iconName: "system-suspend-symbolic"; needsConfirm: false; action: () => QuickService.suspend() }
-                PowerChip { text0: "Log out"; iconName: "system-log-out-symbolic"; action: () => QuickService.logout() }
-                PowerChip { text0: "Restart"; iconName: "system-reboot-symbolic"; action: () => QuickService.reboot() }
-                PowerChip { text0: "Shut down"; iconName: "system-shutdown-symbolic"; action: () => QuickService.poweroff() }
+                readonly property real cw: (parent.width - 12) / 3
+                Chip { width: parent.cw; label: "Region"; onClicked: { pop.open = false; QuickService.screenshot("region") } }
+                Chip { width: parent.cw; label: "Window"; onClicked: { pop.open = false; QuickService.screenshot("window") } }
+                Chip { width: parent.cw; label: "Screen"; onClicked: { pop.open = false; QuickService.screenshot("output") } }
             }
         }
     }

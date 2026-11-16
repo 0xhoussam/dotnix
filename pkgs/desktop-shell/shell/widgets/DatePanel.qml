@@ -14,7 +14,7 @@ Scope {
         id: win
         screen: Quickshell.screens[0]
         // stays mapped while the card fades out, but click-through then
-        visible: UiState.panelOpen || panel.opacity > 0
+        visible: UiState.panelOpen || panel.shown
         mask: UiState.panelOpen ? null : closedMask
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
@@ -31,18 +31,14 @@ Scope {
 
         MouseArea { anchors.fill: parent; onClicked: UiState.closePanel() }
 
-        Rectangle {
+        // Grows out of the bar's bottom edge (the bar is the top Config.size px).
+        AttachedCard {
             id: panel
             anchors.horizontalCenter: parent.horizontalCenter
-            y: UiState.panelOpen ? 6 : -12
-            opacity: UiState.panelOpen ? 1 : 0
-            Behavior on y { Anim { kind: "emphasized" } }
-            Behavior on opacity { Anim { kind: "effects" } }
-            width: row.implicitWidth + 24
-            height: row.implicitHeight + 24
-            radius: 14
-            color: Theme.popoverBg
-            border.color: Theme.border
+            y: Config.size
+            open: UiState.panelOpen
+            cardWidth: row.implicitWidth + 24
+            contentHeight: row.implicitHeight + 24
             focus: true
             Keys.onEscapePressed: UiState.closePanel()
             MouseArea { anchors.fill: parent } // swallow clicks on the card
@@ -93,16 +89,49 @@ Scope {
                                             MouseArea { anchors { fill: parent; margins: -4 } onClicked: Notifs.clearGroup(grp.modelData.app) }
                                         }
                                     }
-                                    // folded: the newest card with the rest stacked behind it
-                                    NotificationStack {
-                                        visible: grp.folded
-                                        n: grp.modelData.items[0]
-                                        extra: grp.modelData.items.length - 1
-                                        onMoreClicked: Notifs.toggleGroup(grp.modelData.app)
-                                    }
-                                    Repeater {
-                                        model: grp.folded ? [] : grp.modelData.items
-                                        NotificationCard { required property var modelData; n: modelData }
+                                    // Folded: the newest card with the rest stacked behind it.
+                                    // Expanded: every card. The body's height glides between
+                                    // the two and the cards fade down one after another.
+                                    Item {
+                                        id: body
+                                        width: parent.width
+                                        clip: true
+                                        height: grp.folded ? stack.height : cards.implicitHeight
+                                        Behavior on height { Anim { kind: "emphasized" } }
+
+                                        NotificationStack {
+                                            id: stack
+                                            visible: opacity > 0
+                                            opacity: grp.folded ? 1 : 0
+                                            Behavior on opacity { Anim { kind: "fastEffects" } }
+                                            n: grp.modelData.items[0]
+                                            extra: grp.modelData.items.length - 1
+                                            onMoreClicked: Notifs.toggleGroup(grp.modelData.app)
+                                        }
+                                        Column {
+                                            id: cards
+                                            width: parent.width
+                                            spacing: 6
+                                            enabled: !grp.folded // folded: the invisible cards must not catch clicks meant for the stack
+                                            Repeater {
+                                                model: grp.modelData.items
+                                                NotificationCard {
+                                                    id: nc
+                                                    required property var modelData
+                                                    required property int index
+                                                    n: modelData
+                                                    opacity: grp.folded ? 0 : 1
+                                                    transform: Translate { y: grp.folded ? -10 : 0; Behavior on y { Anim { kind: "emphasized" } } }
+                                                    // stagger on expand, instant on fold
+                                                    Behavior on opacity {
+                                                        SequentialAnimation {
+                                                            PauseAnimation { duration: grp.folded ? 0 : Math.min(nc.index, 6) * 40 }
+                                                            Anim { target: nc; property: "opacity"; kind: "effects" }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
