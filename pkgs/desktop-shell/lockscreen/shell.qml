@@ -47,7 +47,13 @@ ShellRoot {
                 WlrLayershell.namespace: "lock-preview"
                 WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
                 anchors { top: true; bottom: true; left: true; right: true }
-                LockSurface { anchors.fill: parent }
+                LockSurface { id: surface; anchors.fill: parent }
+                // LOCK_SNAPSHOT=/path/file.png saves the first screen's surface
+                // after the intro and quits (for checking the design headlessly).
+                Timer {
+                    interval: Number(Quickshell.env("LOCK_SNAPSHOT_MS") || 3600); running: Quickshell.env("LOCK_SNAPSHOT") !== "" && modelData === Quickshell.screens[0]
+                    onTriggered: surface.grabToImage(r => { r.saveToFile(Quickshell.env("LOCK_SNAPSHOT")); Qt.quit() })
+                }
                 Shortcut { sequence: "Ctrl+Escape"; onActivated: Qt.quit() }
                 Connections { target: Session; function onUnlockRequested() { Qt.quit() } }
             }

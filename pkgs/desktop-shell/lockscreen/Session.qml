@@ -16,10 +16,11 @@ Singleton {
     signal unlockRequested()
 
     function noteInput() { lastInput = Date.now() }
-    // Fade the windows out, then let the lock handler release the session.
+    // Play the outro (content slides out, blur clears, surface fades), then let
+    // the lock handler release the session.
     function unlock() {
         leaving = true
         fade.start()
     }
-    Timer { id: fade; interval: 260; onTriggered: root.unlockRequested() }
+    Timer { id: fade; interval: 1050; onTriggered: root.unlockRequested() }
 }

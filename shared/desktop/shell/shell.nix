@@ -3,11 +3,17 @@ let
   shellPkgs = components.packages.${pkgs.stdenv.hostPlatform.system};
   bar = shellPkgs.qs-shell;
   checkout = "${config.home.homeDirectory}/dotnix/pkgs/desktop-shell/shell";
+  lockCheckout = "${config.home.homeDirectory}/dotnix/pkgs/desktop-shell/lockscreen";
 in
 {
   # The QML is read from the checkout through a symlink, so edits apply at once
   # (Quickshell reloads on change) with no rebuild.
   xdg.configFile."quickshell/my-shell".source = config.lib.file.mkOutOfStoreSymlink checkout;
+
+  # Same for the lock screen: `lock-screen` runs this checkout when the link
+  # exists and falls back to the build in the Nix store if the checkout fails
+  # to load (see pkgs/desktop-shell/default.nix).
+  xdg.configFile."quickshell/my-lock".source = config.lib.file.mkOutOfStoreSymlink lockCheckout;
 
   # `shell-ctl toggle volume`, `shell-ctl osd brightness`, ... talk to the running bar.
   home.packages = [

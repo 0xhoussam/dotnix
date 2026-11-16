@@ -21,7 +21,7 @@ let
   shellTools = pkgs.lib.makeBinPath (with pkgs; [
     brightnessctl cliphist wl-clipboard wireplumber pipewire tuned util-linux systemd
     xdg-utils pavucontrol networkmanagerapplet libnotify procps coreutils bash
-    hyprshot wf-recorder hyprland
+    hyprshot wf-recorder hyprland curl wtype
   ]);
 
   # D-Bus agents for the Quickshell bar (BlueZ pairing, later OBEX and the
@@ -41,20 +41,50 @@ in {
       src = ./lockscreen;
       nativeBuildInputs = [pkgs.makeWrapper];
       dontBuild = true;
+      # Three programs in $out/bin:
+      #  lock-screen        what everything calls. Runs the live checkout when
+      #                     ~/.config/quickshell/my-lock exists (Home Manager
+      #                     symlinks it to the checkout, like the bar), so QML
+      #                     edits apply without a rebuild. If that dies within
+      #                     a few seconds (a QML error) it falls back to the
+      #                     stored build, so a broken edit cannot leave the
+      #                     session without a lock.
+      #  lock-screen-live   quickshell -c my-lock (the checkout).
+      #  lock-screen-store  quickshell on the copy in the Nix store.
       # -n: a second launch exits instead of locking twice.
       # --set-default so `LOCK_WALLPAPER=... lock-screen` can still override it.
       installPhase = ''
         runHook preInstall
         mkdir -p $out/share/qs-lock $out/bin
         cp -r . $out/share/qs-lock
-        makeWrapper ${pkgs.quickshell}/bin/qs $out/bin/lock-screen \
-          --add-flags "-n -p $out/share/qs-lock" \
-          --set FONTCONFIG_FILE ${lockFonts} \
-          --prefix PATH : ${shellTools} \
-          --prefix NIXPKGS_QT6_QML_IMPORT_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/qml \
-          --prefix QT_PLUGIN_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/plugins${
-          pkgs.lib.optionalString (lockWallpaper != null) " \\\n          --set-default LOCK_WALLPAPER ${lockWallpaper}"
+
+        mkWrapper() {
+          makeWrapper ${pkgs.quickshell}/bin/qs "$1" \
+            --add-flags "-n $2" \
+            --set FONTCONFIG_FILE ${lockFonts} \
+            --prefix PATH : ${shellTools} \
+            --prefix NIXPKGS_QT6_QML_IMPORT_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/qml \
+            --prefix QT_PLUGIN_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/plugins${
+          pkgs.lib.optionalString (lockWallpaper != null) " \\\n            --set-default LOCK_WALLPAPER ${lockWallpaper}"
         }
+        }
+        mkWrapper $out/bin/lock-screen-store "-p $out/share/qs-lock"
+        mkWrapper $out/bin/lock-screen-live "-c my-lock"
+
+        cat > $out/bin/lock-screen <<'EOF'
+        #!@bash@
+        cfg="''${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/my-lock"
+        if [ -f "$cfg/shell.qml" ]; then
+          start=$SECONDS
+          @out@/bin/lock-screen-live "$@"
+          code=$?
+          if [ "$code" -eq 0 ] || [ $((SECONDS - start)) -ge 3 ]; then exit "$code"; fi
+          echo "lock-screen: live config exited $code after $((SECONDS - start))s, using the stored build" >&2
+        fi
+        exec @out@/bin/lock-screen-store "$@"
+        EOF
+        substituteInPlace $out/bin/lock-screen --replace-fail @out@ $out --replace-fail @bash@ ${pkgs.bash}/bin/bash
+        chmod +x $out/bin/lock-screen
         runHook postInstall
       '';
     };
