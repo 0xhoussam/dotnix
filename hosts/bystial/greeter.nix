@@ -3,6 +3,7 @@ let
   palette = import ../../shared/theme/carbonfox.nix;
   lock = self.packages.${pkgs.stdenv.hostPlatform.system}.qs-lock;
   user = "pride";
+  first = list: builtins.head (pkgs.lib.splitString "," list);
 
   sfPro = inputs.apple-fonts.packages.${pkgs.stdenv.hostPlatform.system}.sf-pro-nerd;
   sfMono = pkgs.runCommand "sf-mono-liga" { } ''
@@ -37,14 +38,18 @@ let
   # stored build (the greeter user cannot read the checkout).
   session = pkgs.writeShellScript "greeter-session" ''
     export GREETER=1 GREETER_USER=${user} USER=${user}
-    # Same layout as Hyprland (cage has no config of its own).
-    export XKB_DEFAULT_LAYOUT=${config.services.xserver.xkb.layout}
-    export XKB_DEFAULT_VARIANT=${config.services.xserver.xkb.variant}
+    # First layout of the system's list (us dvorak). The full "us,ar" /
+    # "dvorak," pair does not compile under cage ("keymap does not exist"),
+    # which left the greeter with no keyboard at all.
+    export XKB_DEFAULT_LAYOUT=${first config.services.xserver.xkb.layout}
+    export XKB_DEFAULT_VARIANT=${first config.services.xserver.xkb.variant}
     export XDG_CACHE_HOME=/var/cache/greeter-state
     export XDG_CONFIG_HOME=${themeDir}
     export XDG_STATE_HOME=/var/cache/greeter-state
     export FONTCONFIG_FILE=${fonts}
     export QT_QPA_PLATFORM=wayland
+    # cage draws no window frame, so Qt would draw its own title bar ("quickshell").
+    export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
     # If the greeter dies (QML error, cage failure) fall back to tuigreet so
     # login never depends on this working.
     ${pkgs.cage}/bin/cage -s -m last -- ${lock}/bin/lock-screen-store \
