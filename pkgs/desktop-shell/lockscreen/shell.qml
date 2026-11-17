@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Services.Greetd
 import "."
 
 // Secure lock screen on ext-session-lock-v1: the compositor keeps every
@@ -11,7 +12,7 @@ import "."
 // locking anything (Ctrl+Escape quits), for working on the design.
 ShellRoot {
     Loader {
-        active: !Session.preview
+        active: !Session.preview && !Session.greeter
         sourceComponent: Scope {
             WlSessionLock {
                 id: lock
@@ -30,6 +31,21 @@ ShellRoot {
             Timer {
                 interval: 5000; running: true
                 onTriggered: if (!lock.secure) { console.error("lock: compositor did not confirm the lock"); Qt.exit(1) }
+            }
+        }
+    }
+
+    // Login screen: a plain fullscreen window (cage, no layer-shell), the same
+    // surface and intro; the outro ends by starting the session.
+    Loader {
+        active: Session.greeter
+        sourceComponent: FloatingWindow {
+            color: Theme.bg
+            visible: true
+            LockSurface { anchors.fill: parent }
+            Connections {
+                target: Session
+                function onUnlockRequested() { Greetd.launch(Session.sessionCmd, [], true) }
             }
         }
     }

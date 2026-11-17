@@ -7,6 +7,8 @@
     ./pkgs.nix
     ./intel.nix
     ./power.nix
+    ./brave.nix
+    ./greeter.nix
   ];
 
   boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-x86_64-v3;

@@ -11,7 +11,12 @@ Singleton {
     readonly property string wallpaper: Quickshell.env("LOCK_WALLPAPER") || ""
     readonly property string pamService: "swaylock" // must exist in /etc/pam.d
     readonly property int idlePauseSeconds: 180
-    readonly property string user: Quickshell.env("USER") || ""
+    // GREETER=1: the same surface as the login screen (greetd session, see
+    // hosts/bystial/greeter.nix). Auth goes through greetd instead of PAM, and
+    // "unlocking" starts the session.
+    readonly property bool greeter: Quickshell.env("GREETER") === "1"
+    readonly property string user: Quickshell.env("GREETER_USER") || Quickshell.env("USER") || ""
+    readonly property var sessionCmd: (Quickshell.env("GREETER_CMD") || "start-hyprland").split(" ")
 
     signal unlockRequested()
 

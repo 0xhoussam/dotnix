@@ -19,6 +19,7 @@
     ./ssh.nix
     ./nix.nix
     ./zen.nix
+    ./firefox.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

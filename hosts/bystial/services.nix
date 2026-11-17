@@ -16,15 +16,6 @@
   #     turbo = "auto";
   #   };
   # };
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd start-hyprland";
-      };
-    };
-  };
-
   services.keyd = {
     enable = true;
     keyboards = {

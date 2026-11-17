@@ -10,7 +10,6 @@
     mpv
     pavucontrol
     ghostty
-    firefox
     spotify
     imv
     opencode

@@ -29,28 +29,9 @@ in
     # This is the one place the desktop's colours are defined: GTK, Qt, mpv,
     # the Hyprland border, the Quickshell bar and the lock screen (both read
     # ~/.config/my-shell/stylix.json, generated below) and zellij follow it.
-    # Carbonfox has no real yellow or orange (its "yellow" is teal), so those
-    # two slots use IBM Carbon's own, to keep warnings readable.
-    base16Scheme = {
-      scheme = "Carbonfox";
-      author = "EdenEast/nightfox.nvim, IBM Carbon";
-      base00 = "161616"; # window background
-      base01 = "252525"; # popovers, raised surfaces
-      base02 = "2a2a2a"; # selection
-      base03 = "7b7c7e"; # comments, muted
-      base04 = "a9afbc"; # dim text
-      base05 = "f2f4f8"; # text
-      base06 = "f2f4f8";
-      base07 = "ffffff";
-      base08 = "ee5396"; # red
-      base09 = "ff832b"; # orange (Carbon)
-      base0A = "f1c21b"; # yellow (Carbon)
-      base0B = "25be6a"; # green
-      base0C = "33b1ff"; # cyan
-      base0D = "78a9ff"; # blue (accent)
-      base0E = "be95ff"; # purple
-      base0F = "ff7eb6"; # pink
-    };
+    # The palette itself lives in shared/theme/carbonfox.nix (the NixOS side
+    # reads it too).
+    base16Scheme = import ../../shared/theme/carbonfox.nix;
 
     fonts = {
       sansSerif = sfPro;
@@ -84,6 +65,13 @@ in
       ghostty.enable = true;
       ghostty.colors.enable = false;
       zellij.enable = true;
+      # Zen: userChrome/userContent colours and fonts for the "default" profile
+      # (homes/pride/zen.nix).
+      firefox.enable = true;
+      firefox.profileNames = [ "default" ];
+      firefox.colorTheme.enable = true; # chrome colours via the Firefox Color extension
+      zen-browser.enable = true;
+      zen-browser.profileNames = [ "default" ];
       # not enabled: kitty, alacritty, fish, bat, fzf
     };
   };

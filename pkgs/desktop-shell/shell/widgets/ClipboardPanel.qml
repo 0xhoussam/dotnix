@@ -218,7 +218,7 @@ Scope {
             anchors.centerIn: parent
             width: 580; height: Math.min(parent.height - 120, 660)
             radius: 18
-            color: Theme.popoverBg
+            color: Theme.barBg
             border.color: Theme.border
             opacity: root.open ? 1 : 0
             scale: root.open ? 1 : 0.94

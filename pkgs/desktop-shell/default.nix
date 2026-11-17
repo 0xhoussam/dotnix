@@ -61,7 +61,7 @@ in {
         mkWrapper() {
           makeWrapper ${pkgs.quickshell}/bin/qs "$1" \
             --add-flags "-n $2" \
-            --set FONTCONFIG_FILE ${lockFonts} \
+            --set-default FONTCONFIG_FILE ${lockFonts} \
             --prefix PATH : ${shellTools} \
             --prefix NIXPKGS_QT6_QML_IMPORT_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/qml \
             --prefix QT_PLUGIN_PATH : ${pkgs.qt6.qtmultimedia}/lib/qt-6/plugins${
