@@ -81,7 +81,6 @@
       inherit pkgs;
       lockWallpaper = ./assets/wallpapers/lock-katana-forest.mp4;
     };
-    eshot = import ./pkgs/eshot { inherit pkgs; };
     zenbones = import ./pkgs/zenbones-mono { inherit pkgs; };
 
     supportedSystems = [
@@ -108,7 +107,7 @@
     mkHome = modules: home-manager.lib.homeManagerConfiguration {
       inherit pkgs modules;
       extraSpecialArgs = {
-        inherit inputs self components eshot zenbones;
+        inherit inputs self components zenbones;
       };
     };
   in
@@ -146,7 +145,6 @@
         qs-shell = components.packages.x86_64-linux.qs-shell;
         qs-lock = components.packages.x86_64-linux.qs-lock;
         shell-agents = components.packages.x86_64-linux.shell-agents;
-        eshot = eshot.packages.x86_64-linux.default;
         inherit (zenbones.packages.x86_64-linux) zenbones-mono zenbones-brainy zenbones-prose zenbones-proto zenbones-slab;
       };
     };

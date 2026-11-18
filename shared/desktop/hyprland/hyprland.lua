@@ -316,17 +316,22 @@ hl.bind(
 
 hl.bind(
   mod .. " + CTRL + P",
-  hl.dsp.exec_cmd("hyprshot -m window")
+  hl.dsp.exec_cmd("shell-ctl shell screenshot window")
 )
 
 hl.bind(
   mod .. " + SHIFT + P",
-  hl.dsp.exec_cmd("hyprshot -m region")
+  hl.dsp.exec_cmd("shell-ctl shell screenshot region")
 )
 
 hl.bind(
   "Print",
-  hl.dsp.exec_cmd("hyprshot -m region --clipboard-only")
+  hl.dsp.exec_cmd("shell-ctl shell screenshot region")
+)
+
+hl.bind(
+  mod .. " + ALT + P",
+  hl.dsp.exec_cmd("shell-ctl shell screenshot screen")
 )
 
 

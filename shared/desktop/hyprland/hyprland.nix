@@ -27,7 +27,6 @@ in
   # Programs the config calls by name.
   home.packages = [
     pkgs.playerctl
-    pkgs.hyprshot
     pkgs.brightnessctl
     pkgs.wireplumber
     shellPkgs.qs-lock # lock-screen

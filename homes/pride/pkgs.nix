@@ -1,7 +1,6 @@
 {
   inputs,
   pkgs,
-  eshot,
   ...
 }:
 {
@@ -15,7 +14,6 @@
     opencode
     anyrun
     inputs.mcmojave-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
-    eshot.packages.${pkgs.stdenv.hostPlatform.system}.default
     loupe
     gnome-text-editor
     gns3-gui

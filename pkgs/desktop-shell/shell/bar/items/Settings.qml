@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Bluetooth
 import "../.."
 import "../../quick"
+import "../../screenshot"
 import "../../widgets"
 import "../../motion"
 
@@ -197,9 +198,15 @@ Pill {
             Row {
                 spacing: 6
                 readonly property real cw: (parent.width - 12) / 3
-                Chip { width: parent.cw; label: "Region"; onClicked: { pop.open = false; QuickService.screenshot("region") } }
-                Chip { width: parent.cw; label: "Window"; onClicked: { pop.open = false; QuickService.screenshot("window") } }
-                Chip { width: parent.cw; label: "Screen"; onClicked: { pop.open = false; QuickService.screenshot("output") } }
+                Chip { width: parent.cw; label: "Region"; onClicked: { pop.open = false; ScreenshotService.start("region") } }
+                Chip { width: parent.cw; label: "Window"; onClicked: { pop.open = false; ScreenshotService.start("window") } }
+                Chip { width: parent.cw; label: "Screen"; onClicked: { pop.open = false; ScreenshotService.start("screen") } }
+            }
+            Chip {
+                width: parent.width
+                label: ScreenshotService.delay > 0 ? "Delay: " + ScreenshotService.delay + " s" : "Delay: off"
+                active: ScreenshotService.delay > 0
+                onClicked: ScreenshotService.cycleDelay()
             }
         }
     }

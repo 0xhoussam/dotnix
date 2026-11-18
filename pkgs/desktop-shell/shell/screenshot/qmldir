@@ -1,0 +1,2 @@
+singleton ScreenshotService 1.0 ScreenshotService.qml
+ScreenshotOverlay 1.0 ScreenshotOverlay.qml

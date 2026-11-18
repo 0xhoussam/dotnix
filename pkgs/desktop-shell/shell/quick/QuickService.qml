@@ -81,10 +81,12 @@ Singleton {
     // ---- screen recording (wf-recorder, when present) ------------------------------------
     property bool hasRecorder: false
     property bool recording: false
+    property var recordArgs: []          // wf-recorder options, e.g. ["-g", "10,20 800x600"]
     Process {
         id: rec
         running: root.recording
-        command: ["bash", "-c", 'mkdir -p "$HOME/Videos" && exec wf-recorder -f "$HOME/Videos/recording-$(date +%F_%H-%M-%S).mp4"']
+        // with a region (from the screenshot tool) wait for the overlay to go away first
+        command: ["bash", "-c", '[ $# -gt 0 ] && sleep 0.4; mkdir -p "$HOME/Videos" && exec wf-recorder "$@" -f "$HOME/Videos/recording-$(date +%F_%H-%M-%S).mp4"', "bash"].concat(root.recordArgs)
         onExited: root.recording = false
     }
     Process {
@@ -92,10 +94,8 @@ Singleton {
         command: ["bash", "-c", "command -v wf-recorder"]
         onExited: (code) => root.hasRecorder = code === 0
     }
-    function toggleRecording() { if (recording) rec.signal(2); else recording = true } // SIGINT finalises the file
-
-    // ---- screenshots (hyprshot) -------------------------------------------------------------
-    function screenshot(mode) { Quickshell.execDetached(["hyprshot", "-m", mode]) }
+    function toggleRecording() { if (recording) rec.signal(2); else { recordArgs = []; recording = true } }
+    function recordRegion(geometry) { if (!recording) { recordArgs = ["-g", geometry]; recording = true } } // SIGINT finalises the file
 
     // ---- power menu -----------------------------------------------------------------------------
     function lock() { Quickshell.execDetached([Quickshell.env("SHELL_LOCK_CMD") || "lock-screen"]) }

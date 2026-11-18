@@ -11,7 +11,7 @@ A not overly engineered Nix flake for my machine and my sanity. Take what you li
 | `shared/` | Modules shared by the host and the home, such as the Hyprland desktop. |
 | `shared/desktop/hyprland`, `shared/desktop/shell` | Hyprland config, and the services around it (bar, wallpaper, launcher, clipboard). |
 | `pkgs/desktop-shell` | The desktop shell: Quickshell bar and lock screen plus a Rust D-Bus sidecar. See its README. |
-| `pkgs/eshot`, `pkgs/zenbones-mono` | Small local packages. |
+| `pkgs/zenbones-mono` | Small local package. |
 | `docs/` | Design notes and plans. |
 | `assets/` | Wallpapers. |
 

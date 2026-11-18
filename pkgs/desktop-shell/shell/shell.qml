@@ -7,6 +7,7 @@ import "bluetooth"
 import "network"
 import "audio"
 import "quick"
+import "screenshot"
 
 ShellRoot {
     // start the wallpaper power control (a singleton is created on first use)
@@ -19,6 +20,7 @@ ShellRoot {
     SecretsDialog {}
     Osd { id: osdOverlay }
     ClipboardPanel {}
+    ScreenshotOverlay {}
 
     // `shell-ctl toggle volume`, `shell-ctl osd brightness`, ... (see README)
     IpcHandler {
@@ -28,6 +30,9 @@ ShellRoot {
             else if (name === "clipboard") UiState.clipboardOpen = !UiState.clipboardOpen
             else UiState.requestPanel(name)
         }
+        // `shell-ctl shell screenshot region|window|screen`, `... screenshotIn region 5`
+        function screenshot(mode: string): void { ScreenshotService.start(mode) }
+        function screenshotIn(mode: string, seconds: int): void { ScreenshotService.start(mode, seconds) }
         function osd(kind: string): void {
             if (kind === "brightness") osdOverlay.brightness()
         }

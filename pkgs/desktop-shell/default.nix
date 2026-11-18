@@ -21,7 +21,7 @@ let
   shellTools = pkgs.lib.makeBinPath (with pkgs; [
     brightnessctl cliphist wl-clipboard wireplumber pipewire tuned util-linux systemd
     xdg-utils pavucontrol networkmanagerapplet libnotify procps coreutils bash
-    hyprshot wf-recorder hyprland curl wtype
+    wf-recorder tesseract hyprland curl wtype
   ]);
 
   # D-Bus agents for the Quickshell bar (BlueZ pairing, later OBEX and the
